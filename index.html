@@ -2855,7 +2855,8 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     for (var i = w.length; i > 0; i--) { var kk = w.slice(0, i).join(' '); if (STICKER_LIB[kk]) return STICKER_LIB[kk]; }
     return '';
   }
-  function stickerSrc(t) { return svgUrl(t.svg || libSticker(t.name) || fallbackSticker(t.name)); }
+  function isFallbackSvg(v) { return /stroke-dasharray='2 11'/.test(v || ''); }
+  function stickerSrc(t) { var own = t.svg && !isFallbackSvg(t.svg) ? t.svg : ''; return svgUrl(own || libSticker(t.name) || t.svg || fallbackSticker(t.name)); }
   function allTripDocs() { return S.trips.concat(S.tripsMem); }
   function allWishes() { return allTripDocs().filter(function (t) { return t.wish; }).sort(function (a, b) { return (a.createdAt || 0) - (b.createdAt || 0); }); }
   function allTrips() {
@@ -3472,8 +3473,8 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   async function drawSticker(t) {
     if (S.drawing.has(t.id)) return;
     S.drawing.add(t.id); render();
-    var svg = null, tried = false, why = '';
-    if (typeof sample === 'function') {
+    var svg = libSticker(t.name) || null, tried = false, why = '';
+    if (!svg && typeof sample === 'function') {
       tried = true;
       for (var attempt = 0; attempt < 2 && !svg; attempt++) {
         try {
@@ -3488,7 +3489,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
         }
       }
     }
-    if (!svg) { svg = fallbackSticker(t.name); toast(tried ? (why || 'Der Sticker konnte nicht gezeichnet werden.') + ' Ein einfacher Ersatz ist eingesetzt.' : 'Claude steht hier nicht zur Verfügung. Ein einfacher Sticker ist eingesetzt.'); }
+    if (!svg) { svg = fallbackSticker(t.name); if (tried) toast((why || 'Der Sticker konnte nicht gezeichnet werden.') + ' Ein einfacher Ersatz ist eingesetzt.'); }
     try { if (db && !t.mem) await db.doc('trips/' + t.id).update({ svg: svg }); } catch (e) { toast('Der Sticker konnte nicht gespeichert werden.'); }
     var cur = allTripDocs().filter(function (x) { return x.id === t.id; })[0]; if (cur) cur.svg = svg;
     S.drawing.delete(t.id); render();
