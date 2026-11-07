@@ -591,9 +591,11 @@ body:not(.authed) .wrap { visibility: hidden; }
 .hub[data-hub="rest"] { --tint: #E0603A; }
 .hub[data-hub="bar"] { --tint: #9B4DCA; }
 .hub[data-hub="wine"] { --tint: #8E2846; }
+.hub[data-hub="hike"] { --tint: #2F7D5B; }
 .hub-text { display: grid; gap: 6px; align-content: center; min-width: 0; }
 .hub-kicker { font: 11.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .hub-title { font: 800 clamp(24px, 7vw, 31px)/1.02 var(--display); letter-spacing: -.025em; }
+.hub-title.long { font-size: clamp(20px, 5.6vw, 26px); -webkit-hyphens: auto; hyphens: auto; position: relative; z-index: 1; }
 .hub-count { font: 13px/1.35 var(--mono); color: var(--muted); }
 .hub-go { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-top: 8px; border-radius: 50%; background: var(--ink); color: var(--bg); }
 .hub .cluster { height: 128px; width: 128px; }
@@ -621,6 +623,7 @@ body:not(.authed) .wrap { visibility: hidden; }
 .mrow:nth-child(3) { --tint: #E0603A; }
 .mrow:nth-child(4) { --tint: #9B4DCA; }
 .mrow:nth-child(5) { --tint: #8E2846; }
+.mrow:nth-child(6) { --tint: #2F7D5B; }
 .kindsel { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: var(--bg); }
 .kindsel button { min-height: 36px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 650 14px var(--body); cursor: pointer; }
 .kindsel button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--lift); }
@@ -853,13 +856,57 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
 #vdBuy:empty { display: none; }
 #vdAct { margin-top: 14px; }
 @media (prefers-reduced-motion: reduce) { .vcard, .vc-bob, .vc-shade { animation: none; } }
+/* ---------- Bergwanderungen ---------- */
+.hk-mini { width: 64px; height: 48px; object-fit: cover; border-radius: 12px; box-shadow: 0 6px 14px rgba(0,0,0,.14); }
+.hlist { display: grid; gap: 10px; margin-top: 10px; }
+.hcard { display: grid; grid-template-columns: 104px 1fr; gap: 12px; padding: 10px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); color: var(--ink); cursor: pointer; -webkit-tap-highlight-color: transparent; animation: rise .45s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--i) * 35ms); transition: transform .2s; }
+.hcard:active { transform: scale(.98); }
+.hcard:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.hc-art { position: relative; width: 104px; height: 104px; border-radius: 16px; overflow: hidden; background: color-mix(in srgb, var(--hc) 15%, var(--bg)); }
+.hc-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hc-done { position: absolute; right: 6px; bottom: 6px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: #2E9E5B; color: #fff; font: 800 13px/1 var(--body); box-shadow: 0 0 0 2px var(--surface); }
+.hc-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 2px 2px 0 0; }
+.hc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.hc-name { font: 800 16.5px/1.15 var(--display); letter-spacing: -.01em; overflow-wrap: anywhere; }
+.hc-reg { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hc-stats { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 2px; font: 600 12px/1.3 var(--mono); color: var(--ink); }
+.hc-stats span { white-space: nowrap; }
+.hc-foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
+.hc-st { padding: 3px 9px; border-radius: 999px; background: var(--bg); color: var(--muted); font: 700 11.5px/1.2 var(--body); }
+.hc-st.done { background: color-mix(in srgb, #2E9E5B 16%, transparent); color: #2A8A51; }
+.hd-badge { display: inline-flex; align-items: center; gap: 5px; flex: none; padding: 3px 8px 3px 4px; border-radius: 8px; background: var(--bg); font: 800 12px/1 var(--mono); color: var(--ink); }
+.hd-badge i, .hd-chip i { display: inline-block; width: 18px; height: 11px; border-radius: 2px; border: 1px solid rgba(0,0,0,.12); flex: none; }
+.hd-y i { background: #E7B416; }
+.hd-r i { background: linear-gradient(180deg, #fff 0 30%, #D23B32 30% 70%, #fff 70%); }
+.hd-b i { background: linear-gradient(180deg, #fff 0 30%, #2D6CC0 30% 70%, #fff 70%); }
+.hd-badge.big { font-size: 14px; padding: 5px 10px 5px 6px; }
+.hd-badge.big i { width: 22px; height: 14px; }
+.hd-chip { display: inline-flex; align-items: center; gap: 7px; }
+.hd-chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.hd-dl { font-size: 13px; color: var(--muted); font-weight: 600; }
+.hd-hero { height: 200px; margin: 2px 0 14px; border-radius: 24px; overflow: hidden; background: color-mix(in srgb, var(--hc) 15%, var(--bg)); }
+.hd-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hd-tt h2 { margin: 0; font: 800 26px/1.08 var(--display); letter-spacing: -.02em; overflow-wrap: anywhere; }
+.hd-tt p { margin: 6px 0 0; font-size: 15px; color: var(--muted); }
+.hd-tt p:empty { display: none; }
+.hd-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 14px; }
+.hd-rate { grid-column: 1 / -1; }
+.hd-rate b { display: flex; align-items: center; gap: 8px; }
+#hdLink:empty { display: none; }
+#hdAct { margin-top: 14px; flex-wrap: wrap; }
+.hf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.hf-row .fld { min-width: 0; }
+#hfImgPrev { display: grid; gap: 6px; justify-items: start; margin-top: 8px; }
+#hfImgPrev img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 16px; }
+.hf-ai { justify-self: start; }
+@media (prefers-reduced-motion: reduce) { .hcard { animation: none; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div><h1>DailyLife Safer</h1>
-    <p class="sub">Shopping, Reisen, Restaurants, Bars und Weine an einem Ort. Deine Einträge sind privat in deinem Konto gespeichert.</p></div>
+    <p class="sub">Shopping, Reisen, Restaurants, Bars, Weine und Bergwanderungen an einem Ort. Deine Einträge sind privat in deinem Konto gespeichert.</p></div>
     <div class="hbtns">
       <button type="button" class="map-btn" id="shareBtn" aria-label="Konto und Sicherung"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg><span>Konto</span></button>
       <button type="button" class="plus-btn" id="plus" aria-label="Hinzufügen" aria-haspopup="dialog" aria-expanded="false" hidden><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -881,6 +928,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
       <button type="button" class="mrow" id="restAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v6M9 3v6M17 21V3c-3 2-4.5 6-4.5 10H17"/></svg></span><span><span class="mrow-t">Restaurant</span><span class="mrow-d">Auch per Screenshot einlesen</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
       <button type="button" class="mrow" id="barAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14l-7 8z"/><path d="M12 13v6M8 20h8"/><path d="M15.5 3.5 13 8"/></svg></span><span><span class="mrow-t">Bar</span><span class="mrow-d">Cocktail-, Wein- oder Bierbar</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
       <button type="button" class="mrow" id="wineAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5h4v5c0 1.5 3 2.6 3 6.2V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20v-6.3c0-3.6 3-4.7 3-6.2z"/><path d="M7 14h10"/></svg></span><span><span class="mrow-t">Wein</span><span class="mrow-d">Foto, Screenshot oder nur der Name</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button type="button" class="mrow" id="hikeAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 20 9 8.5l3.6 6 2.4-3.5 6.5 9z"/><path d="m7.2 11.7 1.8 1.1 1.6-1.4"/></svg></span><span><span class="mrow-t">Bergwanderung</span><span class="mrow-d">Name genügt, Claude ergänzt die Eckdaten</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
     </div>
     <div class="row"><button type="button" class="btn" id="amClose">Abbrechen</button></div>
   </div>
@@ -1284,6 +1332,68 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   <button type="button" class="btn sm" id="selCancel">Abbrechen</button>
   <button type="button" class="btn sm primary" id="selGo">Zuordnen</button>
 </div>
+<!-- Bergwanderungen -->
+<div class="win" id="hwin" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="hwTitle">
+    <div class="sheet-head rw-head">
+      <div class="rw-tt"><h2 id="hwTitle">Bergwanderungen</h2><span class="cnt" id="hwCount"></span></div>
+      <button type="button" class="ibtn acc" id="hwAdd" aria-label="Bergwanderung hinzufügen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button type="button" class="ibtn" id="hwClose" aria-label="Schließen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="vfilter" id="hwFilter"></div>
+    <div class="rsec" id="hwSortW"><span class="rsec-t">Sortieren</span><div class="rsort" id="hwSort" role="group" aria-label="Sortieren"><button type="button" class="rsort-b" data-s="name">Name</button><button type="button" class="rsort-b" data-s="peak">Höhe</button><button type="button" class="rsort-b" data-s="diff">Schwierig</button><button type="button" class="rsort-b" data-s="date">Datum</button></div></div>
+    <div class="hlist" id="hwList"></div>
+  </div>
+</div>
+<div class="win ed" id="hdet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="hdName">
+    <div class="sheet-head">
+      <span class="tdates" style="color:var(--hc);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px">Bergwanderung</span>
+      <div class="sheet-actions"><button type="button" class="btn sm primary" id="hdClose">Schließen</button></div>
+    </div>
+    <div class="hd-hero" id="hdHero"></div>
+    <div class="hd-tt"><h2 id="hdName"></h2><p id="hdReg"></p></div>
+    <div class="hd-tags" id="hdTags"></div>
+    <div class="vd-grid" id="hdInfo"></div>
+    <div id="hdLink"></div>
+    <div class="row tact" id="hdAct"></div>
+  </div>
+</div>
+<div class="win ed" id="hform" hidden>
+  <div class="sheet form-sheet" role="dialog" aria-modal="true" aria-labelledby="hfT">
+    <h2 id="hfT">Bergwanderung hinzufügen</h2>
+    <form class="form" id="hfF" novalidate>
+      <label class="fld"><span class="lbl">Tour oder Gipfel</span><input id="hfName" type="text" maxlength="70" autocomplete="off" placeholder="z. B. Glärnisch, Säntis über Schwägalp"></label>
+      <button type="button" class="btn hf-ai" id="hfAi" hidden>Mit Claude ergänzen</button>
+      <label class="fld"><span class="lbl">Region</span><input id="hfRegion" type="text" maxlength="60" autocomplete="off" placeholder="z. B. Glarus, Berner Oberland"></label>
+      <div class="fld"><span class="lbl">Schwierigkeit · <span id="hfDiffTxt" style="text-transform:none;letter-spacing:0"></span></span><div class="chips" id="hfDiff"></div></div>
+      <div class="hf-row">
+        <label class="fld"><span class="lbl">Gipfelhöhe (m)</span><input id="hfPeak" class="num" type="text" inputmode="numeric" autocomplete="off" placeholder="2’502"></label>
+        <label class="fld"><span class="lbl">Distanz (km)</span><input id="hfKm" class="num" type="text" inputmode="decimal" autocomplete="off" placeholder="12,5"></label>
+      </div>
+      <div class="hf-row">
+        <label class="fld"><span class="lbl">Aufstieg (Hm)</span><input id="hfUp" class="num" type="text" inputmode="numeric" autocomplete="off" placeholder="1’150"></label>
+        <label class="fld"><span class="lbl">Dauer (h:mm)</span><input id="hfDur" class="num" type="text" inputmode="text" autocomplete="off" placeholder="5:30"></label>
+      </div>
+      <div class="fld"><span class="lbl">Status</span><div class="chips" id="hfStatus"><button type="button" class="chip" data-v="wish">Wunschliste</button><button type="button" class="chip" data-v="done">Erledigt</button></div></div>
+      <div id="hfDoneBox" class="wfields" hidden>
+        <label class="fld"><span class="lbl">Datum</span><input id="hfDate" type="date"></label>
+        <div class="fld"><span class="lbl">Meine Bewertung</span>
+          <div class="rf-rate"><span id="hfStars"></span><span class="rf-val" id="hfRateVal">keine</span></div>
+          <div class="rs-wrap"><span class="rs-end">0</span><input id="hfRateR" class="rslider" type="range" min="0" max="5" step="0.1" value="0" aria-label="Meine Bewertung"><span class="rs-end">5</span></div>
+        </div>
+      </div>
+      <label class="fld"><span class="lbl">Link zur Route (optional)</span><input id="hfUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="https://schweizmobil.ch/…"></label>
+      <div class="fld"><span class="lbl">Foto (optional)</span><div><button type="button" class="btn" id="hfPick">Foto wählen</button><input id="hfFile" type="file" accept="image/*" hidden></div><div id="hfImgPrev" hidden></div></div>
+      <label class="fld"><span class="lbl">Notiz (optional)</span><input id="hfNote" type="text" maxlength="200" autocomplete="off" placeholder="z. B. Start Klöntalersee, Übernachtung in der Hütte"></label>
+      <div class="row">
+        <button type="button" class="btn" id="hfCancel">Abbrechen</button>
+        <button type="submit" class="btn primary" id="hfSave">Hinzufügen</button>
+      </div>
+      <p class="msg" id="hfMsg" role="alert"></p>
+    </form>
+  </div>
+</div>
 <!-- Weine -->
 <div class="win" id="vwin" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="vwTitle">
@@ -1329,7 +1439,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   <div class="au-card">
     <img src="icon-192.png" alt="" class="au-logo" width="72" height="72">
     <h1 class="au-brand">DailyLife Safer</h1>
-    <p class="au-sub">Shopping, Reisen, Restaurants und Bars an einem Ort.</p>
+    <p class="au-sub">Shopping, Reisen, Restaurants, Bars, Weine und Bergwanderungen an einem Ort.</p>
     <form id="auForm" class="form" novalidate>
       <h2 id="auTitle" class="au-title">Anmelden</h2>
       <label class="fld" id="auEmailW"><span class="lbl">E-Mail</span><input id="auEmail" type="text" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="name@beispiel.ch"></label>
@@ -1368,9 +1478,10 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
             edit: false, ed: null, menu: false, pf: false, swin: false, map: false, wf: false, tcal: false, canEdit: true, tol: 38, cut: true, img: null, cur: null, P: null, tap: null, auto: null, edits: [], mode: 'obj',
             nameTouched: false, opened: false, imgOK: false, token: 0 };
   var db = null, assets = null, sample = null, user = null, dl = null;
-  var HUB_DEF = { shop: 'Shopping', trips: 'Reisen', rest: 'Restaurants', bar: 'Bars', wine: 'Weine' };
-  var HUB_OF = { items: 'shop', trips: 'trips', places: 'rest', bars: 'bar', wines: 'wine' };
+  var HUB_DEF = { shop: 'Shopping', trips: 'Reisen', rest: 'Restaurants', bar: 'Bars', wine: 'Weine', hike: 'Bergwanderungen' };
+  var HUB_OF = { items: 'shop', trips: 'trips', places: 'rest', bars: 'bar', wines: 'wine', hikes: 'hike' };
   S.layout = { hubOrder: [], hubNames: {}, shopOrder: [], cuisineOrder: [], barOrder: [] };
+  S.hikes = []; S.hikesMem = []; S.hwin = false; S.hdet = null; S.hf = false; S.hfilter = 'all'; S.hsort = 'name';
   S.wines = []; S.winesMem = []; S.vwin = false; S.vdet = null; S.vfilter = 'all'; S.vsort = 'name';
   var WTYPES = [['rot', 'Rotwein', '#7A1F3D'], ['weiss', 'Weißwein', '#C9A93E'], ['rose', 'Rosé', '#D9779A'], ['schaum', 'Schaumwein', '#B79A52'], ['suess', 'Süßwein', '#C27A1E'], ['andere', 'Andere', '#56667A']];
   function wtype(k) { return WTYPES.filter(function (t) { return t[0] === k; })[0] || null; }
@@ -2535,6 +2646,8 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     if (S.tcal) renderTcal();
     if (S.vwin) renderVwin();
     if (S.vdet) renderVdet();
+    if (S.hwin) renderHwin();
+    if (S.hdet) renderHdet();
     if (!S.loaded) { hubs.append(h('p', { class: 'hint' }, 'Regal wird geladen …')); return; }
     var m = groupsOf();
     var hl = [];
@@ -2543,6 +2656,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     if (!S.viewer || S.share.places) hl.push(['places', placesTile()]);
     if (!S.viewer || S.share.bars) hl.push(['bars', barsTile()]);
     if (!S.viewer || S.share.wines) hl.push(['wines', wineTile()]);
+    if (!S.viewer || S.share.hikes) hl.push(['hikes', hikeTile()]);
     var hord = byOrder(hl.map(function (x) { return HUB_OF[x[0]]; }), S.layout.hubOrder);
     hl.sort(function (a, b) { return hord.indexOf(HUB_OF[a[0]]) - hord.indexOf(HUB_OF[b[0]]); });
     hl.forEach(function (x) {
@@ -2567,7 +2681,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     var el = h('button', { class: 'hub', type: 'button', 'data-hub': kind, 'data-cat': kind === 'rest' ? '__rest' : null, 'aria-label': label, onclick: onclick },
       h('span', { class: 'hub-text' },
         h('span', { class: 'hub-kicker' }, kicker),
-        h('span', { class: 'hub-title' }, hubName(kind)),
+        h('span', { class: 'hub-title' + (hubName(kind).length > 11 ? ' long' : ''), lang: 'de' }, hubName(kind)),
         h('span', { class: 'hub-count' }, count), go),
       cluster(entries));
     longPress(el, function () { openCatSheet({ kind: 'hub', key: kind }); });
@@ -2622,6 +2736,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   $('#amenu').addEventListener('click', function (e) { if (e.target === this) closeMenu(); });
   $('#prodAdd').addEventListener('click', function () { openPform('item'); });
   $('#wineAdd').addEventListener('click', function () { openPform('wine'); });
+  $('#hikeAdd').addEventListener('click', function () { openHform(null); });
   $('#tripAdd').addEventListener('click', function () { closeMenu(true); });
   $('#restAdd').addEventListener('click', function () { closeMenu(true); });
   $('#barAdd').addEventListener('click', function () { closeMenu(true); });
@@ -2758,7 +2873,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     return fmtD(f || t);
   }
   function syncLock() {
-    var any = ['#win', '#ed', '#twin', '#tdet', '#tform', '#rwin', '#rdet', '#rform', '#swin', '#amenu', '#pform', '#mapwin', '#wform', '#tcal', '#shwin', '#catsheet', '#vwin', '#vdet', '#acct'].some(function (s) { return !$(s).hidden; });
+    var any = ['#win', '#ed', '#twin', '#tdet', '#tform', '#rwin', '#rdet', '#rform', '#swin', '#amenu', '#pform', '#mapwin', '#wform', '#tcal', '#shwin', '#catsheet', '#vwin', '#vdet', '#hwin', '#hdet', '#hform', '#acct'].some(function (s) { return !$(s).hidden; });
     document.body.style.overflow = any ? 'hidden' : '';
   }
   function armDelete(btn, fn) {
@@ -4519,7 +4634,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     win: function () { closeWin(false); }, ed: function () { closeEditor(); }, twin: function () { closeTwin(); }, tdet: function () { closeTdet(); },
     tform: function () { closeTform(); }, rwin: function () { closeRwin(); }, rdet: function () { closeRdet(); }, rform: function () { closeRform(); },
     swin: function () { closeSwin(); }, amenu: function () { closeMenu(); }, pform: function () { closePform(); }, mapwin: function () { closeMap(); },
-    wform: function () { closeWform(); }, acct: function () { closeAcct(); }, vwin: function () { closeVwin(); }, vdet: function () { closeVdet(); }, tcal: function () { closeTcal(); }, shwin: function () { closeShare(); }, catsheet: function () { closeCatSheet(); }
+    wform: function () { closeWform(); }, acct: function () { closeAcct(); }, vwin: function () { closeVwin(); }, hwin: function () { closeHwin(); }, hdet: function () { closeHdet(); }, hform: function () { closeHform(); }, vdet: function () { closeVdet(); }, tcal: function () { closeTcal(); }, shwin: function () { closeShare(); }, catsheet: function () { closeCatSheet(); }
   };
   Object.keys(SWIPE_CLOSE).forEach(function (id) {
     var win = document.getElementById(id); if (!win) return;
@@ -4862,12 +4977,252 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     if (S.pfKind === 'wine' && !S.pfEdit && !S.img && this.value.trim() && !$('#wfWinery').value.trim() && !$('#wfCountry').value.trim()) suggestWine(true);
   });
   $('#wfYear').addEventListener('input', function () { this.value = this.value.replace(/\D/g, '').slice(0, 4); });
+  /* ---------- Bergwanderungen ---------- */
+  var HDIFF = [['T1', 'Wandern', '#D9A400', 'y'], ['T2', 'Bergwandern', '#D23B32', 'r'], ['T3', 'Anspr. Bergwandern', '#B42A22', 'r'], ['T4', 'Alpinwandern', '#2D6CC0', 'b'], ['T5', 'Anspr. Alpinwandern', '#22539C', 'b'], ['T6', 'Schwieriges Alpinwandern', '#1A3A6E', 'b']];
+  function hdiff(k) { return HDIFF.filter(function (d) { return d[0] === k; })[0] || null; }
+  function allHikes() { return S.hikes.concat(S.hikesMem); }
+  function hikeColor(x) { var d = hdiff(x.diff); return d ? d[2] : '#2F7D5B'; }
+  function fmtNum(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '’'); }
+  function fmtKm(n) { return (Math.round(n * 10) / 10).toString().replace('.', ','); }
+  function fmtDur(m) { m = Math.round(m); return Math.floor(m / 60) + ':' + ('0' + (m % 60)).slice(-2) + ' h'; }
+  function parseDur(v) {
+    v = String(v || '').trim().toLowerCase().replace(/\s+/g, ''); if (!v) return null;
+    var m = v.match(/^(\d{1,2})(?:[:h](\d{1,2}))?(?:h|std|min)?$/);
+    if (m && (v.indexOf(':') >= 0 || v.indexOf('h') >= 0 || !m[2])) { if (/min$/.test(v) && !m[2]) return +m[1]; return +m[1] * 60 + (+m[2] || 0); }
+    var d = parseFloat(v.replace(',', '.')); return isFinite(d) && d > 0 && d < 48 ? Math.round(d * 60) : null;
+  }
+  function parseNum(v) { v = String(v || '').replace(/['’\s]/g, '').replace(',', '.'); if (!v) return null; var n = parseFloat(v); return isFinite(n) && n >= 0 ? n : NaN; }
+  function fmtDate(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ''); return m ? (+m[3]) + '.' + (+m[2]) + '.' + m[1] : ''; }
+  function mtnSvg(x) {
+    var col = hikeColor(x), r = hash(String(x.id || x.name)), r2 = hash(String(x.name) + 'b');
+    var p = 38 + Math.round(r * 44), q = 20 + Math.round(r2 * 20);
+    return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 90' preserveAspectRatio='xMidYMid slice'><defs><linearGradient id='s' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='" + col + "' stop-opacity='.10'/><stop offset='1' stop-color='" + col + "' stop-opacity='.30'/></linearGradient></defs>" +
+      "<rect width='120' height='90' fill='#F4F1EA'/><rect width='120' height='90' fill='url(#s)'/>" +
+      "<circle cx='" + (96 - Math.round(r2 * 30)) + "' cy='20' r='7' fill='#F2B600' opacity='.85'/>" +
+      "<path d='M-5 90 L" + q + " " + (46 + Math.round(r * 8)) + " L" + (q + 22) + " 60 L" + (q + 50) + " 34 L" + (q + 80) + " 62 L125 50 L125 90Z' fill='" + col + "' opacity='.35'/>" +
+      "<path d='M-5 90 L" + (p - 34) + " 66 L" + p + " 22 L" + (p + 30) + " 58 L" + (p + 44) + " 50 L125 80 L125 90Z' fill='" + col + "'/>" +
+      "<path d='M" + (p - 11) + " 36 L" + p + " 22 L" + (p + 10) + " 35 L" + (p + 5) + " 32 L" + (p + 1) + " 37 L" + (p - 4) + " 32Z' fill='#fff'/>" +
+      "<path d='M-5 90 L30 78 L70 84 L125 74 L125 90Z' fill='#000' opacity='.12'/></svg>";
+  }
+  function hikeArt(x, cls) {
+    var im = h('img', { class: cls || '', src: x.img || svgUrl(mtnSvg(x)), alt: '', decoding: 'async', loading: 'lazy' });
+    im.addEventListener('error', function () { im.src = svgUrl(mtnSvg(x)); });
+    return im;
+  }
+  function diffBadge(x, big) {
+    var d = hdiff(x.diff); if (!d) return null;
+    return h('span', { class: 'hd-badge hd-' + d[3] + (big ? ' big' : ''), title: d[1] }, h('i', { 'aria-hidden': 'true' }), d[0]);
+  }
+  function hikeStats(x) {
+    var s = [];
+    if (x.peak) s.push(['Gipfel', fmtNum(x.peak) + ' m']);
+    if (x.km) s.push(['Distanz', fmtKm(x.km) + ' km']);
+    if (x.up) s.push(['Aufstieg', fmtNum(x.up) + ' Hm']);
+    if (x.min) s.push(['Dauer', fmtDur(x.min)]);
+    return s;
+  }
+  function hikeTile() {
+    var list = allHikes(), n = list.length, done = list.filter(function (x) { return x.done; }).length;
+    var entries = n ? list.slice(0, 3).map(function (x) { return { id: x.id, node: hikeArt(x, 'hk-mini') }; }) : [{ id: 'hike', node: h('img', { class: 'hk-mini', src: svgUrl(mtnSvg({ id: 'x', name: 'Berg' })), alt: '' }) }];
+    var count = n ? n + (n === 1 ? ' Tour' : ' Touren') + ' · ' + done + ' erledigt' : 'Noch keine Tour';
+    return hubEl('hike', 'Draußen', hubName('hike'), count, entries, hubName('hike') + ', ' + count, openHwin);
+  }
+  function hikeCard(x, i) {
+    var st = hikeStats(x);
+    return h('div', { class: 'hcard', role: 'button', tabindex: '0', style: '--hc:' + hikeColor(x) + ';--i:' + Math.min(i, 10),
+      'aria-label': x.name + (x.region ? ', ' + x.region : '') + (x.diff ? ', ' + x.diff : '') + (x.done ? ', erledigt' : ', Wunschliste'),
+      onclick: function () { openHdet(x.id); }, onkeydown: function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openHdet(x.id); } } },
+      h('div', { class: 'hc-art' }, hikeArt(x, 'hc-img'), x.done ? h('span', { class: 'hc-done', 'aria-hidden': 'true' }, '✓') : null),
+      h('div', { class: 'hc-body' },
+        h('div', { class: 'hc-top' }, h('b', { class: 'hc-name' }, x.name), diffBadge(x)),
+        x.region ? h('span', { class: 'hc-reg' }, x.region) : null,
+        st.length ? h('div', { class: 'hc-stats' }, st.slice(0, 4).map(function (s) { return h('span', {}, s[1]); })) : null,
+        h('div', { class: 'hc-foot' },
+          x.done ? h('span', { class: 'hc-st done' }, 'Erledigt' + (x.date ? ' · ' + fmtDate(x.date) : '')) : h('span', { class: 'hc-st' }, 'Wunschliste'),
+          x.done && x.rating ? starBar(x.rating, 'sm') : null)));
+  }
+  function renderHwin() {
+    var all = allHikes(), n = all.length;
+    $('#hwTitle').textContent = hubName('hike');
+    $('#hwCount').textContent = n + (n === 1 ? ' Tour' : ' Touren');
+    $('#hwAdd').hidden = !S.canEdit || S.viewer;
+    var bar = $('#hwFilter'); bar.replaceChildren();
+    if (n) [['all', 'Alle'], ['wish', 'Wunschliste'], ['done', 'Erledigt']].forEach(function (f) {
+      var c = f[0] === 'all' ? n : all.filter(function (x) { return f[0] === 'done' ? x.done : !x.done; }).length;
+      bar.append(h('button', { type: 'button', class: 'vf', 'aria-pressed': String(S.hfilter === f[0]), onclick: function () { S.hfilter = f[0]; renderHwin(); } }, f[1] + ' ' + c));
+    });
+    var list = all.filter(function (x) { return S.hfilter === 'all' || (S.hfilter === 'done' ? x.done : !x.done); });
+    var dn = function (x) { return hdiff(x.diff) ? HDIFF.indexOf(hdiff(x.diff)) : -1; };
+    list.sort(function (a, b) {
+      if (S.hsort === 'peak') return (b.peak || 0) - (a.peak || 0) || a.name.localeCompare(b.name, 'de');
+      if (S.hsort === 'diff') return dn(b) - dn(a) || a.name.localeCompare(b.name, 'de');
+      if (S.hsort === 'date') return String(b.date || '').localeCompare(String(a.date || '')) || (b.createdAt || 0) - (a.createdAt || 0);
+      return a.name.localeCompare(b.name, 'de');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#hwSort .rsort-b'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-s') === S.hsort)); });
+    $('#hwSortW').hidden = n < 2;
+    var g = $('#hwList'); g.replaceChildren();
+    if (!n) { g.append(h('div', { class: 'tempty' }, h('b', {}, 'Noch keine Bergwanderung'), h('span', {}, S.canEdit && !S.viewer ? 'Tippe oben auf das Plus. Der Name genügt, Claude ergänzt Höhe, Distanz und Schwierigkeit.' : 'Hier erscheinen die Touren, sobald welche eingetragen sind.'))); return; }
+    if (!list.length) { g.append(h('div', { class: 'tempty' }, h('b', {}, 'Keine Tour in dieser Auswahl'))); return; }
+    list.forEach(function (x, i) { g.append(hikeCard(x, i)); });
+  }
+  function openHwin() { S.hwin = true; $('#hwin').hidden = false; syncLock(); renderHwin(); $('#hwin .sheet').scrollTop = 0; $('#hwClose').focus({ preventScroll: true }); }
+  function closeHwin() { S.hwin = false; $('#hwin').hidden = true; syncLock(); }
+  $('#hwClose').addEventListener('click', closeHwin);
+  $('#hwin').addEventListener('click', function (e) { if (e.target === this) closeHwin(); });
+  $('#hwAdd').addEventListener('click', function () { openHform(null); });
+  Array.prototype.forEach.call(document.querySelectorAll('#hwSort .rsort-b'), function (b) { b.addEventListener('click', function () { S.hsort = b.getAttribute('data-s'); renderHwin(); }); });
+
+  function renderHdet() {
+    var x = allHikes().filter(function (o) { return o.id === S.hdet; })[0];
+    if (!x) { closeHdet(); return; }
+    $('#hdet .sheet').style.setProperty('--hc', hikeColor(x));
+    $('#hdHero').replaceChildren(hikeArt(x, 'hd-img'));
+    $('#hdName').textContent = x.name;
+    $('#hdReg').textContent = x.region || '';
+    var tags = $('#hdTags'); tags.replaceChildren();
+    var db1 = diffBadge(x, true); if (db1) tags.append(db1, h('span', { class: 'hd-dl' }, hdiff(x.diff)[1]));
+    tags.append(h('span', { class: 'hc-st' + (x.done ? ' done' : '') }, x.done ? 'Erledigt' + (x.date ? ' am ' + fmtDate(x.date) : '') : 'Wunschliste'));
+    var g = $('#hdInfo'); g.replaceChildren();
+    hikeStats(x).forEach(function (s) { g.append(h('div', { class: 'vd-cell' }, h('small', {}, s[0]), h('b', {}, s[1]))); });
+    if (x.done && x.rating) g.append(h('div', { class: 'vd-cell hd-rate' }, h('small', {}, 'Meine Bewertung'), h('b', {}, starBar(x.rating, 'mid'), ' ' + fmtMy(x.rating) + ' / 5')));
+    if (x.note) g.append(h('p', { class: 'vd-note' }, x.note));
+    var lk = $('#hdLink'); lk.replaceChildren();
+    if (x.url) lk.append(h('a', { class: 'btn primary vd-buy', href: x.url, target: '_blank', rel: 'noopener noreferrer' }, 'Route öffnen auf ' + (hostOf(x.url) || 'Website')));
+    var act = $('#hdAct'); act.replaceChildren(); act.hidden = !S.canEdit || S.viewer;
+    if (S.canEdit && !S.viewer) {
+      if (!x.done) act.append(h('button', { class: 'btn', type: 'button', onclick: function () { closeHdet(); openHform(x, true); } }, 'Als erledigt markieren'));
+      act.append(h('button', { class: 'btn', type: 'button', onclick: function () { closeHdet(); openHform(x); } }, 'Bearbeiten'));
+      var d = h('button', { class: 'btn', type: 'button' }, 'Löschen'); armDelete(d, function () { removeHike(x); }); act.append(d);
+    }
+  }
+  function openHdet(id) { S.hdet = id; $('#hdet').hidden = false; syncLock(); renderHdet(); $('#hdet .sheet').scrollTop = 0; $('#hdClose').focus({ preventScroll: true }); }
+  function closeHdet() { S.hdet = null; $('#hdet').hidden = true; syncLock(); }
+  $('#hdClose').addEventListener('click', closeHdet);
+  $('#hdet').addEventListener('click', function (e) { if (e.target === this) closeHdet(); });
+  async function removeHike(x) {
+    try {
+      if (!x.mem && db) await db.doc('hikes/' + x.id).delete();
+      S.hikes = S.hikes.filter(function (o) { return o.id !== x.id; }); S.hikesMem = S.hikesMem.filter(function (o) { return o !== x; });
+      closeHdet(); render(); toast('Entfernt.');
+    } catch (e) { toast('Konnte nicht entfernt werden.'); }
+  }
+
+  /* Formular */
+  var HF = { edit: null, diff: '', done: false, img: null, rating: 0, token: 0 };
+  function hfDiffChips() {
+    var box = $('#hfDiff'); box.replaceChildren();
+    HDIFF.forEach(function (d) {
+      box.append(h('button', { type: 'button', class: 'chip hd-chip hd-' + d[3], 'aria-pressed': String(HF.diff === d[0]), title: d[1], onclick: function () { HF.diff = HF.diff === d[0] ? '' : d[0]; hfDiffChips(); } }, h('i', { 'aria-hidden': 'true' }), d[0]));
+    });
+    var cur = hdiff(HF.diff); $('#hfDiffTxt').textContent = cur ? cur[1] : 'SAC-Wanderskala, optional';
+  }
+  function hfStatus() {
+    Array.prototype.forEach.call(document.querySelectorAll('#hfStatus .chip'), function (b) { b.setAttribute('aria-pressed', String((b.getAttribute('data-v') === 'done') === HF.done)); });
+    $('#hfDoneBox').hidden = !HF.done;
+  }
+  function hfRate(v) { HF.rating = v; $('#hfRateR').value = String(v); $('#hfStars').replaceChildren(starBar(v, 'mid')); $('#hfRateVal').textContent = v ? fmtMy(v) + ' / 5' : 'keine'; }
+  function hfImg() {
+    var box = $('#hfImgPrev'); box.replaceChildren();
+    if (HF.img) { box.append(h('img', { src: HF.img.url, alt: '' }), h('button', { type: 'button', class: 'link', onclick: function () { HF.img = null; hfImg(); } }, 'Foto entfernen')); }
+    box.hidden = !HF.img; $('#hfPick').textContent = HF.img ? 'Anderes Foto wählen' : 'Foto wählen';
+  }
+  function openHform(x, markDone) {
+    closeMenu(true);
+    HF.edit = x || null; HF.diff = x && x.diff || ''; HF.done = x ? (markDone ? true : !!x.done) : false; HF.img = x && x.img ? { url: x.img, w: x.w, h: x.h } : null; HF.token++;
+    $('#hfName').value = x ? x.name : ''; $('#hfRegion').value = x && x.region || '';
+    $('#hfPeak').value = x && x.peak ? fmtNum(x.peak) : ''; $('#hfKm').value = x && x.km ? fmtKm(x.km) : '';
+    $('#hfUp').value = x && x.up ? fmtNum(x.up) : ''; $('#hfDur').value = x && x.min ? fmtDur(x.min).replace(' h', '') : '';
+    $('#hfDate').value = x && x.date || (markDone ? new Date().toISOString().slice(0, 10) : '');
+    $('#hfUrl').value = x && x.url || ''; $('#hfNote').value = x && x.note || ''; $('#hfMsg').textContent = '';
+    $('#hfT').textContent = x ? (markDone ? 'Tour abschließen' : 'Tour bearbeiten') : 'Bergwanderung hinzufügen';
+    $('#hfSave').textContent = x ? 'Speichern' : 'Hinzufügen';
+    $('#hfAi').hidden = typeof sample !== 'function';
+    hfDiffChips(); hfStatus(); hfRate(x && x.rating || 0); hfImg();
+    S.hf = true; $('#hform').hidden = false; syncLock(); $('#hform .sheet').scrollTop = 0;
+    if (!x) $('#hfName').focus({ preventScroll: true });
+  }
+  function closeHform() { S.hf = false; $('#hform').hidden = true; HF.token++; syncLock(); }
+  $('#hfCancel').addEventListener('click', closeHform);
+  $('#hform').addEventListener('click', function (e) { if (e.target === this) closeHform(); });
+  Array.prototype.forEach.call(document.querySelectorAll('#hfStatus .chip'), function (b) { b.addEventListener('click', function () { HF.done = b.getAttribute('data-v') === 'done'; if (HF.done && !$('#hfDate').value) $('#hfDate').value = new Date().toISOString().slice(0, 10); hfStatus(); }); });
+  $('#hfRateR').addEventListener('input', function () { hfRate(Math.round(+this.value * 10) / 10); });
+  $('#hfPick').addEventListener('click', function () { $('#hfFile').click(); });
+  $('#hfFile').addEventListener('change', async function () {
+    var f = this.files && this.files[0]; this.value = ''; if (!f) return;
+    try {
+      var im = await decode(f), c = im.canvas, max = 900, out = null;
+      for (var t = 0; t < 6; t++) {
+        var k = Math.min(1, max / Math.max(c.width, c.height)), cv = document.createElement('canvas');
+        cv.width = Math.max(1, Math.round(c.width * k)); cv.height = Math.max(1, Math.round(c.height * k));
+        var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.imageSmoothingQuality = 'high'; cx.drawImage(c, 0, 0, cv.width, cv.height);
+        out = { url: cv.toDataURL('image/jpeg', 0.8), w: cv.width, h: cv.height };
+        if (out.url.length < 190000) break; max = Math.round(max * 0.82);
+      }
+      HF.img = out; hfImg();
+    } catch (e) { toast('Das Foto konnte nicht gelesen werden.'); }
+  });
+  $('#hfAi').addEventListener('click', async function () {
+    var name = $('#hfName').value.trim(); if (!name) { $('#hfMsg').textContent = 'Gib zuerst den Namen der Tour oder des Gipfels ein.'; $('#hfName').focus(); return; }
+    if (typeof sample !== 'function') return;
+    var btn = this, tok = ++HF.token, label = btn.textContent; btn.disabled = true; btn.textContent = 'Claude sucht …'; $('#hfMsg').textContent = '';
+    try {
+      var r = await sample.json('Du kennst Bergwanderungen in der Schweiz und den Alpen. Antworte auf Deutsch.\nTour oder Gipfel: ' + JSON.stringify(name) + (($('#hfRegion').value.trim()) ? '\nRegion: ' + $('#hfRegion').value.trim() : '') +
+        '\nGib die übliche Standardroute an. Felder:\n- region: Region bzw. Kanton, kurz (z. B. "Glarus", "Berner Oberland")\n- peak: Höhe des höchsten Punkts in Metern (Zahl) oder null\n- km: Distanz der üblichen Tour in km (Zahl) oder null\n- up: Höhenmeter im Aufstieg (Zahl) oder null\n- minutes: übliche Gesamtgehzeit in Minuten (Zahl) oder null\n- diff: SAC-Wanderskala "T1" bis "T6" oder ""\n- url: leer lassen\nWenn du den Ort nicht sicher kennst, gib null bzw. leeren Text zurück. Erfinde nichts.\nAntworte nur mit JSON: {"region":"","peak":null,"km":null,"up":null,"minutes":null,"diff":""}', { modelTier: 'default' });
+      if (tok !== HF.token || !r || typeof r !== 'object') return;
+      var got = 0;
+      function put(q, v) { if (v != null && v !== '' && !$(q).value.trim()) { $(q).value = v; got++; } }
+      if (typeof r.region === 'string') put('#hfRegion', r.region.trim().slice(0, 60));
+      if (+r.peak > 0 && +r.peak < 9000) put('#hfPeak', fmtNum(+r.peak));
+      if (+r.km > 0 && +r.km < 100) put('#hfKm', fmtKm(+r.km));
+      if (+r.up > 0 && +r.up < 5000) put('#hfUp', fmtNum(+r.up));
+      if (+r.minutes > 0 && +r.minutes < 2400) put('#hfDur', fmtDur(+r.minutes).replace(' h', ''));
+      if (!HF.diff && hdiff(r.diff)) { HF.diff = r.diff; hfDiffChips(); got++; }
+      $('#hfMsg').textContent = got ? 'Claude hat ergänzt. Bitte kurz prüfen, Angaben können abweichen.' : 'Claude kennt diese Tour nicht sicher. Bitte selbst ausfüllen.';
+    } catch (e) { if (tok === HF.token) $('#hfMsg').textContent = 'Ergänzen gerade nicht möglich.'; }
+    finally { btn.disabled = false; btn.textContent = label; }
+  });
+  $('#hfF').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var msg = $('#hfMsg'), name = $('#hfName').value.trim().slice(0, 70);
+    if (!name) { msg.textContent = 'Gib den Namen der Tour an.'; $('#hfName').focus(); return; }
+    var peak = parseNum($('#hfPeak').value), km = parseNum($('#hfKm').value), up = parseNum($('#hfUp').value);
+    if (Number.isNaN(peak)) { msg.textContent = 'Die Gipfelhöhe ist ungültig.'; $('#hfPeak').focus(); return; }
+    if (Number.isNaN(km)) { msg.textContent = 'Die Distanz ist ungültig.'; $('#hfKm').focus(); return; }
+    if (Number.isNaN(up)) { msg.textContent = 'Die Höhenmeter sind ungültig.'; $('#hfUp').focus(); return; }
+    var dRaw = $('#hfDur').value.trim(), min = parseDur(dRaw);
+    if (dRaw && min == null) { msg.textContent = 'Die Dauer bitte so angeben: 5:30'; $('#hfDur').focus(); return; }
+    var uRaw = $('#hfUrl').value.trim(), url = uRaw ? normUrl(uRaw) : '';
+    if (uRaw && !url) { msg.textContent = 'Der Link ist ungültig.'; $('#hfUrl').focus(); return; }
+    var ed = HF.edit, doc = { name: name, done: HF.done, createdAt: ed ? ed.createdAt || Date.now() : Date.now() };
+    var reg = $('#hfRegion').value.trim().slice(0, 60); if (reg) doc.region = reg;
+    if (peak) doc.peak = Math.round(peak); if (km) doc.km = Math.round(km * 10) / 10; if (up) doc.up = Math.round(up); if (min) doc.min = min;
+    if (HF.diff) doc.diff = HF.diff; if (url) doc.url = url;
+    var note = $('#hfNote').value.trim().slice(0, 200); if (note) doc.note = note;
+    if (HF.done) { if ($('#hfDate').value) doc.date = $('#hfDate').value; if (HF.rating) doc.rating = HF.rating; }
+    if (HF.img) { doc.img = HF.img.url; doc.w = HF.img.w; doc.h = HF.img.h; }
+    var btn = $('#hfSave'); btn.disabled = true;
+    try {
+      await Promise.race([ready, wait(8000)]);
+      var id;
+      if (ed && ed.mem) { Object.keys(ed).forEach(function (k) { if (k !== 'id' && k !== 'mem') delete ed[k]; }); Object.assign(ed, doc); id = ed.id; }
+      else if (db) {
+        try {
+          if (ed) { await db.doc('hikes/' + ed.id).set(doc); id = ed.id; S.hikes = S.hikes.map(function (o) { return o.id === id ? Object.assign({ id: id }, doc) : o; }); }
+          else { var ref = await db.collection('hikes').add(doc); id = ref.id; if (!S.hikes.some(function (o) { return o.id === id; })) S.hikes.unshift(Object.assign({ id: id }, doc)); }
+        } catch (err) { msg.textContent = err && err.code === 'quota_exceeded' ? 'Der Speicher ist voll.' : 'Die Tour konnte nicht gespeichert werden.'; return; }
+      } else { id = 'm' + Date.now(); S.hikesMem.push(Object.assign({ id: id, mem: true }, doc)); toast('Nur für diese Sitzung gespeichert.'); }
+      closeHform(); render(); if (!S.hwin) openHwin(); else renderHwin();
+      toast(ed ? 'Gespeichert.' : '„' + name + '“ hinzugefügt.');
+    } finally { btn.disabled = false; }
+  });
   /* ---------- Tastatur ---------- */
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     if (RO.active) { endReorder(true); return; }
     if (SEL.active && !S.cs) { selEnd(); return; }
     if (S.acct) closeAcct(); else if (S.cs) closeCatSheet(); else if (S.sh) closeShare(); else if (S.pf) closePform(); else if (S.wf) closeWform(); else if (S.menu) closeMenu(); else if (S.rf) closeRform(); else if (S.rdet) closeRdet(); else if (S.map) closeMap(); else if (S.rwin) { if (S.rwin.c) { S.rwin.c = null; renderRwin(); } else closeRwin(); }
+    else if (S.hf) closeHform(); else if (S.hdet) closeHdet(); else if (S.hwin) closeHwin();
     else if (S.vdet) closeVdet(); else if (S.vwin) closeVwin();
     else if (S.tf) closeTform(); else if (S.tdet) closeTdet(); else if (S.tcal) closeTcal(); else if (S.twin) closeTwin();
     else if (S.ed) closeEditor(); else if (S.win) closeWin(false); else if (S.swin) closeSwin();
@@ -4878,22 +5233,22 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     $('#plus').hidden = !S.canEdit; $('#swAdd').hidden = !S.canEdit;
     $('#shareBtn').hidden = false;
     if (S.viewer && db) { $('.sub').replaceChildren(document.createTextNode('Mit dir geteilt.'), h('br'), h('span', { class: 'viewer-tag' }, 'Nur zum Ansehen')); }
-    var empty = S.loaded && !allItems().length && !allTripDocs().length && !allPlaces().length && !allWines().length;
+    var empty = S.loaded && !allItems().length && !allTripDocs().length && !allPlaces().length && !allWines().length && !allHikes().length;
     $('#homeHint').textContent = empty && S.canEdit ? 'Noch nichts im Regal. Tippe oben rechts auf das Plus.' : '';
   }
   /* ---------- Teilen per Link: freigegebene Kategorien werden nach pub/ gespiegelt ---------- */
-  var PUB = { items: 'pub/items/list', trips: 'pub/trips/list', places: 'pub/places/list', bars: 'pub/bars/list', wines: 'pub/wines/list' };
-  var CATN = { items: 'Shopping', trips: 'Reisen', places: 'Restaurants', bars: 'Bars', wines: 'Weine' };
-  var CATS = ['items', 'trips', 'places', 'bars', 'wines'];
-  S.share = { items: false, trips: false, places: false, bars: false, wines: false }; S.shareLoaded = false; S.viewer = false; S.sh = false;
-  var PS = { seen: { items: null, trips: null, places: null, bars: null, wines: null }, src: { items: false, trips: false, places: false, bars: false, wines: false }, busy: {}, again: {}, t: {}, saving: false, auto: false };
-  function shareFrom(d) { d = d || {}; return { items: d.items === true, trips: d.trips === true, places: d.places === true, bars: d.bars === true, wines: d.wines === true }; }
+  var PUB = { items: 'pub/items/list', trips: 'pub/trips/list', places: 'pub/places/list', bars: 'pub/bars/list', wines: 'pub/wines/list', hikes: 'pub/hikes/list' };
+  var CATN = { items: 'Shopping', trips: 'Reisen', places: 'Restaurants', bars: 'Bars', wines: 'Weine', hikes: 'Bergwanderungen' };
+  var CATS = ['items', 'trips', 'places', 'bars', 'wines', 'hikes'];
+  S.share = { items: false, trips: false, places: false, bars: false, wines: false, hikes: false }; S.shareLoaded = false; S.viewer = false; S.sh = false;
+  var PS = { seen: { items: null, trips: null, places: null, bars: null, wines: null, hikes: null }, src: { items: false, trips: false, places: false, bars: false, wines: false, hikes: false }, busy: {}, again: {}, t: {}, saving: false, auto: false };
+  function shareFrom(d) { d = d || {}; return { items: d.items === true, trips: d.trips === true, places: d.places === true, bars: d.bars === true, wines: d.wines === true, hikes: d.hikes === true }; }
   function stab(v) {
     if (Array.isArray(v)) return '[' + v.map(stab).join(',') + ']';
     if (v && typeof v === 'object') return '{' + Object.keys(v).sort().map(function (k) { return JSON.stringify(k) + ':' + stab(v[k]); }).join(',') + '}';
     return JSON.stringify(v === undefined ? null : v);
   }
-  function srcDocs(cat) { return cat === 'wines' ? S.wines : cat === 'items' ? S.cloud : cat === 'trips' ? S.trips : S.places.filter(function (p) { return kindOf(p) === (cat === 'bars' ? 'bar' : 'rest'); }); }
+  function srcDocs(cat) { return cat === 'hikes' ? S.hikes : cat === 'wines' ? S.wines : cat === 'items' ? S.cloud : cat === 'trips' ? S.trips : S.places.filter(function (p) { return kindOf(p) === (cat === 'bars' ? 'bar' : 'rest'); }); }
   function shareSoon(cat) { clearTimeout(PS.t[cat]); PS.t[cat] = setTimeout(function () { syncCat(cat); }, 500); }
   async function syncCat(cat) {
     if (!db || S.viewer || !S.shareLoaded || !PS.seen[cat] || !PS.src[cat]) return;
@@ -4930,7 +5285,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     if (!db || S.viewer) return;
     var prev = S.share[cat]; S.share[cat] = on; PS.saving = true; renderShare(); render();
     try {
-      await db.doc('pub/meta').set({ items: S.share.items, trips: S.share.trips, places: S.share.places, bars: S.share.bars, wines: S.share.wines, updatedAt: Date.now() });
+      await db.doc('pub/meta').set({ items: S.share.items, trips: S.share.trips, places: S.share.places, bars: S.share.bars, wines: S.share.wines, hikes: S.share.hikes, updatedAt: Date.now() });
       shareSoon(cat);
       toast(on ? CATN[cat] + ' ist jetzt per Link freigegeben.' : 'Freigabe für ' + CATN[cat] + ' beendet.');
     } catch (e) { S.share[cat] = prev; render(); toast('Die Freigabe konnte nicht gespeichert werden.'); }
@@ -4941,6 +5296,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     trips: ['#3B82C4', '<path d="M3 13l18-8-6 16-3-7z"/>'],
     places: ['#E0603A', '<path d="M7 3v5a2 2 0 0 0 4 0V3M9 3v18"/><path d="M17 21V3c-2.4 1.4-3.5 4.6-3.5 9H17"/>'],
     bars: ['#9B4DCA', '<path d="M5 5h14l-7 8z"/><path d="M12 13v6M8 20h8"/>'],
+    hikes: ['#2F7D5B', '<path d="M2.5 20 9 8.5l3.6 6 2.4-3.5 6.5 9z"/>'],
     wines: ['#8E2846', '<path d="M10 2.5h4v5c0 1.5 3 2.6 3 6.2V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20v-6.3c0-3.6 3-4.7 3-6.2z"/>']
   };
   function renderShare() {
@@ -4973,13 +5329,14 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     db.collection(PUB.places).orderBy('createdAt', 'desc').onSnapshot(function (snap) { VP.r = docsOf(snap); setPlaces(VP.r.concat(VP.b)); render(); }, function () {});
     db.collection(PUB.bars).orderBy('createdAt', 'desc').onSnapshot(function (snap) { VP.b = docsOf(snap); setPlaces(VP.r.concat(VP.b)); render(); }, function () {});
     db.collection(PUB.items).orderBy('createdAt', 'desc').onSnapshot(function (snap) { setItems(docsOf(snap)); afterLoad(); render(); }, function () {});
+    db.collection(PUB.hikes).orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.hikes = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); }, function () {});
     db.collection(PUB.wines).orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.wines = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); }, function () {});
   }
   function viewerAutoOpen() {
     if (PS.auto) return; PS.auto = true;
     var on = CATS.filter(function (c) { return S.share[c]; });
     if (on.length !== 1 || S.swin || S.twin || S.rwin) return;
-    if (on[0] === 'wines') openVwin(); else if (on[0] === 'items') openSwin(); else if (on[0] === 'trips') openTwin(); else if (on[0] === 'bars') openRwin(null, 'bar'); else openRwin(null, 'rest');
+    if (on[0] === 'hikes') openHwin(); else if (on[0] === 'wines') openVwin(); else if (on[0] === 'items') openSwin(); else if (on[0] === 'trips') openTwin(); else if (on[0] === 'bars') openRwin(null, 'bar'); else openRwin(null, 'rest');
   }
   function docsOf(snap) { return snap.docs.map(function (d) { return Object.assign({}, d.data() || {}, { id: d.id }); }); }
   function setTrips(l) { S.trips = l.filter(function (o) { return typeof o.name === 'string' && o.name; }); }
@@ -5140,7 +5497,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     try {
       var j = JSON.parse(await f.text()), docs = j && j.docs, ok = {};
       if (!docs || typeof docs !== 'object') throw new Error('format');
-      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
+      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
       var n = Object.keys(ok).length; if (!n) throw new Error('leer');
       $('#acImport').disabled = true; msg.textContent = 'Importiere 0 von ' + n + ' …';
       await db.importDocs(ok, function (d, t) { msg.textContent = 'Importiere ' + d + ' von ' + t + ' …'; });
@@ -5167,6 +5524,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     catch (x) { started = false; authShow(true); authMsg('Deine Daten konnten nicht geladen werden: ' + (x && x.message || 'Verbindung') + '. Ist die Datenbank eingerichtet?'); return; }
     db.collection('trips').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setTrips(docsOf(snap)); render(); });
     db.collection('places').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setPlaces(docsOf(snap)); render(); });
+    db.collection('hikes').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.hikes = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('wines').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.wines = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('items').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setItems(docsOf(snap)); S.loaded = true; afterLoad(); render(); });
     try { watchLayout(); } catch (x) {}
