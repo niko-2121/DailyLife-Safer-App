@@ -227,8 +227,8 @@ select.cur:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3p
 .ccard:hover { border-color: color-mix(in srgb, var(--ink) 30%, var(--line)); }
 .ccard:active { transform: scale(.97); }
 .cc-t { display: grid; min-width: 0; gap: 2px; }
-.cc-n { font: 700 14.5px/1.2 var(--body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cc-c { font: 11.5px/1.2 var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc-n { font: 800 15px/1.15 var(--display); letter-spacing: -.015em; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cc-c { font: 600 12.5px/1.2 var(--body); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rlist { display: grid; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
 .rrow { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .rrow + .rrow { border-top: 1px solid var(--line); }
@@ -376,8 +376,8 @@ select.cur:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3p
 #twin .wish { margin: 6px 0 0; padding: 12px 0 2px; background: none; border-top: 1px solid var(--line); border-radius: 0; }
 #twin .wish-t { font-size: 11.5px; }
 #twin .wish-row { gap: 10px; padding-top: 10px; }
-#twin .wsk { width: 96px; padding: 10px 6px 9px; border-radius: 20px; background: var(--bg); border: 1px solid var(--line); }
-#twin .wsk img { width: 62px; height: 62px; }
+#twin .wsk { width: 88px; padding: 9px 4px 8px; border-radius: 18px; background: var(--bg); border: 1px solid var(--line); }
+#twin .wsk img { width: 44px; height: 44px; }
 #twin .wsk-n { font-size: 12.5px; }
 #twin .wish-add { width: 32px; height: 32px; }
 .tgrid.enter > * { animation: rise .5s cubic-bezier(.2, .9, .25, 1) both; }
@@ -923,8 +923,8 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
 .cc-img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .cc-art.icon .cc-img { width: 56px; height: 56px; }
 .cc-body { display: grid; gap: 4px; padding: 10px 12px 12px; min-width: 0; }
-.cc-t { font: 800 15.5px/1.2 var(--display); overflow-wrap: anywhere; }
-.cc-n { font-size: 13px; color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ce-t { font: 800 15.5px/1.2 var(--display); overflow-wrap: anywhere; }
+.ce-n { font-size: 13px; color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .cc-h { font: 600 11.5px var(--mono); color: var(--muted); }
 #cfNote { font: inherit; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); resize: vertical; }
 .imgprev { display: grid; gap: 6px; justify-items: start; margin-top: 8px; }
@@ -937,6 +937,9 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
 .mflag { display: inline-block; width: 18px; height: 12px; margin-right: 5px; vertical-align: -1px; border-radius: 2.5px; overflow: hidden; box-shadow: 0 0 0 .5px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.15); }
 .mflag svg { display: block; width: 100%; height: 100%; }
 .vd-cell .mflag { width: 21px; height: 14px; vertical-align: -2px; }
+#twin .sheet, #twGrid { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
+#twGrid { max-width: 100%; min-width: 0; }
+.thero2 { overflow: clip; overflow: hidden; isolation: isolate; contain: paint; }
 .rgrp { padding: 10px 16px 7px; background: var(--bg); border-bottom: 1px solid var(--line); font: 700 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .rlist > .rgrp:not(:first-child) { border-top: 1px solid var(--line); }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
@@ -3083,8 +3086,8 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
       h('span', { class: 'tstat' }, h('b', {}, String(days)), h('small', {}, 'Reisetage')),
       h('span', { class: 'tstat' }, h('b', {}, booked + '/' + up.length), h('small', {}, 'gebucht'))));
     g.append(WISH); renderWish();
-    var rest = up.slice(1), last = null, box = null;
-    if (rest.length) g.append(h('div', { class: 'rsec' }, h('span', { class: 'rsec-t' }, 'Danach')));
+    var rest = up.slice(), last = null, box = null;
+    if (rest.length) g.append(h('div', { class: 'rsec' }, h('span', { class: 'rsec-t' }, 'Anstehende Reisen')));
     rest.forEach(function (t) {
       var k = monthKey(t);
       if (k !== last) { g.append(h('div', { class: 'tmonth' }, monthLabel(k))); box = h('div', { class: 'tlist' }); g.append(box); last = k; }
@@ -3848,7 +3851,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
       var best = list.reduce(function (m, p) { return Math.max(m, parseFloat(p.rating) || 0); }, 0);
       var card; grid.append(card = h('button', { class: 'ccard', type: 'button', 'data-cat': name, 'aria-label': name + ', ' + list.length + (list.length === 1 ? ' Ort' : ' Orte'), onclick: function () { S.rwin.c = name; S.rwin.q = ''; renderRwin(); $('#rwin .sheet').scrollTop = 0; } },
         cuisineIcon(name),
-        h('span', { class: 'cc-t' }, h('span', { class: 'cc-n' }, name), h('span', { class: 'cc-c' }, list.length + (S.rwin.kind === 'bar' ? (list.length === 1 ? ' Bar' : ' Bars') : (list.length === 1 ? ' Ort' : ' Orte')) + (best ? ' · ★ ' + fmtRating(best) : '')))));
+        h('span', { class: 'cc-t' }, h('span', { class: 'cc-n' }, name), h('span', { class: 'cc-c' }, list.length + (S.rwin.kind === 'bar' ? (list.length === 1 ? ' Bar' : ' Bars') : (list.length === 1 ? ' Ort' : ' Orte'))))));
       longPress(card, function () { openCatSheet({ kind: 'cuisine', name: name, pk: S.rwin.kind || 'rest' }); });
     });
     res.append(h('div', { class: 'rsec' }, h('span', { class: 'rsec-t' }, S.rwin.kind === 'bar' ? 'Arten' : 'Küchen')), grid);
@@ -5538,7 +5541,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     list.forEach(function (e, i) {
       g.append(h('div', { class: 'ccard2', role: 'button', tabindex: '0', style: '--i:' + Math.min(i, 10), 'aria-label': e.title, onclick: function () { openCform(c.id, e); }, onkeydown: function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openCform(c.id, e); } } },
         h('div', { class: 'cc-art' + (e.img ? '' : ' icon') }, entryArt(e, c, 'cc-img')),
-        h('div', { class: 'cc-body' }, h('b', { class: 'cc-t' }, e.title), e.rating ? starBar(e.rating, 'sm') : null, e.note ? h('span', { class: 'cc-n' }, e.note) : null, e.url ? h('span', { class: 'cc-h' }, hostOf(e.url)) : null)));
+        h('div', { class: 'cc-body' }, h('b', { class: 'ce-t' }, e.title), e.rating ? starBar(e.rating, 'sm') : null, e.note ? h('span', { class: 'ce-n' }, e.note) : null, e.url ? h('span', { class: 'cc-h' }, hostOf(e.url)) : null)));
     });
   }
   function openCwin(id) { S.cwin = id; $('#cwin').hidden = false; syncLock(); renderCwin(); $('#cwin .sheet').scrollTop = 0; }
