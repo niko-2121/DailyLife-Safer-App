@@ -930,6 +930,10 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
 .imgprev { display: grid; gap: 6px; justify-items: start; margin-top: 8px; }
 .imgprev img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 16px; }
 #cfDel { margin-top: 4px; }
+.cic.hasflag { position: relative; overflow: visible; }
+.cflag { position: absolute; right: -6px; bottom: -6px; font-size: 16px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+.rgrp { padding: 10px 16px 7px; background: var(--bg); border-bottom: 1px solid var(--line); font: 700 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.rlist > .rgrp:not(:first-child) { border-top: 1px solid var(--line); }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -3700,10 +3704,20 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     return el;
   }
   var CHEV = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  var CUISINE_FLAGS = [[/^ital/, 'IT'], [/sterr|wiener/, 'AT'], [/schweiz|swiss/, 'CH'], [/franz|französ/, 'FR'], [/^span/, 'ES'], [/portug/, 'PT'], [/griech/, 'GR'], [/türk|turk/, 'TR'], [/japan/, 'JP'], [/chines/, 'CN'], [/thai/, 'TH'], [/vietnam/, 'VN'], [/korean/, 'KR'], [/^indisch|^indian/, 'IN'], [/mexik/, 'MX'], [/amerik|american/, 'US'], [/libanes/, 'LB'], [/peru/, 'PE'], [/brasil/, 'BR'], [/argentin/, 'AR'], [/^deutsch|german/, 'DE'], [/brit|englisch/, 'GB'], [/irisch|irish/, 'IE'], [/marokk/, 'MA'], [/israel/, 'IL'], [/georgisch/, 'GE'], [/äthiop|aethiop/, 'ET'], [/persisch|iranisch/, 'IR'], [/kuban/, 'CU'], [/schwed/, 'SE'], [/dänisch|daenisch/, 'DK'], [/norweg/, 'NO'], [/ungar/, 'HU'], [/tschech/, 'CZ'], [/polnisch/, 'PL'], [/russisch/, 'RU'], [/ukrain/, 'UA'], [/kroat/, 'HR'], [/syrisch/, 'SY'], [/nepal/, 'NP'], [/indones/, 'ID'], [/philippin/, 'PH'], [/malays/, 'MY'], [/singapur/, 'SG'], [/taiwan/, 'TW'], [/kolumb/, 'CO'], [/afghan/, 'AF'], [/pakistan/, 'PK'], [/sri.?lank/, 'LK'], [/belgisch/, 'BE'], [/niederländ|holländ/, 'NL'], [/eritre/, 'ER'], [/tunes/, 'TN'], [/ägypt|aegypt/, 'EG'], [/hawai/, 'US'], [/schottisch/, 'GB']];
+  function cuisineFlag(name) {
+    var v = String(name || '').trim().toLowerCase(); if (!v) return '';
+    for (var i = 0; i < CUISINE_FLAGS.length; i++) if (CUISINE_FLAGS[i][0].test(v)) { var c = CUISINE_FLAGS[i][1]; return String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65, 0x1F1E6 + c.charCodeAt(1) - 65); }
+    return '';
+  }
+  function cuisineLabel(name) { var f = cuisineFlag(name); return (f ? f + ' ' : '') + (name || 'Sonstiges'); }
   function sortPlaces(list) {
     var by = S.rsort || 'rating';
     return list.slice().sort(function (a, b) {
-      if (by === 'mine') { var dm = (+b.myRating || 0) - (+a.myRating || 0); if (dm) return dm; }
+      var ma = +a.myRating || 0, mb = +b.myRating || 0;
+      if (!ma !== !mb) return ma ? -1 : 1;
+      if (ma && mb && ma !== mb) return mb - ma;
+      if (by === 'mine') { var dm = mb - ma; if (dm) return dm; }
       if (by === 'rating' || by === 'mine') { var d = (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0); if (d) return d; }
       return a.name.localeCompare(b.name, 'de');
     });
@@ -3712,7 +3726,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     var rt = fmtRating(p.rating), city = String(p.city || '').trim();
     var meta = h('span', { class: 'rr-meta' });
     if (rt) meta.append(h('span', { class: 'rr-star' }, '★ ' + rt));
-    if (showCuisine && p.cuisine) meta.append(h('span', {}, p.cuisine));
+    if (showCuisine && p.cuisine) meta.append(h('span', {}, cuisineLabel(p.cuisine)));
     if (p.price) meta.append(h('span', {}, p.price));
     if (city) meta.append(h('span', {}, city));
     var ch = h('span', { class: 'rr-chev' }); ch.innerHTML = CHEV;
@@ -3736,8 +3750,13 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     return h('div', { class: 'rsort', role: 'group', 'aria-label': 'Sortieren' }, mk('rating', 'Google'), mk('mine', 'Meine'), mk('az', 'A–Z'));
   }
   function rowList(list, showCuisine) {
-    var box = h('div', { class: 'rlist' });
-    sortPlaces(list).forEach(function (p) { box.append(placeRow(p, showCuisine)); });
+    var box = h('div', { class: 'rlist' }), sorted = sortPlaces(list);
+    var nMine = sorted.filter(function (p) { return +p.myRating; }).length, split = nMine && nMine < sorted.length;
+    sorted.forEach(function (p, i) {
+      if (split && i === 0) box.append(h('div', { class: 'rgrp' }, '★ Von mir bewertet · ' + nMine));
+      if (split && i === nMine) box.append(h('div', { class: 'rgrp' }, 'Noch nicht bewertet · ' + (sorted.length - nMine)));
+      box.append(placeRow(p, showCuisine));
+    });
     return box;
   }
   function placeMatches(p, q) {
@@ -3759,7 +3778,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
       var list = groups.get(name);
       var best = list.reduce(function (m, p) { return Math.max(m, parseFloat(p.rating) || 0); }, 0);
       var card; grid.append(card = h('button', { class: 'ccard', type: 'button', 'data-cat': name, 'aria-label': name + ', ' + list.length + (list.length === 1 ? ' Ort' : ' Orte'), onclick: function () { S.rwin.c = name; S.rwin.q = ''; renderRwin(); $('#rwin .sheet').scrollTop = 0; } },
-        cuisineIcon(name),
+        (function () { var ic = cuisineIcon(name), fl = cuisineFlag(name); if (fl) { ic.classList.add('hasflag'); ic.append(h('span', { class: 'cflag' }, fl)); } return ic; })(),
         h('span', { class: 'cc-t' }, h('span', { class: 'cc-n' }, name), h('span', { class: 'cc-c' }, list.length + (S.rwin.kind === 'bar' ? (list.length === 1 ? ' Bar' : ' Bars') : (list.length === 1 ? ' Ort' : ' Orte')) + (best ? ' · ★ ' + fmtRating(best) : '')))));
       longPress(card, function () { openCatSheet({ kind: 'cuisine', name: name, pk: S.rwin.kind || 'rest' }); });
     });
@@ -3813,7 +3832,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
       fillRwRes();
     } else {
       var list2 = groups.get(c);
-      $('#rwTitle').textContent = c; $('#rwCount').textContent = list2.length + (list2.length === 1 ? ' Ort' : ' Orte');
+      $('#rwTitle').textContent = cuisineLabel(c); $('#rwCount').textContent = list2.length + (list2.length === 1 ? ' Ort' : ' Orte');
       var head = h('div', { class: 'rsec' }, h('span', { class: 'rsec-t' }, 'Sortieren'), sortBar());
       body.replaceChildren(head, rowList(list2, false));
     }
@@ -3841,7 +3860,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
   function renderRdet() {
     var p = allPlaces().filter(function (x) { return x.id === S.rdet; })[0];
     if (!p) { closeRdet(); return; }
-    var cu = $('#rdCuisine'); cu.replaceChildren(cuisineIcon(p.cuisine, 'xs'), document.createTextNode(p.cuisine || 'Sonstiges'));
+    var cu = $('#rdCuisine'); cu.replaceChildren(cuisineIcon(p.cuisine, 'xs'), document.createTextNode(cuisineLabel(p.cuisine)));
     var lg = $('#rdLogo');
     if (p.photo) { var ph = h('img', { class: 'rdphoto', src: p.photo, alt: 'Foto von ' + p.name }); ph.addEventListener('error', function () { ph.replaceWith(cuisineIcon(p.cuisine, 'lg')); }); lg.replaceChildren(ph); }
     else if (p.logo) { var im = h('img', { class: 'rdlogo', src: p.logo, alt: '' }); im.addEventListener('error', function () { im.replaceWith(cuisineIcon(p.cuisine, 'lg')); }); lg.replaceChildren(im); }
