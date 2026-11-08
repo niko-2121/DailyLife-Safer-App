@@ -5920,6 +5920,50 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
   $('#tcPdf').hidden = false;
 
   var started = false;
+  /* Claude über die eigene Supabase-Funktion (nur wenn eingerichtet und freigegeben) */
+  function b64OfBlob(b) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1] || ''); }; r.onerror = rej; r.readAsDataURL(b); }); }
+  function looseJson(t) {
+    t = String(t || '').trim();
+    try { return JSON.parse(t); } catch (e) {}
+    var m = t.match(/```(?:json)?\s*([\s\S]*?)```/); if (m) { try { return JSON.parse(m[1]); } catch (e) {} }
+    var a = t.indexOf('{'), b = t.lastIndexOf('}'), c = t.indexOf('['), d = t.lastIndexOf(']');
+    if (c >= 0 && (a < 0 || c < a) && d > c) { try { return JSON.parse(t.slice(c, d + 1)); } catch (e) {} }
+    if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (e) {} }
+    var er = new Error('Antwort war kein JSON'); er.code = 'bad_json'; throw er;
+  }
+  async function aiCall(input, opts) {
+    opts = opts || {};
+    var ss = await SB.auth.getSession(), tok = ss && ss.data && ss.data.session && ss.data.session.access_token;
+    if (!tok) { var e0 = new Error('nicht angemeldet'); e0.code = 'not_granted'; throw e0; }
+    var imgs = [];
+    var il = opts.images ? (Array.isArray(opts.images) ? opts.images : [opts.images]) : [];
+    for (var i = 0; i < il.length; i++) if (il[i]) imgs.push({ media_type: il[i].type || 'image/jpeg', data: await b64OfBlob(il[i]) });
+    var messages = typeof input === 'string' ? [{ role: 'user', content: input }] : input;
+    var r = await fetch(CFG.supabaseUrl.replace(/\/$/, '') + '/functions/v1/claude', { method: 'POST', signal: opts.signal,
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok, apikey: CFG.supabaseKey },
+      body: JSON.stringify({ messages: messages, images: imgs, tier: opts.modelTier || 'default' }) });
+    if (!r.ok) { var e1 = new Error('Claude nicht erreichbar (' + r.status + ')'); e1.code = r.status === 403 ? 'not_granted' : r.status === 429 ? 'rate_limited' : 'failed'; throw e1; }
+    var j = await r.json(), text = String(j && j.text || '');
+    if (opts.onText) try { opts.onText({ text: text, delta: text }); } catch (e) {}
+    return { text: text, truncated: !!(j && j.truncated) };
+  }
+  function makeSample() {
+    var f = function (input, opts) { return aiCall(input, opts); };
+    f.json = async function (input, opts) { var r = await aiCall(input, opts); return looseJson(r.text); };
+    f.limits = async function () { return { images: true }; };
+    return f;
+  }
+  async function aiInit() {
+    try {
+      var ss = await SB.auth.getSession(), tok = ss && ss.data && ss.data.session && ss.data.session.access_token; if (!tok) return;
+      var r = await Promise.race([fetch(CFG.supabaseUrl.replace(/\/$/, '') + '/functions/v1/claude', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok, apikey: CFG.supabaseKey }, body: JSON.stringify({ ping: true }) }), wait(8000, null)]);
+      if (!r || !r.ok) return;
+      var j = await r.json(); if (!j || !j.ok) return;
+      sample = makeSample(); S.imgOK = true;
+      var sg = document.getElementById('suggest'); if (sg) sg.hidden = false;
+      render();
+    } catch (e) {}
+  }
   async function startApp(u) {
     if (started || !u) return; started = true;
     UID = u.id; EMAIL = u.email || '';
@@ -5934,6 +5978,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     db.collection('wines').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.wines = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('items').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setItems(docsOf(snap)); S.loaded = true; afterLoad(); render(); });
     try { watchLayout(); } catch (x) {}
+    aiInit();
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && db && !S.pf && !S.rf && !S.tf) db.reload().catch(function () {}); });
   }
   var ready = (async function () {
