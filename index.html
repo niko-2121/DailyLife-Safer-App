@@ -930,8 +930,10 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
 .imgprev { display: grid; gap: 6px; justify-items: start; margin-top: 8px; }
 .imgprev img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 16px; }
 #cfDel { margin-top: 4px; }
-.cic.hasflag { position: relative; overflow: visible; }
-.cflag { position: absolute; right: -6px; bottom: -6px; font-size: 16px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+.cic.flagic { --k: #8A94A6; background: color-mix(in srgb, #8A94A6 14%, var(--surface)) !important; overflow: hidden; }
+.cic.flagic b { display: block; font-size: 27px; line-height: 1; font-weight: 400; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+.cic.flagic.sm b { font-size: 17px; } .cic.flagic.xs b { font-size: 14px; } .cic.flagic.lg b { font-size: 46px; }
+.rrow > .cic.flagic b { font-size: 34px; } .rthumb .cic.flagic b { font-size: 15px; } .hub .cell .cic.flagic b { font-size: 36px; }
 .rgrp { padding: 10px 16px 7px; background: var(--bg); border-bottom: 1px solid var(--line); font: 700 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .rlist > .rgrp:not(:first-child) { border-top: 1px solid var(--line); }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
@@ -3699,6 +3701,8 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
   };
   function cuisineIcon(name, cls) {
     var k = cuisineKind(name), d = CUISINE_ICON[k] || CUISINE_ICON.cloche;
+    var fl = k === 'swiss' ? '' : cuisineFlag(name);
+    if (fl) return h('span', { class: 'cic flagic' + (cls ? ' ' + cls : ''), 'aria-hidden': 'true' }, h('b', {}, fl));
     var el = h('span', { class: 'cic' + (k === 'swiss' ? ' swiss' : '') + (cls ? ' ' + cls : ''), style: '--k:' + d[0], 'aria-hidden': 'true' });
     el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + d[1] + '</svg>';
     return el;
@@ -3778,7 +3782,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
       var list = groups.get(name);
       var best = list.reduce(function (m, p) { return Math.max(m, parseFloat(p.rating) || 0); }, 0);
       var card; grid.append(card = h('button', { class: 'ccard', type: 'button', 'data-cat': name, 'aria-label': name + ', ' + list.length + (list.length === 1 ? ' Ort' : ' Orte'), onclick: function () { S.rwin.c = name; S.rwin.q = ''; renderRwin(); $('#rwin .sheet').scrollTop = 0; } },
-        (function () { var ic = cuisineIcon(name), fl = cuisineFlag(name); if (fl) { ic.classList.add('hasflag'); ic.append(h('span', { class: 'cflag' }, fl)); } return ic; })(),
+        cuisineIcon(name),
         h('span', { class: 'cc-t' }, h('span', { class: 'cc-n' }, name), h('span', { class: 'cc-c' }, list.length + (S.rwin.kind === 'bar' ? (list.length === 1 ? ' Bar' : ' Bars') : (list.length === 1 ? ' Ort' : ' Orte')) + (best ? ' · ★ ' + fmtRating(best) : '')))));
       longPress(card, function () { openCatSheet({ kind: 'cuisine', name: name, pk: S.rwin.kind || 'rest' }); });
     });
