@@ -22,7 +22,6 @@ window.dispatchEvent(new Event('sb-ready'));
 </script>
 <style>
 html{-webkit-text-size-adjust:100%}
-body{padding-top:max(26px, calc(env(safe-area-inset-top) + 12px))}
 
 /* Layout: Kategorien als Kacheln mit Produkt-Cluster, Tipp öffnet ein Fenster mit allen schwebenden Artikeln. */
 :root {
@@ -595,7 +594,7 @@ body:not(.authed) .wrap { visibility: hidden; }
 .hub-text { display: grid; gap: 6px; align-content: center; min-width: 0; }
 .hub-kicker { font: 11.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .hub-title { font: 800 clamp(24px, 7vw, 31px)/1.02 var(--display); letter-spacing: -.025em; }
-.hub-title.long { font-size: clamp(20px, 5.6vw, 26px); -webkit-hyphens: auto; hyphens: auto; position: relative; z-index: 1; }
+.hub-title.long { font-size: clamp(20px, 5.6vw, 26px); -webkit-hyphens: manual; hyphens: manual; overflow-wrap: break-word; position: relative; z-index: 1; }
 .hub-count { font: 13px/1.35 var(--mono); color: var(--muted); }
 .hub-go { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-top: 8px; border-radius: 50%; background: var(--ink); color: var(--bg); }
 .hub .cluster { height: 128px; width: 128px; }
@@ -900,6 +899,38 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
 #hfImgPrev img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 16px; }
 .hf-ai { justify-self: start; }
 @media (prefers-reduced-motion: reduce) { .hcard { animation: none; } }
+/* ---------- Eigene Hauptkategorien ---------- */
+#prodAdd { --tint: #E0A800; } #tripAdd { --tint: #3B82C4; } #restAdd { --tint: #E0603A; } #barAdd { --tint: #9B4DCA; } #wineAdd { --tint: #8E2846; } #hikeAdd { --tint: #2F7D5B; }
+#hubAdd { --tint: var(--muted); border-style: dashed; }
+.mrow[hidden] { display: none; }
+#amCustom:empty { display: none; }
+.nh-sec { margin: 14px 0 8px; }
+.nh-head { display: flex; align-items: flex-end; gap: 12px; }
+.nh-prev img { display: block; width: 56px; height: 56px; border-radius: 16px; box-shadow: 0 8px 18px -8px rgba(0,0,0,.4); }
+.nh-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.nh-sw { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line); cursor: pointer; }
+.nh-sw[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--ink); }
+.nh-ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.nh-ic[aria-pressed="true"] { background: var(--c); color: #fff; border-color: transparent; }
+.nh-plus { font: 800 24px/1 var(--body); }
+.ce-mini { width: 54px; height: 54px; object-fit: cover; border-radius: 14px; box-shadow: 0 6px 14px rgba(0,0,0,.14); }
+.ce-mini.icon { width: 60px; height: 60px; }
+.cgrid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 10px; }
+.cgrid2 > .tempty { grid-column: 1 / -1; }
+.ccard2 { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); color: var(--ink); overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; animation: rise .45s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--i) * 35ms); transition: transform .2s; }
+.ccard2:active { transform: scale(.97); }
+.cc-art { aspect-ratio: 4 / 3; background: color-mix(in srgb, var(--cc) 14%, var(--bg)); display: grid; place-items: center; overflow: hidden; }
+.cc-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cc-art.icon .cc-img { width: 56px; height: 56px; }
+.cc-body { display: grid; gap: 4px; padding: 10px 12px 12px; min-width: 0; }
+.cc-t { font: 800 15.5px/1.2 var(--display); overflow-wrap: anywhere; }
+.cc-n { font-size: 13px; color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.cc-h { font: 600 11.5px var(--mono); color: var(--muted); }
+#cfNote { font: inherit; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); resize: vertical; }
+.imgprev { display: grid; gap: 6px; justify-items: start; margin-top: 8px; }
+.imgprev img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 16px; }
+#cfDel { margin-top: 4px; }
+html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
 </style>
 </head>
 <body>
@@ -929,6 +960,10 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
       <button type="button" class="mrow" id="barAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14l-7 8z"/><path d="M12 13v6M8 20h8"/><path d="M15.5 3.5 13 8"/></svg></span><span><span class="mrow-t">Bar</span><span class="mrow-d">Cocktail-, Wein- oder Bierbar</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
       <button type="button" class="mrow" id="wineAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5h4v5c0 1.5 3 2.6 3 6.2V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20v-6.3c0-3.6 3-4.7 3-6.2z"/><path d="M7 14h10"/></svg></span><span><span class="mrow-t">Wein</span><span class="mrow-d">Foto, Screenshot oder nur der Name</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
       <button type="button" class="mrow" id="hikeAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 20 9 8.5l3.6 6 2.4-3.5 6.5 9z"/><path d="m7.2 11.7 1.8 1.1 1.6-1.4"/></svg></span><span><span class="mrow-t">Bergwanderung</span><span class="mrow-d">Name genügt, Claude ergänzt die Eckdaten</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="mrows" id="amCustom"></div>
+    <div class="mrows">
+      <button type="button" class="mrow" id="hubAdd"><span class="mrow-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><path d="M17 14v6M14 17h6"/></svg></span><span><span class="mrow-t">Hauptkategorie</span><span class="mrow-d">Eigene Kategorie anlegen oder wiederherstellen</span></span><svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
     </div>
     <div class="row"><button type="button" class="btn" id="amClose">Abbrechen</button></div>
   </div>
@@ -1332,6 +1367,50 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   <button type="button" class="btn sm" id="selCancel">Abbrechen</button>
   <button type="button" class="btn sm primary" id="selGo">Zuordnen</button>
 </div>
+<!-- Eigene Hauptkategorien -->
+<div class="win ed" id="nhub" hidden>
+  <div class="sheet form-sheet" role="dialog" aria-modal="true" aria-labelledby="nhT">
+    <h2 id="nhT">Hauptkategorie hinzufügen</h2>
+    <div id="nhHiddenW" hidden><p class="lbl nh-sec">Entfernte Kategorien</p><div class="mrows" id="nhHidden"></div></div>
+    <form class="form" id="nhF" novalidate>
+      <p class="lbl nh-sec">Neue Kategorie</p>
+      <div class="nh-head"><div id="nhPrev" class="nh-prev"></div><label class="fld" style="flex:1"><span class="lbl">Name</span><input id="nhName" type="text" maxlength="24" autocomplete="off" placeholder="z. B. Bücher, Filme, Geschenkideen"></label></div>
+      <div class="fld"><span class="lbl">Farbe</span><div class="nh-row" id="nhColors"></div></div>
+      <div class="fld"><span class="lbl">Symbol</span><div class="nh-row" id="nhIcons"></div></div>
+      <div class="row"><button type="button" class="btn" id="nhCancel">Abbrechen</button><button type="submit" class="btn primary">Erstellen</button></div>
+      <p class="msg" id="nhMsg" role="alert"></p>
+    </form>
+  </div>
+</div>
+<div class="win" id="cwin" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cwTitle">
+    <div class="sheet-head rw-head">
+      <div class="rw-tt"><h2 id="cwTitle"></h2><span class="cnt" id="cwCount"></span></div>
+      <button type="button" class="ibtn acc" id="cwAdd" aria-label="Eintrag hinzufügen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button type="button" class="ibtn" id="cwClose" aria-label="Schließen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="rsec" id="cwSortW"><span class="rsec-t">Sortieren</span><div class="rsort" id="cwSort" role="group" aria-label="Sortieren"><button type="button" class="rsort-b" data-s="new">Neueste</button><button type="button" class="rsort-b" data-s="name">Name</button><button type="button" class="rsort-b" data-s="rate">Bewertung</button></div></div>
+    <div class="cgrid2" id="cwGrid"></div>
+  </div>
+</div>
+<div class="win ed" id="cform" hidden>
+  <div class="sheet form-sheet" role="dialog" aria-modal="true" aria-labelledby="cfT">
+    <h2 id="cfT">Eintrag</h2>
+    <form class="form" id="cfF" novalidate>
+      <label class="fld"><span class="lbl">Titel</span><input id="cfTitle" type="text" maxlength="70" autocomplete="off"></label>
+      <div class="fld"><span class="lbl">Foto (optional)</span><div><button type="button" class="btn" id="cfPick">Foto wählen</button><input id="cfFile" type="file" accept="image/*" hidden></div><div id="cfImgPrev" class="imgprev" hidden></div></div>
+      <div class="fld"><span class="lbl">Bewertung (optional)</span>
+        <div class="rf-rate"><span id="cfStars"></span><span class="rf-val" id="cfRateVal">keine</span></div>
+        <div class="rs-wrap"><span class="rs-end">0</span><input id="cfRateR" class="rslider" type="range" min="0" max="5" step="0.1" value="0" aria-label="Bewertung"><span class="rs-end">5</span></div>
+      </div>
+      <label class="fld"><span class="lbl">Link (optional)</span><input id="cfUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="https://…"></label>
+      <label class="fld"><span class="lbl">Notiz (optional)</span><textarea id="cfNote" maxlength="300" rows="3"></textarea></label>
+      <div class="row"><button type="button" class="btn" id="cfCancel">Abbrechen</button><button type="submit" class="btn primary" id="cfSave">Hinzufügen</button></div>
+      <button type="button" class="btn danger" id="cfDel" hidden>Löschen</button>
+      <p class="msg" id="cfMsg" role="alert"></p>
+    </form>
+  </div>
+</div>
 <!-- Bergwanderungen -->
 <div class="win" id="hwin" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="hwTitle">
@@ -1480,7 +1559,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   var db = null, assets = null, sample = null, user = null, dl = null;
   var HUB_DEF = { shop: 'Shopping', trips: 'Reisen', rest: 'Restaurants', bar: 'Bars', wine: 'Weine', hike: 'Bergwanderungen' };
   var HUB_OF = { items: 'shop', trips: 'trips', places: 'rest', bars: 'bar', wines: 'wine', hikes: 'hike' };
-  S.layout = { hubOrder: [], hubNames: {}, shopOrder: [], cuisineOrder: [], barOrder: [] };
+  S.layout = { hubOrder: [], hubNames: {}, shopOrder: [], cuisineOrder: [], barOrder: [], hubHidden: [], custom: [] };
   S.hikes = []; S.hikesMem = []; S.hwin = false; S.hdet = null; S.hf = false; S.hfilter = 'all'; S.hsort = 'name';
   S.wines = []; S.winesMem = []; S.vwin = false; S.vdet = null; S.vfilter = 'all'; S.vsort = 'name';
   var WTYPES = [['rot', 'Rotwein', '#7A1F3D'], ['weiss', 'Weißwein', '#C9A93E'], ['rose', 'Rosé', '#D9779A'], ['schaum', 'Schaumwein', '#B79A52'], ['suess', 'Süßwein', '#C27A1E'], ['andere', 'Andere', '#56667A']];
@@ -2648,6 +2727,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     if (S.vdet) renderVdet();
     if (S.hwin) renderHwin();
     if (S.hdet) renderHdet();
+    if (S.cwin) renderCwin();
     if (!S.loaded) { hubs.append(h('p', { class: 'hint' }, 'Regal wird geladen …')); return; }
     var m = groupsOf();
     var hl = [];
@@ -2657,8 +2737,12 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     if (!S.viewer || S.share.bars) hl.push(['bars', barsTile()]);
     if (!S.viewer || S.share.wines) hl.push(['wines', wineTile()]);
     if (!S.viewer || S.share.hikes) hl.push(['hikes', hikeTile()]);
-    var hord = byOrder(hl.map(function (x) { return HUB_OF[x[0]]; }), S.layout.hubOrder);
-    hl.sort(function (a, b) { return hord.indexOf(HUB_OF[a[0]]) - hord.indexOf(HUB_OF[b[0]]); });
+    if (!S.viewer) { hl = hl.filter(function (x) { return hubVisible(HUB_OF[x[0]]); }); customHubs().forEach(function (c) { hl.push([c.id, customTile(c)]); }); }
+    var hk = function (x) { return HUB_OF[x] || x; };
+    var hord = byOrder(hl.map(function (x) { return hk(x[0]); }), S.layout.hubOrder);
+    hl.sort(function (a, b) { return hord.indexOf(hk(a[0])) - hord.indexOf(hk(b[0])); });
+    renderAddMenu();
+    if (!S.viewer && !hl.length) hubs.append(h('p', { class: 'hint' }, 'Alle Kategorien sind entfernt. Über das Plus kannst du sie wieder hinzufügen.'));
     hl.forEach(function (x) {
       if (!S.viewer && S.share[x[0]]) { var k = x[1].querySelector('.hub-kicker'); if (k) k.append(h('span', { class: 'hub-shared' }, 'Geteilt')); }
       hubs.append(x[1]);
@@ -2681,7 +2765,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     var el = h('button', { class: 'hub', type: 'button', 'data-hub': kind, 'data-cat': kind === 'rest' ? '__rest' : null, 'aria-label': label, onclick: onclick },
       h('span', { class: 'hub-text' },
         h('span', { class: 'hub-kicker' }, kicker),
-        h('span', { class: 'hub-title' + (hubName(kind).length > 11 ? ' long' : ''), lang: 'de' }, hubName(kind)),
+        h('span', { class: 'hub-title' + (hubName(kind).length > 11 ? ' long' : ''), lang: 'de' }, hubName(kind).replace(/^Bergwanderungen$/, 'Berg\u00ADwanderungen')),
         h('span', { class: 'hub-count' }, count), go),
       cluster(entries));
     longPress(el, function () { openCatSheet({ kind: 'hub', key: kind }); });
@@ -2874,7 +2958,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     return fmtD(f || t);
   }
   function syncLock() {
-    var any = ['#win', '#ed', '#twin', '#tdet', '#tform', '#rwin', '#rdet', '#rform', '#swin', '#amenu', '#pform', '#mapwin', '#wform', '#tcal', '#shwin', '#catsheet', '#vwin', '#vdet', '#hwin', '#hdet', '#hform', '#acct'].some(function (s) { return !$(s).hidden; });
+    var any = ['#win', '#ed', '#twin', '#tdet', '#tform', '#rwin', '#rdet', '#rform', '#swin', '#amenu', '#pform', '#mapwin', '#wform', '#tcal', '#shwin', '#catsheet', '#vwin', '#vdet', '#hwin', '#hdet', '#hform', '#nhub', '#cwin', '#cform', '#acct'].some(function (s) { return !$(s).hidden; });
     document.body.style.overflow = any ? 'hidden' : '';
   }
   function armDelete(btn, fn) {
@@ -4419,9 +4503,13 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     d = d || {};
     function arr(a) { return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, 300) : []; }
     var hn = {}; if (d.hubNames && typeof d.hubNames === 'object') Object.keys(HUB_DEF).forEach(function (k) { if (typeof d.hubNames[k] === 'string' && d.hubNames[k].trim()) hn[k] = d.hubNames[k].trim().slice(0, 24); });
-    return { hubOrder: arr(d.hubOrder), hubNames: hn, shopOrder: arr(d.shopOrder), cuisineOrder: arr(d.cuisineOrder), barOrder: arr(d.barOrder) };
+    var hid = arr(d.hubHidden).filter(function (k) { return HUB_DEF[k]; });
+    var cus = Array.isArray(d.custom) ? d.custom.filter(function (c) { return c && typeof c.id === 'string' && /^c_[a-z0-9]{1,20}$/.test(c.id) && typeof c.name === 'string' && c.name.trim(); }).slice(0, 20).map(function (c) {
+      return { id: c.id, name: c.name.trim().slice(0, 24), color: /^#[0-9A-Fa-f]{6}$/.test(c.color) ? c.color : '#9B4DCA', icon: CICONS[c.icon] ? c.icon : 'star' };
+    }) : [];
+    return { hubOrder: arr(d.hubOrder), hubNames: hn, shopOrder: arr(d.shopOrder), cuisineOrder: arr(d.cuisineOrder), barOrder: arr(d.barOrder), hubHidden: hid, custom: cus };
   }
-  function hubName(k) { return (S.layout.hubNames && S.layout.hubNames[k]) || HUB_DEF[k]; }
+  function hubName(k) { if (/^c_/.test(k)) { var c = customOf(k); return c ? c.name : 'Kategorie'; } return (S.layout.hubNames && S.layout.hubNames[k]) || HUB_DEF[k]; }
   function byOrder(keys, order) {
     var o = Array.isArray(order) ? order : [];
     return keys.slice().sort(function (a, b) { var ia = o.indexOf(a), ib = o.indexOf(b); return (ia < 0 ? 1e6 : ia) - (ib < 0 ? 1e6 : ib); });
@@ -4489,19 +4577,31 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
       var rows = h('div', { class: 'mrows' });
       rows.append(csRow('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>', 'Name ändern', null, function () { CS.mode = 'rename'; renderCatSheet(); }));
       rows.append(csRow('<path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/>', 'Verschieben', 'Reihenfolge per Ziehen ändern', function () { var k = CS.kind; closeCatSheet(); startReorder(k); }));
-      if (CS.kind !== 'hub') rows.append(csRow('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 'Löschen', null, function () { CS.mode = 'delete'; renderCatSheet(); }, 'danger'));
+      rows.append(csRow('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 'Löschen', null, function () { CS.mode = 'delete'; renderCatSheet(); }, 'danger'));
       body.append(rows, h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: closeCatSheet }, 'Abbrechen')));
     } else if (CS.mode === 'rename') {
       var inp = h('input', { type: 'text', id: 'csName', maxlength: CS.kind === 'hub' ? '24' : '30', autocomplete: 'off', value: name, 'aria-label': 'Neuer Name' });
       var msg = h('p', { class: 'msg', role: 'alert' });
       var f = h('form', { class: 'form', novalidate: true },
         h('label', { class: 'fld' }, h('span', { class: 'lbl' }, 'Neuer Name'), inp),
-        CS.kind === 'hub' ? h('p', { class: 'small' }, 'Leer lassen setzt den ursprünglichen Namen „' + HUB_DEF[CS.key] + '“ zurück.') : null,
+        CS.kind === 'hub' && HUB_DEF[CS.key] ? h('p', { class: 'small' }, 'Leer lassen setzt den ursprünglichen Namen „' + HUB_DEF[CS.key] + '“ zurück.') : null,
         h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: function () { CS.mode = 'menu'; renderCatSheet(); } }, 'Zurück'), h('button', { type: 'submit', class: 'btn primary', disabled: CS.busy || null }, CS.busy ? 'Speichere …' : 'Speichern')),
         msg);
       f.addEventListener('submit', function (e) { e.preventDefault(); renameCat(CS, inp.value, msg); });
       body.append(f);
       setTimeout(function () { try { inp.focus(); inp.select(); } catch (x) {} }, 30);
+    } else if (CS.mode === 'delete' && CS.kind === 'hub') {
+      var bx = h('div', { class: 'csdel' }), key = CS.key;
+      if (/^c_/.test(key)) {
+        var ne = entriesOf(key).length;
+        bx.append(h('p', { class: 'small' }, ne ? '„' + name + '“ enthält ' + ne + (ne === 1 ? ' Eintrag' : ' Einträge') + '. Beim Löschen werden sie ebenfalls entfernt.' : 'Die Kategorie ist leer.'));
+        var dc = h('button', { type: 'button', class: 'btn danger' }, ne ? 'Kategorie mit allen Einträgen löschen' : 'Kategorie löschen'); armDelete(dc, function () { deleteCustom(key); }); bx.append(dc);
+      } else {
+        bx.append(h('p', { class: 'small' }, '„' + name + '“ verschwindet von der Startseite. Deine Einträge bleiben gespeichert und sind wieder da, sobald du die Kategorie über das Plus → Hauptkategorie wiederherstellst.'));
+        var dh = h('button', { type: 'button', class: 'btn danger' }, 'Von der Startseite entfernen'); armDelete(dh, function () { hideHub(key); }); bx.append(dh);
+      }
+      bx.append(h('button', { type: 'button', class: 'btn', onclick: function () { CS.mode = 'menu'; renderCatSheet(); } }, 'Zurück'));
+      body.append(bx);
     } else if (CS.mode === 'delete') {
       var other = 'Sonstiges', box = h('div', { class: 'csdel' });
       if (!n) box.append(h('p', { class: 'small' }, 'Die Kategorie ist leer.'));
@@ -4528,6 +4628,11 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
   }
   async function renameCat(ctx, raw, msg) {
     var v = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (ctx.kind === 'hub' && /^c_/.test(ctx.key)) {
+      v = v.slice(0, 24); if (!v) { msg.textContent = 'Gib einen Namen an.'; return; }
+      S.layout.custom = customHubs().map(function (c) { return c.id === ctx.key ? Object.assign({}, c, { name: v }) : c; });
+      closeCatSheet(); render(); await saveLayout(); toast('Name geändert.'); return;
+    }
     if (ctx.kind === 'hub') {
       v = v.slice(0, 24);
       if (!v || v === HUB_DEF[ctx.key]) delete S.layout.hubNames[ctx.key]; else S.layout.hubNames[ctx.key] = v;
@@ -4635,7 +4740,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     win: function () { closeWin(false); }, ed: function () { closeEditor(); }, twin: function () { closeTwin(); }, tdet: function () { closeTdet(); },
     tform: function () { closeTform(); }, rwin: function () { closeRwin(); }, rdet: function () { closeRdet(); }, rform: function () { closeRform(); },
     swin: function () { closeSwin(); }, amenu: function () { closeMenu(); }, pform: function () { closePform(); }, mapwin: function () { closeMap(); },
-    wform: function () { closeWform(); }, acct: function () { closeAcct(); }, vwin: function () { closeVwin(); }, hwin: function () { closeHwin(); }, hdet: function () { closeHdet(); }, hform: function () { closeHform(); }, vdet: function () { closeVdet(); }, tcal: function () { closeTcal(); }, shwin: function () { closeShare(); }, catsheet: function () { closeCatSheet(); }
+    wform: function () { closeWform(); }, acct: function () { closeAcct(); }, vwin: function () { closeVwin(); }, hwin: function () { closeHwin(); }, nhub: function () { closeNhub(); }, cwin: function () { closeCwin(); }, cform: function () { closeCform(); }, hdet: function () { closeHdet(); }, hform: function () { closeHform(); }, vdet: function () { closeVdet(); }, tcal: function () { closeTcal(); }, shwin: function () { closeShare(); }, catsheet: function () { closeCatSheet(); }
   };
   Object.keys(SWIPE_CLOSE).forEach(function (id) {
     var win = document.getElementById(id); if (!win) return;
@@ -5217,12 +5322,215 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
       toast(ed ? 'Gespeichert.' : '„' + name + '“ hinzugefügt.');
     } finally { btn.disabled = false; }
   });
+  /* ---------- Eigene Hauptkategorien + Ausblenden ---------- */
+  var CICONS = {
+    star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7"/>',
+    film: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v4M16 5v4M8 15v4M16 15v4"/>',
+    music: '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+    gift: '<rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1s6 1 6 1zm0 0c2-4 6-4 6-1s-6 1-6 1z"/>',
+    heart: '<path d="M12 20s-7-4.4-9-9a4.8 4.8 0 0 1 9-3 4.8 4.8 0 0 1 9 3c-2 4.6-9 9-9 9z"/>',
+    car: '<path d="M4 16V12l2-5h12l2 5v4z"/><circle cx="7.5" cy="16.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/><path d="M4 12h16"/>',
+    ball: '<circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/>',
+    camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+    coffee: '<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/>',
+    plant: '<path d="M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7zM12 14c0-3-2-5-7-5 0 4 2 5 7 5z"/>',
+    game: '<rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3M15 12h.01M18 13h.01"/>'
+  };
+  var CCOLORS = ['#E0A800', '#E0603A', '#D23B5A', '#9B4DCA', '#3B82C4', '#1F9AA8', '#2F7D5B', '#6B5B4B'];
+  S.entries = []; S.entriesMem = []; S.cwin = null; S.cf = null; S.nh = false;
+  function customHubs() { return Array.isArray(S.layout.custom) ? S.layout.custom : []; }
+  function customOf(id) { return customHubs().filter(function (c) { return c.id === id; })[0] || null; }
+  function hubVisible(k) { return !(S.layout.hubHidden || []).some(function (x) { return x === k; }); }
+  function allEntries() { return S.entries.concat(S.entriesMem); }
+  function entriesOf(id) { return allEntries().filter(function (e) { return e.cat === id; }); }
+  function iconSvg(c, size) {
+    var p = CICONS[c.icon] || CICONS.star;
+    return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' width='" + (size || 64) + "' height='" + (size || 64) + "'><rect width='64' height='64' rx='18' fill='" + c.color + "'/><g transform='translate(14 14) scale(1.5)' fill='none' stroke='#fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" + p.replace(/"/g, "'") + "</g></svg>";
+  }
+  function entryArt(e, c, cls) {
+    var im = h('img', { class: cls || '', src: e && e.img ? e.img : svgUrl(iconSvg(c)), alt: '', decoding: 'async', loading: 'lazy' });
+    im.addEventListener('error', function () { im.src = svgUrl(iconSvg(c)); });
+    return im;
+  }
+  function customTile(c) {
+    var list = entriesOf(c.id), n = list.length;
+    var withImg = list.filter(function (e) { return e.img; }).slice(0, 3);
+    var entries = withImg.length ? withImg.map(function (e) { return { id: e.id, node: entryArt(e, c, 'ce-mini') }; }) : [{ id: c.id, node: h('img', { class: 'ce-mini icon', src: svgUrl(iconSvg(c)), alt: '' }) }];
+    var count = n ? n + (n === 1 ? ' Eintrag' : ' Einträge') : 'Noch kein Eintrag';
+    var el = hubEl(c.id, 'Sammlung', c.name, count, entries, c.name + ', ' + count, function () { openCwin(c.id); });
+    el.style.setProperty('--tint', c.color);
+    return el;
+  }
+  function renderAddMenu() {
+    [['#prodAdd', 'shop'], ['#tripAdd', 'trips'], ['#restAdd', 'rest'], ['#barAdd', 'bar'], ['#wineAdd', 'wine'], ['#hikeAdd', 'hike']].forEach(function (r) { var b = $(r[0]); if (b) b.hidden = !hubVisible(r[1]); });
+    var box = $('#amCustom'); if (!box) return; box.replaceChildren();
+    customHubs().forEach(function (c) {
+      var ic = h('span', { class: 'mrow-ic' }); ic.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (CICONS[c.icon] || CICONS.star) + '</svg>';
+      var chev = h('span', {}); chev.innerHTML = '<svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+      box.append(h('button', { type: 'button', class: 'mrow', style: '--tint:' + c.color, onclick: function () { closeMenu(true); openCform(c.id, null); } }, ic, h('span', {}, h('span', { class: 'mrow-t' }, c.name), h('span', { class: 'mrow-d' }, 'Neuer Eintrag')), chev.firstChild));
+    });
+  }
+
+  /* Sheet: Hauptkategorie hinzufügen */
+  var NH = { color: CCOLORS[3], icon: 'star' };
+  function renderNhub() {
+    var hid = Object.keys(HUB_DEF).filter(function (k) { return !hubVisible(k); });
+    var box = $('#nhHidden'); box.replaceChildren(); $('#nhHiddenW').hidden = !hid.length;
+    hid.forEach(function (k) {
+      box.append(h('button', { type: 'button', class: 'mrow', onclick: function () { showHub(k); } },
+        h('span', { class: 'mrow-ic nh-plus', 'aria-hidden': 'true' }, '+'), h('span', {}, h('span', { class: 'mrow-t' }, hubName(k)), h('span', { class: 'mrow-d' }, 'Wieder auf der Startseite zeigen'))));
+    });
+    var sw = $('#nhColors'); sw.replaceChildren();
+    CCOLORS.forEach(function (c) { sw.append(h('button', { type: 'button', class: 'nh-sw', style: 'background:' + c, 'aria-label': 'Farbe ' + c, 'aria-pressed': String(NH.color === c), onclick: function () { NH.color = c; renderNhub(); } })); });
+    var ic = $('#nhIcons'); ic.replaceChildren();
+    Object.keys(CICONS).forEach(function (k) {
+      var b = h('button', { type: 'button', class: 'nh-ic', style: '--c:' + NH.color, 'aria-label': 'Symbol ' + k, 'aria-pressed': String(NH.icon === k), onclick: function () { NH.icon = k; renderNhub(); } });
+      b.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + CICONS[k] + '</svg>';
+      ic.append(b);
+    });
+    $('#nhPrev').replaceChildren(h('img', { src: svgUrl(iconSvg({ color: NH.color, icon: NH.icon }, 56)), alt: '' }));
+  }
+  function openNhub() { closeMenu(true); S.nh = true; $('#nhName').value = ''; $('#nhMsg').textContent = ''; renderNhub(); $('#nhub').hidden = false; syncLock(); }
+  function closeNhub() { S.nh = false; $('#nhub').hidden = true; syncLock(); }
+  $('#hubAdd').addEventListener('click', openNhub);
+  $('#nhCancel').addEventListener('click', closeNhub);
+  $('#nhub').addEventListener('click', function (e) { if (e.target === this) closeNhub(); });
+  $('#nhF').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var v = $('#nhName').value.replace(/\s+/g, ' ').trim().slice(0, 24);
+    if (!v) { $('#nhMsg').textContent = 'Gib der Kategorie einen Namen.'; $('#nhName').focus(); return; }
+    if (customHubs().length >= 20) { $('#nhMsg').textContent = 'Es sind höchstens 20 eigene Kategorien möglich.'; return; }
+    var c = { id: 'c_' + Date.now().toString(36), name: v, color: NH.color, icon: NH.icon };
+    S.layout.custom = customHubs().concat([c]);
+    closeNhub(); render(); await saveLayout(); toast('„' + v + '“ ist jetzt auf der Startseite.');
+  });
+  async function showHub(k) {
+    S.layout.hubHidden = (S.layout.hubHidden || []).filter(function (x) { return x !== k; });
+    closeNhub(); render(); await saveLayout(); toast('„' + hubName(k) + '“ ist wieder da.');
+  }
+  async function hideHub(k) {
+    S.layout.hubHidden = (S.layout.hubHidden || []).filter(function (x) { return x !== k; }).concat([k]);
+    closeCatSheet(); render(); await saveLayout(); toast('„' + hubName(k) + '“ entfernt. Über das Plus kannst du sie wieder hinzufügen.');
+  }
+  async function deleteCustom(id) {
+    var c = customOf(id); if (!c) return;
+    var list = entriesOf(id);
+    try {
+      for (var i = 0; i < list.length; i++) { if (!list[i].mem && db) await db.doc('entries/' + list[i].id).delete(); }
+    } catch (e) { toast('Nicht alle Einträge konnten gelöscht werden.'); }
+    S.entries = S.entries.filter(function (e) { return e.cat !== id; }); S.entriesMem = S.entriesMem.filter(function (e) { return e.cat !== id; });
+    S.layout.custom = customHubs().filter(function (x) { return x.id !== id; });
+    S.layout.hubOrder = S.layout.hubOrder.filter(function (x) { return x !== id; });
+    closeCatSheet(); if (S.cwin === id) closeCwin(); render(); await saveLayout(); toast('„' + c.name + '“ gelöscht.');
+  }
+
+  /* Fenster einer eigenen Kategorie */
+  S.csort = 'new';
+  function renderCwin() {
+    var c = customOf(S.cwin); if (!c) { closeCwin(); return; }
+    var list = entriesOf(c.id), n = list.length;
+    $('#cwin .sheet').style.setProperty('--cc', c.color);
+    $('#cwTitle').textContent = c.name; $('#cwCount').textContent = n + (n === 1 ? ' Eintrag' : ' Einträge');
+    $('#cwAdd').hidden = !S.canEdit || S.viewer;
+    list.sort(function (a, b) {
+      if (S.csort === 'name') return a.title.localeCompare(b.title, 'de');
+      if (S.csort === 'rate') return (b.rating || 0) - (a.rating || 0) || a.title.localeCompare(b.title, 'de');
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#cwSort .rsort-b'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-s') === S.csort)); });
+    $('#cwSortW').hidden = n < 2;
+    var g = $('#cwGrid'); g.replaceChildren();
+    if (!n) { g.append(h('div', { class: 'tempty' }, h('b', {}, 'Noch leer'), h('span', {}, 'Tippe oben auf das Plus und lege den ersten Eintrag an.'))); return; }
+    list.forEach(function (e, i) {
+      g.append(h('div', { class: 'ccard2', role: 'button', tabindex: '0', style: '--i:' + Math.min(i, 10), 'aria-label': e.title, onclick: function () { openCform(c.id, e); }, onkeydown: function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openCform(c.id, e); } } },
+        h('div', { class: 'cc-art' + (e.img ? '' : ' icon') }, entryArt(e, c, 'cc-img')),
+        h('div', { class: 'cc-body' }, h('b', { class: 'cc-t' }, e.title), e.rating ? starBar(e.rating, 'sm') : null, e.note ? h('span', { class: 'cc-n' }, e.note) : null, e.url ? h('span', { class: 'cc-h' }, hostOf(e.url)) : null)));
+    });
+  }
+  function openCwin(id) { S.cwin = id; $('#cwin').hidden = false; syncLock(); renderCwin(); $('#cwin .sheet').scrollTop = 0; }
+  function closeCwin() { S.cwin = null; $('#cwin').hidden = true; syncLock(); }
+  $('#cwClose').addEventListener('click', closeCwin);
+  $('#cwin').addEventListener('click', function (e) { if (e.target === this) closeCwin(); });
+  $('#cwAdd').addEventListener('click', function () { openCform(S.cwin, null); });
+  Array.prototype.forEach.call(document.querySelectorAll('#cwSort .rsort-b'), function (b) { b.addEventListener('click', function () { S.csort = b.getAttribute('data-s'); renderCwin(); }); });
+
+  /* Formular Eintrag */
+  var CF = { cat: null, edit: null, img: null, rating: 0 };
+  function cfRate(v) { CF.rating = v; $('#cfRateR').value = String(v); $('#cfStars').replaceChildren(starBar(v, 'mid')); $('#cfRateVal').textContent = v ? fmtMy(v) + ' / 5' : 'keine'; }
+  function cfImg() {
+    var box = $('#cfImgPrev'); box.replaceChildren();
+    if (CF.img) box.append(h('img', { src: CF.img.url, alt: '' }), h('button', { type: 'button', class: 'link', onclick: function () { CF.img = null; cfImg(); } }, 'Foto entfernen'));
+    box.hidden = !CF.img; $('#cfPick').textContent = CF.img ? 'Anderes Foto wählen' : 'Foto wählen';
+  }
+  function openCform(cat, e) {
+    var c = customOf(cat); if (!c) return;
+    CF.cat = cat; CF.edit = e || null; CF.img = e && e.img ? { url: e.img, w: e.w, h: e.h } : null;
+    $('#cfT').textContent = e ? 'Eintrag bearbeiten' : 'Neu in „' + c.name + '“';
+    $('#cfTitle').value = e ? e.title : ''; $('#cfUrl').value = e && e.url || ''; $('#cfNote').value = e && e.note || ''; $('#cfMsg').textContent = '';
+    $('#cfSave').textContent = e ? 'Speichern' : 'Hinzufügen';
+    var old = $('#cfDel'), del = old.cloneNode(true); old.replaceWith(del); del.hidden = !e; if (e) armDelete(del, function () { removeEntry(e); });
+    cfRate(e && e.rating || 0); cfImg();
+    S.cf = true; $('#cform').hidden = false; syncLock(); $('#cform .sheet').scrollTop = 0;
+    if (!e) $('#cfTitle').focus({ preventScroll: true });
+  }
+  function closeCform() { S.cf = false; $('#cform').hidden = true; syncLock(); }
+  $('#cfCancel').addEventListener('click', closeCform);
+  $('#cform').addEventListener('click', function (e) { if (e.target === this) closeCform(); });
+  $('#cfRateR').addEventListener('input', function () { cfRate(Math.round(+this.value * 10) / 10); });
+  $('#cfPick').addEventListener('click', function () { $('#cfFile').click(); });
+  async function photoToJpeg(f) {
+    var im = await decode(f), c = im.canvas, max = 900, out = null;
+    for (var t = 0; t < 6; t++) {
+      var k = Math.min(1, max / Math.max(c.width, c.height)), cv = document.createElement('canvas');
+      cv.width = Math.max(1, Math.round(c.width * k)); cv.height = Math.max(1, Math.round(c.height * k));
+      var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.imageSmoothingQuality = 'high'; cx.drawImage(c, 0, 0, cv.width, cv.height);
+      out = { url: cv.toDataURL('image/jpeg', 0.8), w: cv.width, h: cv.height };
+      if (out.url.length < 190000) break; max = Math.round(max * 0.82);
+    }
+    return out;
+  }
+  $('#cfFile').addEventListener('change', async function () {
+    var f = this.files && this.files[0]; this.value = ''; if (!f) return;
+    try { CF.img = await photoToJpeg(f); cfImg(); } catch (e) { toast('Das Foto konnte nicht gelesen werden.'); }
+  });
+  async function removeEntry(e) {
+    try {
+      if (!e.mem && db) await db.doc('entries/' + e.id).delete();
+      S.entries = S.entries.filter(function (x) { return x.id !== e.id; }); S.entriesMem = S.entriesMem.filter(function (x) { return x !== e; });
+      closeCform(); render(); toast('Entfernt.');
+    } catch (x) { toast('Konnte nicht entfernt werden.'); }
+  }
+  $('#cfF').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var msg = $('#cfMsg'), title = $('#cfTitle').value.trim().slice(0, 70);
+    if (!title) { msg.textContent = 'Gib einen Titel an.'; $('#cfTitle').focus(); return; }
+    var uRaw = $('#cfUrl').value.trim(), url = uRaw ? normUrl(uRaw) : '';
+    if (uRaw && !url) { msg.textContent = 'Der Link ist ungültig.'; $('#cfUrl').focus(); return; }
+    var ed = CF.edit, doc = { cat: CF.cat, title: title, createdAt: ed ? ed.createdAt || Date.now() : Date.now() };
+    if (url) doc.url = url; var note = $('#cfNote').value.trim().slice(0, 300); if (note) doc.note = note;
+    if (CF.rating) doc.rating = CF.rating; if (CF.img) { doc.img = CF.img.url; doc.w = CF.img.w; doc.h = CF.img.h; }
+    var btn = $('#cfSave'); btn.disabled = true;
+    try {
+      await Promise.race([ready, wait(8000)]);
+      if (ed && ed.mem) { Object.keys(ed).forEach(function (k) { if (k !== 'id' && k !== 'mem') delete ed[k]; }); Object.assign(ed, doc); }
+      else if (db) {
+        try {
+          if (ed) { await db.doc('entries/' + ed.id).set(doc); S.entries = S.entries.map(function (o) { return o.id === ed.id ? Object.assign({ id: ed.id }, doc) : o; }); }
+          else { var ref = await db.collection('entries').add(doc); if (!S.entries.some(function (o) { return o.id === ref.id; })) S.entries.unshift(Object.assign({ id: ref.id }, doc)); }
+        } catch (err) { msg.textContent = err && err.code === 'quota_exceeded' ? 'Der Speicher ist voll.' : 'Der Eintrag konnte nicht gespeichert werden.'; return; }
+      } else { S.entriesMem.push(Object.assign({ id: 'm' + Date.now(), mem: true }, doc)); toast('Nur für diese Sitzung gespeichert.'); }
+      var cat = CF.cat; closeCform(); render(); if (S.cwin !== cat) openCwin(cat); else renderCwin();
+      toast(ed ? 'Gespeichert.' : '„' + title + '“ hinzugefügt.');
+    } finally { btn.disabled = false; }
+  });
   /* ---------- Tastatur ---------- */
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     if (RO.active) { endReorder(true); return; }
     if (SEL.active && !S.cs) { selEnd(); return; }
     if (S.acct) closeAcct(); else if (S.cs) closeCatSheet(); else if (S.sh) closeShare(); else if (S.pf) closePform(); else if (S.wf) closeWform(); else if (S.menu) closeMenu(); else if (S.rf) closeRform(); else if (S.rdet) closeRdet(); else if (S.map) closeMap(); else if (S.rwin) { if (S.rwin.c) { S.rwin.c = null; renderRwin(); } else closeRwin(); }
+    else if (S.cf) closeCform(); else if (S.nh) closeNhub(); else if (S.cwin) closeCwin();
     else if (S.hf) closeHform(); else if (S.hdet) closeHdet(); else if (S.hwin) closeHwin();
     else if (S.vdet) closeVdet(); else if (S.vwin) closeVwin();
     else if (S.tf) closeTform(); else if (S.tdet) closeTdet(); else if (S.tcal) closeTcal(); else if (S.twin) closeTwin();
@@ -5234,7 +5542,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     $('#plus').hidden = !S.canEdit; $('#swAdd').hidden = !S.canEdit;
     $('#shareBtn').hidden = false;
     if (S.viewer && db) { $('.sub').replaceChildren(document.createTextNode('Mit dir geteilt.'), h('br'), h('span', { class: 'viewer-tag' }, 'Nur zum Ansehen')); }
-    var empty = S.loaded && !allItems().length && !allTripDocs().length && !allPlaces().length && !allWines().length && !allHikes().length;
+    var empty = S.loaded && !allItems().length && !allTripDocs().length && !allPlaces().length && !allWines().length && !allHikes().length && !allEntries().length;
     $('#homeHint').textContent = empty && S.canEdit ? 'Noch nichts im Regal. Tippe oben rechts auf das Plus.' : '';
   }
   /* ---------- Teilen per Link: freigegebene Kategorien werden nach pub/ gespiegelt ---------- */
@@ -5498,7 +5806,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     try {
       var j = JSON.parse(await f.text()), docs = j && j.docs, ok = {};
       if (!docs || typeof docs !== 'object') throw new Error('format');
-      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
+      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes|entries)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
       var n = Object.keys(ok).length; if (!n) throw new Error('leer');
       $('#acImport').disabled = true; msg.textContent = 'Importiere 0 von ' + n + ' …';
       await db.importDocs(ok, function (d, t) { msg.textContent = 'Importiere ' + d + ' von ' + t + ' …'; });
@@ -5525,6 +5833,7 @@ button.card:hover .bob img, button.card:focus-visible .bob img { transform: scal
     catch (x) { started = false; authShow(true); authMsg('Deine Daten konnten nicht geladen werden: ' + (x && x.message || 'Verbindung') + '. Ist die Datenbank eingerichtet?'); return; }
     db.collection('trips').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setTrips(docsOf(snap)); render(); });
     db.collection('places').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setPlaces(docsOf(snap)); render(); });
+    db.collection('entries').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.entries = docsOf(snap).filter(function (o) { return typeof o.title === 'string' && o.title && typeof o.cat === 'string'; }); render(); });
     db.collection('hikes').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.hikes = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('wines').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.wines = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('items').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setItems(docsOf(snap)); S.loaded = true; afterLoad(); render(); });
