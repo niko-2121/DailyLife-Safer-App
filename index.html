@@ -1195,6 +1195,48 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .thero2 .th-cd small { color: var(--muted); font-size: 12px; }
 .thero2 .th-stk { width: 96px; height: 96px; margin-left: -6px; }
 .thero2 .tpill { background: rgba(38, 50, 75, .07); color: var(--ink); }
+/* Klebestreifen oben am Fenster */
+.sheet-head::before, .sheet.form-sheet::before { display: block !important; content: "" !important; position: absolute; left: 50%; right: auto; top: -2px; width: 104px; height: 24px; margin: 0;
+  transform: translateX(-50%) rotate(-2deg); border-radius: 0; z-index: 6; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 40%, rgba(120, 80, 0, .06)), repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px), rgba(247, 210, 96, .72);
+  box-shadow: 0 1px 1.5px rgba(70, 50, 10, .2);
+  clip-path: polygon(3% 0, 97% 5%, 100% 35%, 96% 60%, 100% 88%, 95% 100%, 4% 95%, 0 68%, 4% 42%, 0 15%); }
+.sheet-head { padding-top: 30px; }
+.sheet.form-sheet { position: relative; padding-top: 26px; }
+.sheet.form-sheet::before { top: 0; }
+/* Reisen-Zettel: Überschrift links, Reiseziel rechts */
+.j-pl2 { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 14px; }
+.j-dest { display: grid; justify-items: center; text-align: center; gap: 3px; padding: 18px 4px 0; min-width: 0; }
+.j-dest small { font: 400 9.5px/1.2 var(--jtype); letter-spacing: .14em; text-transform: uppercase; color: var(--jmuted); }
+.j-dest .j-route { justify-content: center; font-size: clamp(18px, 5.6vw, 23px); padding: 0; gap: 6px; }
+.j-dd { font: 700 12px/1.3 var(--body); }
+.j-bk { display: inline-flex; align-items: center; gap: 5px; font: 600 11px var(--jtype); color: var(--jmuted); }
+.j-bk i { width: 7px; height: 7px; border-radius: 50%; }
+/* Shopping-Kategorien: Moodboard-Post-its */
+.sheet .ctile { --hlc: #FFE14D; overflow: visible; padding-top: 6px; }
+.sheet .ctile:nth-child(6n+2) { --hlc: #F7A8C2; } .sheet .ctile:nth-child(6n+3) { --hlc: #A9DB8E; } .sheet .ctile:nth-child(6n+4) { --hlc: #9CC6F2; }
+.sheet .ctile:nth-child(6n+5) { --hlc: #FFC08A; } .sheet .ctile:nth-child(6n) { --hlc: #C6B3FA; }
+.ct-tape { position: absolute; left: 50%; top: -9px; width: 66px; height: 19px; transform: translateX(-50%) rotate(var(--tr, 0deg)); z-index: 4; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 40%), repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px), rgba(247, 210, 96, .7);
+  box-shadow: 0 1px 1.5px rgba(70, 50, 10, .2); clip-path: polygon(3% 0, 97% 5%, 100% 35%, 96% 60%, 100% 88%, 95% 100%, 4% 95%, 0 68%, 4% 42%, 0 15%); }
+.sheet .ctile .ct-stage { padding: 14px 10px 0; }
+.sheet .ctile .cluster { height: 150px; }
+.sheet .ctile .cell .bob > * { filter: drop-shadow(1.6px 0 0 #fff) drop-shadow(-1.6px 0 0 #fff) drop-shadow(0 1.6px 0 #fff) drop-shadow(0 -1.6px 0 #fff) drop-shadow(2px 5px 4px rgba(40, 30, 10, .28)); }
+.sheet .ctile .cell:nth-child(odd) .bob { rotate: -5deg; } .sheet .ctile .cell:nth-child(even) .bob { rotate: 4deg; } .sheet .ctile .cell:nth-child(3n) .bob { rotate: -2deg; }
+.sheet .ctile .shade { display: none; }
+.sheet .ctile .ct-foot { border-top: 0; padding: 6px 14px 14px; margin-top: 0; align-items: center; }
+.sheet .ctile .tile-name { font: 400 20px/1.15 var(--jdisp); letter-spacing: -.01em; color: #26324B; justify-self: start; padding: .08em .2em .04em; margin: 0 -.2em;
+  border-radius: .14em .3em .2em .34em / .4em .2em .34em .2em; background: linear-gradient(100deg, color-mix(in srgb, var(--hlc) 80%, transparent), var(--hlc) 8%, var(--hlc) 92%, color-mix(in srgb, var(--hlc) 75%, transparent)); white-space: normal; overflow-wrap: anywhere; }
+.sheet .ctile .tile-count { font: 400 11.5px var(--jtype); color: rgba(38, 50, 75, .66); margin-top: 4px; }
+.sheet .ctile .ct-go { width: 34px; height: 34px; background: #FFFDF6; color: #26324B; border: 1.6px solid #26324B; box-shadow: 2px 2px 0 var(--hlc); }
+.sheet .ctile .ct-badge { top: 12px; right: 10px; min-width: 34px; height: 34px; padding: 0 6px; border-radius: 50%; background: transparent; color: color-mix(in srgb, var(--hlc) 35%, #26324B);
+  border: 1.6px dashed color-mix(in srgb, var(--hlc) 40%, #26324B); font: 700 13px/1 var(--jtype); transform: rotate(-12deg); box-shadow: none; }
+.j-pl2 .j-head { max-width: 116px; }
+.j-pl2 .j-count { font-size: 11px; }
+.j-dest { padding-top: 22px; }
+.j-dest .j-route { font-size: clamp(17px, 5.2vw, 22px); overflow-wrap: normal; word-break: normal; hyphens: manual; }
+.hub.j-trips .j-stk { right: 46px; top: -52px; width: 80px; height: 80px; }
+.sheet .ctile .ct-badge { display: none; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -2935,11 +2977,12 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     var TINTS = ['#F2C230', '#3B82C4', '#E0603A', '#9B4DCA', '#2E9E5B', '#D9608F', '#1D9AA6', '#C98A2E'];
     var tint = TINTS[Math.floor(hash(cat + 't') * TINTS.length)];
     var go = h('span', { class: 'ct-go', 'aria-hidden': 'true' }); go.innerHTML = HUB_GO;
+    var ctTape = h('span', { class: 'ct-tape', 'aria-hidden': 'true', style: '--tr:' + ((hash(cat + 'tp') * 2 - 1) * 6).toFixed(1) + 'deg' });
     var t = h('button', { class: 'tile ctile' + (S.flash === cat ? ' flash' : ''), type: 'button', 'data-cat': cat, 'aria-label': label, style: '--d:5.4s;--o:-1s;--tint:' + tint,
       onclick: function () { openWin(cat); } },
       h('span', { class: 'ct-stage' }, cluster(entries), h('span', { class: 'shade' })),
       h('span', { class: 'ct-foot' }, h('span', { class: 'ct-txt' }, h('span', { class: 'tile-name' }, cat), h('span', { class: 'tile-count' }, list.length + (list.length === 1 ? ' Produkt' : ' Produkte'))), go),
-      h('span', { class: 'ct-badge' }, String(list.length)));
+      h('span', { class: 'ct-badge' }, String(list.length)), ctTape);
     longPress(t, function () { openCatSheet({ kind: 'shop', name: cat }); });
     return t;
   }
@@ -5902,7 +5945,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
   /* ---------- Startseite im Reisetagebuch-Stil ---------- */
   var JCOL = { shop: '#F2B3C6', trips: '#A9C4F2', rest: '#F7C59C', bar: '#C9B9F0', wine: '#E9AFC4', hike: '#A9DCC1' };
   var JNOTE = { shop: '#FDE8EE', trips: '#E5EEFC', rest: '#FEEEDF', bar: '#EEE8FC', wine: '#F3E3F0', hike: '#E2F4EA' };
-  var PHL = { shop: '#F4B4C8', trips: '#A6C6F4', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
+  var PHL = { shop: '#F4B4C8', trips: '#86A9EC', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
   var JKICK = { shop: 'Wunschregal', trips: 'Unterwegs', rest: 'Essen', bar: 'Ausgehen', wine: 'Weinkeller', hike: 'Draußen' };
   function jRot(k) { return ((hash(String(k) + 'jr') * 2 - 1) * 1.6).toFixed(2) + 'deg'; }
   function jHub(kind, label, onclick, body, opts) {
@@ -5939,13 +5982,13 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     if (t) {
       var ti = tripInfo(t), big = ti.now ? 'Jetzt' : ti.until === 0 ? 'Heute' : String(ti.until), small = ti.now ? 'unterwegs' : ti.until === 0 ? 'geht’s los' : ti.until === 1 ? 'Tag' : 'Tage';
       body = h('span', { class: 'j-pass' },
-        h('span', { class: 'j-pl' },
-          h('span', { class: 'j-kick' }, hubName('trips') + ' · ' + (ti.now ? 'gerade unterwegs' : 'nächste Reise')),
-          h('span', { class: 'j-route' }, h('i', { 'aria-hidden': 'true' }, '✈'), t.name),
-          h('span', { class: 'j-when' },
-            h('span', {}, h('small', {}, 'Datum'), h('b', {}, fmtRange(t.from, t.to))),
-            BOOK[t.booked] ? h('span', {}, h('small', {}, 'Status'), h('b', {}, BOOK[t.booked].t)) : null),
-          h('span', { class: 'j-count' }, count)),
+        h('span', { class: 'j-pl j-pl2' },
+          jHead('trips', count),
+          h('span', { class: 'j-dest' },
+            h('small', {}, ti.now ? 'Gerade unterwegs' : 'Nächste Reise'),
+            h('span', { class: 'j-route' }, h('i', { 'aria-hidden': 'true' }, '✈'), t.name),
+            h('span', { class: 'j-dd' }, fmtRange(t.from, t.to)),
+            BOOK[t.booked] ? h('span', { class: 'j-bk' }, h('i', { style: 'background:' + ({ ok: '#2E9E5B', y: '#E0A800', r: '#D9473B' }[BOOK[t.booked].c] || '#999') }), BOOK[t.booked].t) : null)),
         h('span', { class: 'j-stub' }, h('b', {}, big), h('small', {}, small)),
         h('img', { class: 'j-stk sticker', src: stickerSrc(t), alt: '', decoding: 'async' }));
     } else {
