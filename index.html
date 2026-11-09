@@ -1237,6 +1237,60 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .j-dest .j-route { font-size: clamp(17px, 5.2vw, 22px); overflow-wrap: normal; word-break: normal; hyphens: manual; }
 .hub.j-trips .j-stk { right: 46px; top: -52px; width: 80px; height: 80px; }
 .sheet .ctile .ct-badge { display: none; }
+/* Klebestreifen halb über dem Fensterrand */
+#swin::before, #win::before, #twin::before, #rwin::before, #vwin::before, #hwin::before, #cwin::before, #tcal::before {
+  content: ""; position: absolute; left: 50%; top: calc(70px - 13px); top: calc(70px + env(safe-area-inset-top, 0px) - 13px); width: 112px; height: 26px; z-index: 3; pointer-events: none;
+  transform: translateX(-50%) rotate(-2deg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 40%, rgba(120, 80, 0, .06)), repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px), rgba(247, 210, 96, .82);
+  box-shadow: 0 1px 2px rgba(40, 30, 5, .3); clip-path: polygon(3% 0, 97% 5%, 100% 35%, 96% 60%, 100% 88%, 95% 100%, 4% 95%, 0 68%, 4% 42%, 0 15%); }
+#swin .sheet-head::before, #win .sheet-head::before, #twin .sheet-head::before, #rwin .sheet-head::before, #vwin .sheet-head::before, #hwin .sheet-head::before, #cwin .sheet-head::before, #tcal .sheet-head::before { display: none !important; }
+#swin .sheet, #win .sheet, #twin .sheet, #rwin .sheet, #vwin .sheet, #hwin .sheet, #cwin .sheet, #tcal .sheet { position: relative; z-index: 1; }
+#swin .sheet-head, #win .sheet-head, #twin .sheet-head, #rwin .sheet-head, #vwin .sheet-head, #hwin .sheet-head, #cwin .sheet-head, #tcal .sheet-head { padding-top: 24px; }
+/* Wunschliste seitlich wischbar */
+#twin .wish, #twin .wish-row { min-width: 0; max-width: 100%; }
+#twin .wish-row { overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; touch-action: pan-x pan-y; scrollbar-width: none; padding-right: 14px; margin-right: -14px; }
+#twin .wish-row::-webkit-scrollbar { display: none; }
+/* Reisen-Zettel: Sticker auf dem Abriss, nichts überlappt */
+.hub.j-trips .j-stk { right: -8px; top: -46px; width: 72px; height: 72px; }
+.j-dest { padding-top: 6px; }
+/* Shopping-Kategorien: echte Haftnotizen mit Sofortbildern */
+:root { --hand: "Caveat", "Noteworthy", "Bradley Hand", "Segoe Print", cursive; }
+.sheet .ctile .ct-tape { display: none; }
+.sheet .ctile { padding: 0; border-radius: 2px 2px 3px 2px; border-bottom-right-radius: 60% 9px; overflow: visible; rotate: var(--pr, 0deg);
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .045) 0, rgba(0, 0, 0, .02) 13%, rgba(255, 255, 255, .35) 13.5%, rgba(255, 255, 255, 0) 30%),
+    radial-gradient(120% 60% at 100% 100%, rgba(90, 65, 20, .12), rgba(90, 65, 20, 0) 60%),
+    linear-gradient(100deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0) 50%),
+    var(--pc) !important;
+  box-shadow: 0 0 0 .5px rgba(80, 60, 20, .14), 0 1px 1px rgba(40, 30, 10, .12), 3px 14px 12px -10px rgba(40, 30, 10, .45) !important; }
+.sheet .ctile .ct-stage { padding: 18px 8px 0; }
+.sheet .ctile .cluster { position: relative; display: block; height: 112px; width: 100%; }
+.sheet .ctile .cluster .cell { position: absolute; display: none; width: 78px; height: 90px; aspect-ratio: auto; grid-column: auto !important; }
+.sheet .ctile .cluster .cell:nth-child(-n+3) { display: block; }
+.sheet .ctile .cluster .cell .bob { display: grid; place-items: center; width: 100%; height: 100%; box-sizing: border-box; padding: 6px 6px 18px; background: #FDFCF8; border-radius: 2px; animation: none;
+  box-shadow: 0 0 0 .5px rgba(0, 0, 0, .08), 0 2px 3px rgba(40, 30, 10, .18), 0 10px 14px -10px rgba(40, 30, 10, .4); }
+.sheet .ctile .cluster .cell .bob > * { filter: none; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: contain; transform: none; background: #F3F1EC; border-radius: 1px; }
+.sheet .ctile .cluster .cell:nth-child(1) { left: 2%; top: 10px; rotate: -8deg; z-index: 1; }
+.sheet .ctile .cluster .cell:nth-child(2) { left: calc(50% - 39px); top: 0; rotate: 3deg; z-index: 3; }
+.sheet .ctile .cluster .cell:nth-child(3) { right: 2%; top: 14px; rotate: 9deg; z-index: 2; }
+.sheet .ctile .cluster[data-n="1"] .cell:nth-child(1) { left: calc(50% - 39px); top: 2px; rotate: -3deg; }
+.sheet .ctile .cluster[data-n="2"] .cell:nth-child(1) { left: 6%; } .sheet .ctile .cluster[data-n="2"] .cell:nth-child(2) { left: auto; right: 6%; top: 8px; rotate: 6deg; }
+.sheet .ctile .cluster .cell .bob { rotate: none !important; }
+.sheet .ctile .ct-foot { padding: 4px 14px 14px; align-items: flex-end; }
+.sheet .ctile .tile-name { white-space: nowrap; overflow: visible; font: 700 26px/1 var(--hand); letter-spacing: 0; color: #2A3550; background: none; padding: 0 2px 6px; margin: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' preserveAspectRatio='none'><path d='M2 6c20-4 40 3 60-1s38-3 56 1' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 8px; -webkit-mask: none; }
+.sheet .ctile .tile-name { background-image: none; position: relative; }
+.sheet .ctile .tile-name::after { content: ""; position: absolute; left: -2px; right: -4px; bottom: 0; height: 9px; background: var(--hlc); opacity: .9; z-index: -1; border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%; transform: rotate(-1.5deg); }
+.sheet .ctile .ct-txt { position: relative; z-index: 0; }
+.sheet .ctile .tile-count { font: 600 17px/1 var(--hand); color: rgba(42, 53, 80, .7); margin-top: 4px; }
+.sheet .ctile .ct-go { width: 38px; height: 26px; border: 0; background: none; box-shadow: none; color: #2A3550; border-radius: 0; }
+.sheet .ctile .ct-go svg { display: none; }
+.sheet .ctile .ct-go::before { content: ""; width: 38px; height: 22px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 22'><path d='M2 13c8-3 18-4 31-2M26 4c4 2 7 5 9 8-3 2-6 4-10 7' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 22'><path d='M2 13c8-3 18-4 31-2M26 4c4 2 7 5 9 8-3 2-6 4-10 7' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; }
+.sheet .ctile .cluster .cell .bob { overflow: hidden; }
+.sheet .ctile .cluster .cell .bob img, .sheet .ctile .cluster .cell .bob svg { display: block; width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain; transform: none !important; scale: none; background: #F3F1EC; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
