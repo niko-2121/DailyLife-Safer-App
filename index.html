@@ -3237,9 +3237,19 @@ body.snapview #shareBtn{display:none!important}
   }
   function openWin(cat) {
     S.win = cat; S.animateWin = true; S.edit = false; S.lastTile = cat;
+    winTint(cat);
     $('#win').hidden = false; syncLock();
     render();
     $('#winClose').focus({ preventScroll: true });
+  }
+  /* Fenster einer Shopping-Kategorie in derselben Farbe wie ihr Zettel */
+  function winTint(cat) {
+    var t = Array.prototype.slice.call(document.querySelectorAll('#swin .tile[data-cat]')).filter(function (b) { return b.getAttribute('data-cat') === cat; })[0];
+    var base = t ? getComputedStyle(t).getPropertyValue('--pc0').trim() : '';
+    if (!base) base = '#FFF09A';
+    var w = $('#win');
+    w.style.setProperty('--sn', 'color-mix(in srgb, ' + base + ' 45%, #fff)');
+    w.style.setProperty('--sc', 'color-mix(in srgb, ' + base + ' 80%, #6b5a40)');
   }
   function closeWin(silent) {
     S.win = null; S.edit = false; $('#win').hidden = true; syncLock();
