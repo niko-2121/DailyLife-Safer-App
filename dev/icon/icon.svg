@@ -1,35 +1,152 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <radialGradient id="bg" cx="50%" cy="38%" r="75%">
-      <stop offset="0" stop-color="#FBF6EC"/><stop offset="1" stop-color="#EFE3CF"/>
-    </radialGradient>
-    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
-      <circle cx="16" cy="16" r="2.2" fill="#D9C8AC" opacity=".55"/>
-    </pattern>
-    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#5A4325" flood-opacity=".22"/>
-    </filter>
-    <pattern id="tape" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <rect width="18" height="18" fill="#9FD3C1"/><rect width="9" height="18" fill="#C2E6D8"/>
-    </pattern>
-  </defs>
-  <rect width="512" height="512" fill="url(#bg)"/>
-  <rect width="512" height="512" fill="url(#dots)"/>
-  <g transform="translate(256 256) scale(1.12) translate(-262 -275)">
-  <!-- hintere Zettel -->
-  <g filter="url(#sh)">
-    <rect x="86" y="118" width="220" height="220" rx="10" fill="#A9C4F2" transform="rotate(-14 196 228)"/>
-    <rect x="214" y="132" width="210" height="210" rx="10" fill="#F2B3C6" transform="rotate(11 319 237)"/>
-    <rect x="150" y="196" width="232" height="232" rx="10" fill="#FFE98A" transform="rotate(-3 266 312)"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+  <!-- Kork-Hintergrund -->
+  <radialGradient id="bgLight" cx="38%" cy="28%" r="85%">
+    <stop offset="0" stop-color="#D9AE7A"/><stop offset=".55" stop-color="#B98451"/><stop offset="1" stop-color="#7E5230"/>
+  </radialGradient>
+  <filter id="cork" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 .32  0 0 0 0 .19  0 0 0 0 .08  0 0 0 -2.6 1.55" result="dark"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="n2"/>
+    <feColorMatrix in="n2" type="matrix" values="0 0 0 0 1  0 0 0 0 .9  0 0 0 0 .72  0 0 0 -3 1.75" result="light"/>
+    <feMerge><feMergeNode in="dark"/><feMergeNode in="light"/></feMerge>
+  </filter>
+  <radialGradient id="vig" cx="50%" cy="45%" r="72%">
+    <stop offset=".6" stop-color="#2A1608" stop-opacity="0"/><stop offset="1" stop-color="#2A1608" stop-opacity=".45"/>
+  </radialGradient>
+
+  <!-- Papierstruktur -->
+  <filter id="paper" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="11" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 -1.6 1.05"/>
+    <feComposite in2="SourceGraphic" operator="in"/>
+  </filter>
+
+  <!-- Schatten -->
+  <filter id="shSoft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="22"/></filter>
+  <filter id="shMid" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="9"/></filter>
+  <filter id="shTight" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+
+  <!-- Zettel-Farben (Licht von oben links) -->
+  <linearGradient id="gBlue" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#C3D7F7"/><stop offset=".6" stop-color="#A3BFEF"/><stop offset="1" stop-color="#8AA9E0"/>
+  </linearGradient>
+  <linearGradient id="gPink" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#F8CAD8"/><stop offset=".6" stop-color="#F0ADC2"/><stop offset="1" stop-color="#E295AE"/>
+  </linearGradient>
+  <linearGradient id="gYel" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFF7BE"/><stop offset=".5" stop-color="#FFEA7A"/><stop offset="1" stop-color="#FAD24E"/>
+  </linearGradient>
+  <!-- leichte Wölbung des vorderen Zettels -->
+  <linearGradient id="bulge" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".25" stop-color="#fff" stop-opacity="0"/>
+    <stop offset=".8" stop-color="#8A6A00" stop-opacity="0"/><stop offset="1" stop-color="#8A6A00" stop-opacity=".16"/>
+  </linearGradient>
+  <linearGradient id="curl" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#D9B648"/><stop offset=".45" stop-color="#FFF3B8"/><stop offset=".75" stop-color="#FFE98F"/><stop offset="1" stop-color="#E9C658"/>
+  </linearGradient>
+
+  <!-- Washi-Tape -->
+  <pattern id="stripes" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="34" height="34" fill="#8FCDB8"/><rect width="15" height="34" fill="#C9EBDD"/>
+  </pattern>
+  <linearGradient id="tapeGloss" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".45" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".08"/>
+  </linearGradient>
+
+  <!-- Pin -->
+  <radialGradient id="pinBody" cx="35%" cy="28%" r="80%">
+    <stop offset="0" stop-color="#FF8A66"/><stop offset=".35" stop-color="#F0533A"/><stop offset=".75" stop-color="#C42E22"/><stop offset="1" stop-color="#7E1610"/>
+  </radialGradient>
+  <radialGradient id="pinHole" cx="60%" cy="65%" r="70%">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#F6EDE6"/><stop offset="1" stop-color="#C9B8AE"/>
+  </radialGradient>
+  <linearGradient id="pinRim" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#7E1610"/><stop offset="1" stop-color="#FFB49C"/>
+  </linearGradient>
+  <radialGradient id="spec" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+
+  <path id="pinShape" d="M0 -150 C -64 -150 -108 -103 -108 -44 C -108 30 -30 92 0 150 C 30 92 108 30 108 -44 C 108 -103 64 -150 0 -150 Z"/>
+  <clipPath id="clipYel"><path d="M0 0 H520 V408 C 500 462 466 500 412 520 H0 Z"/></clipPath>
+</defs>
+
+<!-- Hintergrund -->
+<rect width="1024" height="1024" fill="url(#bgLight)"/>
+<rect width="1024" height="1024" filter="url(#cork)" opacity=".55"/>
+<rect width="1024" height="1024" fill="url(#vig)"/>
+
+<!-- Blauer Zettel -->
+<g transform="translate(150 190) rotate(-13 240 240)">
+  <rect x="14" y="30" width="480" height="480" rx="6" fill="#2A1608" opacity=".45" filter="url(#shSoft)"/>
+  <rect x="4" y="8" width="480" height="480" rx="6" fill="#2A1608" opacity=".35" filter="url(#shTight)"/>
+  <rect width="480" height="480" rx="6" fill="url(#gBlue)"/>
+  <rect width="480" height="480" rx="6" fill="#000" filter="url(#paper)" opacity=".22"/>
+  <rect width="480" height="70" fill="#fff" opacity=".12"/>
+</g>
+
+<!-- Rosa Zettel -->
+<g transform="translate(410 220) rotate(10 230 230)">
+  <rect x="16" y="30" width="460" height="460" rx="6" fill="#2A1608" opacity=".45" filter="url(#shSoft)"/>
+  <rect x="4" y="8" width="460" height="460" rx="6" fill="#2A1608" opacity=".35" filter="url(#shTight)"/>
+  <rect width="460" height="460" rx="6" fill="url(#gPink)"/>
+  <rect width="460" height="460" rx="6" fill="#000" filter="url(#paper)" opacity=".22"/>
+  <rect width="460" height="66" fill="#fff" opacity=".12"/>
+</g>
+
+<!-- Gelber Zettel vorne, mit gewellter Ecke -->
+<g transform="translate(236 340) rotate(-4 260 260)">
+  <!-- weicher Schatten, an der hochstehenden Ecke breiter -->
+  <path d="M10 30 H520 V420 C 520 500 500 560 430 560 H10 Z" fill="#2A1608" opacity=".55" filter="url(#shSoft)"/>
+  <path d="M4 10 H516 V410 C 500 470 470 510 414 528 H4 Z" fill="#2A1608" opacity=".4" filter="url(#shMid)"/>
+  <path d="M2 6 H522 V408 C 502 464 468 504 412 524 H2 Z" fill="#2A1608" opacity=".35" filter="url(#shTight)"/>
+  <!-- Blatt -->
+  <path d="M0 0 H520 V408 C 500 462 466 500 412 520 H0 Z" fill="url(#gYel)"/>
+  <g clip-path="url(#clipYel)">
+    <rect width="520" height="520" fill="#000" filter="url(#paper)" opacity=".2"/>
+    <rect width="520" height="520" fill="url(#bulge)"/>
+    <!-- Klebekante oben etwas dunkler -->
+    <rect width="520" height="90" fill="#C9A23A" opacity=".10"/>
+    <rect y="88" width="520" height="3" fill="#B08A20" opacity=".12"/>
+    <!-- Route in Tinte -->
+    <g fill="none" stroke="#283041" stroke-linecap="round" stroke-linejoin="round" opacity=".88">
+      <path d="M122 384 C 170 320 250 452 326 392" stroke-width="13" stroke-dasharray="1 30"/>
+      <path d="M58 380 l36 36 M94 380 l-36 36" stroke-width="13"/>
+    </g>
   </g>
-  <!-- Klebestreifen -->
-  <rect x="200" y="172" width="132" height="44" fill="url(#tape)" opacity=".92" transform="rotate(-8 266 194)"/>
-  <!-- Route + Pin auf dem vorderen Zettel -->
-  <g transform="rotate(-3 266 312)" fill="none" stroke="#2A2F3A" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M186 392 C 218 352, 252 400, 284 362" stroke-width="9" stroke-dasharray="2 20"/>
-    <path d="M312 262c-26 0-44 19-44 43 0 32 44 72 44 72s44-40 44-72c0-24-18-43-44-43z" fill="#E0603A" stroke-width="10"/>
-    <circle cx="312" cy="305" r="14" fill="#FFF8EC" stroke-width="8"/>
-    <path d="M176 384l18 18M194 384l-18 18" stroke-width="9"/>
-  </g>
-  </g>
+  <!-- Eselsohr: Rückseite des hochgebogenen Ecks -->
+  <path d="M520 408 C 482 420 444 452 412 520 C 470 498 504 462 520 408 Z" fill="url(#curl)"/>
+  <path d="M520 408 C 482 420 444 452 412 520" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+  <!-- feine Lichtkante oben links -->
+  <path d="M0 520 V0 H520" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.5"/>
+</g>
+
+<!-- Washi-Tape mit gerissenen Enden -->
+<g transform="translate(512 352) rotate(-7)">
+  <path d="M-150 -40 L150 -40 l-7 8 7 8 -7 8 7 8 -7 8 7 8 -7 8 7 8 -7 8 L-150 40 l7 -8 -7 -8 7 -8 -7 -8 7 -8 -7 -8 7 -8 -7 -8 7 -8 Z" transform="translate(0 6)" fill="#2A1608" opacity=".22" filter="url(#shTight)"/>
+  <path id="tape" d="M-150 -40 L150 -40 l-7 8 7 8 -7 8 7 8 -7 8 7 8 -7 8 7 8 -7 8 L-150 40 l7 -8 -7 -8 7 -8 -7 -8 7 -8 -7 -8 7 -8 -7 -8 7 -8 Z" fill="url(#stripes)" opacity=".88"/>
+  <use xlink:href="#tape" fill="url(#tapeGloss)"/>
+  <use xlink:href="#tape" fill="#000" filter="url(#paper)" opacity=".35"/>
+</g>
+
+<!-- 3D-Pin -->
+<g transform="translate(602 592) scale(.82)">
+  <!-- Schlagschatten auf dem Zettel -->
+  <ellipse cx="34" cy="150" rx="70" ry="20" fill="#5A3A00" opacity=".38" filter="url(#shMid)"/>
+  <path d="M30 -110 C 100 -80 120 40 40 150" fill="none" stroke="#5A3A00" stroke-opacity=".25" stroke-width="70" stroke-linecap="round" filter="url(#shSoft)"/>
+  <ellipse cx="2" cy="150" rx="16" ry="6" fill="#3A2400" opacity=".55" filter="url(#shTight)"/>
+  <!-- Körper -->
+  <use xlink:href="#pinShape" fill="url(#pinBody)"/>
+  <!-- Kantenlicht unten rechts (Reflex) -->
+  <use xlink:href="#pinShape" fill="none" stroke="#FF9C80" stroke-opacity=".5" stroke-width="5" transform="translate(1 1)" clip-path="none"/>
+  <use xlink:href="#pinShape" fill="none" stroke="#5E0E08" stroke-opacity=".35" stroke-width="3"/>
+  <!-- Loch -->
+  <circle cx="0" cy="-46" r="46" fill="url(#pinRim)"/>
+  <circle cx="0" cy="-46" r="40" fill="url(#pinHole)"/>
+  <!-- Glanzlichter -->
+  <ellipse cx="-50" cy="-96" rx="30" ry="18" transform="rotate(-38 -50 -96)" fill="url(#spec)"/>
+  <ellipse cx="-62" cy="-30" rx="9" ry="26" transform="rotate(-8 -62 -30)" fill="url(#spec)" opacity=".55"/>
+  <circle cx="-14" cy="-62" r="7" fill="#fff" opacity=".35"/>
+</g>
 </svg>
