@@ -1263,6 +1263,39 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .j-pl2 { column-gap: 10px; }
 .j-dest { justify-items: start; text-align: left; padding: 6px 40px 0 0; }
 .j-dest .j-route { justify-content: flex-start; }
+
+/* Shopping: Stern für die Startseite */
+.item .fav-star { position: absolute; left: 4px; top: 2px; z-index: 5; width: 30px; height: 30px; pointer-events: none; filter: drop-shadow(0 2px 2px rgba(60, 40, 0, .35)); animation: favpop .35s cubic-bezier(.2, 1.6, .4, 1) both; }
+.item .fav-star svg { display: block; width: 100%; height: 100%; }
+@keyframes favpop { from { transform: scale(.3) rotate(-30deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.item .card { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.item .card.lp { transform: scale(.95); transition: transform .15s; }
+/* Shopping-Kategorien: hochwertige Haftnotizen */
+#swin .sheet .ctile { --pcx: color-mix(in srgb, var(--pc0, #FFF09A) 58%, #fff); isolation: isolate;
+  border-radius: 2px 2px 3px 2px; border-bottom-right-radius: 70% 11px;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3 0 0 0 0 .24 0 0 0 0 .12 0 0 0 .11 0'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>"),
+    linear-gradient(180deg, rgba(120, 90, 25, .085) 0, rgba(120, 90, 25, .05) 30px, rgba(255, 255, 255, .6) 31px, rgba(255, 255, 255, .12) 36px, rgba(255, 255, 255, 0) 56px),
+    radial-gradient(130% 80% at 0% 0%, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 80%, rgba(110, 80, 20, .06) 93%, rgba(255, 255, 255, .3) 99.5%),
+    radial-gradient(60% 34% at 100% 100%, rgba(110, 80, 20, .2), rgba(110, 80, 20, 0) 72%),
+    linear-gradient(160deg, var(--pcx), color-mix(in srgb, var(--pc0, #FFF09A) 78%, #fff)) !important;
+  background-size: 180px 180px, auto, auto, auto, auto, auto !important;
+  box-shadow: 0 0 0 .5px rgba(90, 65, 20, .18), 0 1px 1px rgba(40, 30, 10, .1), 0 4px 6px -3px rgba(40, 30, 10, .2), 8px 26px 20px -16px rgba(40, 30, 10, .55), inset 0 1px 0 rgba(255, 255, 255, .7) !important; }
+#swin .sheet .ctile::after { content: ""; position: absolute; left: 6%; right: 4%; bottom: 3px; height: 14px; z-index: -1; pointer-events: none; border-radius: 50%;
+  box-shadow: 0 10px 12px rgba(40, 30, 10, .28); transform: rotate(var(--cr, 1.2deg)); }
+#swin .sheet .ctile .tile-name { text-shadow: 0 .5px 0 rgba(255, 255, 255, .6); }
+#swin .sheet .ctile .tile-name::after { opacity: .75; mix-blend-mode: multiply; height: 11px; }
+#swin .sheet .ctile .cell .bob > img, #swin .sheet .ctile .cell .bob > svg { filter: drop-shadow(0 2px 1.5px rgba(40, 30, 10, .18)) drop-shadow(0 12px 9px rgba(40, 30, 10, .2)); }
+/* Restaurants und Bars: Kategorien in der Farbe des Fensters, klar abgesetzt */
+#rwin .sheet .ccard { --pc: color-mix(in srgb, var(--sc) 52%, #fff) !important; rotate: none;
+  border: 1.5px solid color-mix(in srgb, var(--sc) 70%, #000) !important; border-radius: 14px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 45%), var(--pc) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 6px 12px -8px color-mix(in srgb, var(--sc) 60%, #2A1A08) !important; }
+#rwin .sheet .ccard:active { background: color-mix(in srgb, var(--sc) 70%, #fff) !important; }
+#rwin .sheet .ccard .cic { --tile: rgba(255, 255, 255, .78) !important; box-shadow: 0 0 0 1px color-mix(in srgb, var(--sc) 60%, #000) !important; }
+#rwin .sheet .ccard .cc-n { color: #2A2016; }
+#rwin .sheet .ccard .cc-c { color: color-mix(in srgb, var(--sc) 35%, #000); }
 </style>
 
 <div class="wrap">
@@ -2980,6 +3013,16 @@ window.DLS_STICKERS = {"amsterdam":"<svg xmlns=\"http://www.w3.org/2000/svg\" vi
     longPress(t, function () { openCatSheet({ kind: 'shop', name: cat }); });
     return t;
   }
+  /* Stern: Artikel auf der Startseite zeigen (langes Drücken) */
+  var FAV_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="fsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#F2A900"/></linearGradient></defs><path d="M12 2.6l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z" fill="url(#fsg)" stroke="#9A6400" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 5.4l1.9 3.9" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" stroke-linecap="round"/></svg>';
+  async function toggleFav(it) {
+    var v = !it.fav, prev = { fav: it.fav, favAt: it.favAt };
+    var patch = v ? { fav: true, favAt: Date.now() } : { fav: false };
+    Object.assign(it, patch); render();
+    toast(v ? '★ „' + (it.title || 'Artikel') + '“ erscheint auf der Startseite.' : 'Stern entfernt.');
+    try { if (!it.mem && db) await db.doc('items/' + it.id).update(patch); }
+    catch (e) { Object.assign(it, prev); render(); toast('Konnte nicht gespeichert werden.'); }
+  }
   function delBtn(it) {
     var armed = false, t;
     var b = h('button', { class: 'del', type: 'button', 'aria-label': 'Produkt entfernen' }, ico('x'));
@@ -3002,7 +3045,9 @@ window.DLS_STICKERS = {"amsterdam":"<svg xmlns=\"http://www.w3.org/2000/svg\" vi
       fmtPrice(it) ? h('span', { class: 'price' }, fmtPrice(it)) : null,
       h('span', { class: 'host' }, hostOf(it.url)));
     card.addEventListener('click', function (e) { if (S.edit) { e.preventDefault(); openEditor(it); } });
-    var wrap = h('div', { class: 'item', style: '--d:' + dur(it.id) + 's;--o:' + off(it.id) + 's;--i:' + Math.min(i, 10) }, card);
+    var wrap = h('div', { class: 'item' + (it.fav ? ' fav' : ''), style: '--d:' + dur(it.id) + 's;--o:' + off(it.id) + 's;--i:' + Math.min(i, 10) }, card);
+    if (it.fav) { var st = h('span', { class: 'fav-star', title: 'Auf der Startseite', 'aria-label': 'Auf der Startseite' }); st.innerHTML = FAV_STAR; wrap.append(st); }
+    longPress(card, function () { toggleFav(it); });
     if (S.edit && S.canEdit) {
       wrap.append(h('button', { class: 'pen', type: 'button', 'aria-label': 'Name und Adresse ändern', onclick: function () { openEditor(it); } }, ico('pen')));
       wrap.append(delBtn(it));
@@ -3155,7 +3200,7 @@ window.DLS_STICKERS = {"amsterdam":"<svg xmlns=\"http://www.w3.org/2000/svg\" vi
   /* ---------- Fenster ---------- */
   function renderWin(list) {
     $('#winTitle').textContent = S.win;
-    $('#winCount').textContent = list.length + (list.length === 1 ? ' Produkt' : ' Produkte');
+    $('#winCount').textContent = list.length + (list.length === 1 ? ' Produkt' : ' Produkte') + (S.canEdit && !S.viewer ? ' · lange drücken für ★ Startseite' : '');
     var eb = $('#winEdit'); eb.hidden = !S.canEdit; eb.textContent = S.edit ? 'Fertig' : 'Bearbeiten'; eb.setAttribute('aria-pressed', String(S.edit));
     var g = $('#winGrid'); g.replaceChildren();
     g.classList.toggle('enter', S.animateWin);
@@ -6040,7 +6085,9 @@ window.DLS_STICKERS = {"amsterdam":"<svg xmlns=\"http://www.w3.org/2000/svg\" vi
   function jShop() {
     var items = allItems(), n = items.length, cats = new Set(items.map(function (i) { return i.category; })).size;
     var count = n ? n + ' Artikel · ' + cats + (cats === 1 ? ' Kategorie' : ' Kategorien') : 'Noch kein Artikel';
-    var pics = h('span', { class: 'j-pics' }, items.slice(0, 3).map(function (it, i) { var im = mkImg(it); return h('span', { class: 'j-pic p' + i }, im); }));
+    var favs = items.filter(function (it) { return it.fav; }).sort(function (a, b) { return (b.favAt || 0) - (a.favAt || 0); });
+    var show = favs.concat(items.filter(function (it) { return !it.fav; })).slice(0, 3);
+    var pics = h('span', { class: 'j-pics' }, show.map(function (it, i) { var im = mkImg(it); return h('span', { class: 'j-pic p' + i }, im); }));
     return jHub('shop', hubName('shop') + ', ' + count, openSwin, h('span', { class: 'j-in' }, jHead('shop', count), n ? pics : h('span', { class: 'j-empty' }, '+ Ersten Wunsch eintragen')), { wide: true });
   }
   function jWine() {
