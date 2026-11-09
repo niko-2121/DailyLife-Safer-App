@@ -1054,6 +1054,39 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .sheet-head::before { top: 6px; width: 84px; height: 20px; margin-left: -42px; border-radius: 0; background: rgba(255, 212, 71, .75); transform: rotate(-1.5deg);
   clip-path: polygon(3% 0, 97% 5%, 100% 35%, 96% 60%, 100% 88%, 95% 100%, 4% 95%, 0 68%, 4% 42%, 0 15%); }
 .sheet h2, .sheet .rw-tt h2 { font-family: var(--jdisp); font-weight: 400; letter-spacing: -.01em; }
+/* Realistischere, hochwertige Notizzettel */
+:root { --ptex: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .32 0 0 0 0 .20 0 0 0 .10 0'/%3E%3C/filter%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.035 .55' numOctaves='2' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .22 0 0 0 .07 0'/%3E%3C/filter%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='2' seed='2'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .44 0 0 0 0 .26 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23c)'/%3E%3Crect width='240' height='240' filter='url(%23b)'/%3E%3Crect width='240' height='240' filter='url(%23a)'/%3E%3C/svg%3E"); --ring: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='30' viewBox='0 0 22 30'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%236B6F76'/%3E%3Cstop offset='.35' stop-color='%23F4F6F8'/%3E%3Cstop offset='.6' stop-color='%23A9AEB6'/%3E%3Cstop offset='1' stop-color='%2355595F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='11' cy='22' rx='3.6' ry='2.9' fill='%232B2620' fill-opacity='.62'/%3E%3Cellipse cx='11' cy='22.6' rx='3.6' ry='2.4' fill='none' stroke='%23fff' stroke-opacity='.5' stroke-width='.6'/%3E%3Cpath d='M8.4 22 C7.6 12, 8.2 3, 11 -1 C13.8 3, 14.4 12, 13.6 22' fill='none' stroke='%233E4248' stroke-width='3.4' stroke-linecap='round' opacity='.35' transform='translate(1.2 1.4)'/%3E%3Cpath d='M8.4 22 C7.6 12, 8.2 3, 11 -1 C13.8 3, 14.4 12, 13.6 22' fill='none' stroke='url(%23m)' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.hub.j { background:
+    var(--ptex),
+    radial-gradient(130% 95% at 45% 35%, transparent 58%, rgba(140, 105, 50, .13) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 28%, rgba(0, 0, 0, 0) 80%, rgba(120, 90, 40, .08)),
+    var(--note, #FFF9EA);
+  background-size: 240px 240px, auto, auto, auto;
+  box-shadow: inset 0 0 0 .6px rgba(120, 90, 40, .22), inset 0 1px 0 rgba(255, 255, 255, .9), 0 1px 1px rgba(60, 40, 10, .10), 0 4px 6px -3px rgba(60, 40, 10, .18), 0 24px 22px -20px rgba(60, 40, 10, .65); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hub.j { box-shadow: inset 0 0 0 .6px rgba(120, 90, 40, .25), inset 0 1px 0 rgba(255, 255, 255, .9), 0 1px 1px rgba(0, 0, 0, .4), 0 6px 8px -4px rgba(0, 0, 0, .5), 0 26px 24px -18px rgba(0, 0, 0, .95); } }
+:root[data-theme="dark"] .hub.j { box-shadow: inset 0 0 0 .6px rgba(120, 90, 40, .25), inset 0 1px 0 rgba(255, 255, 255, .9), 0 1px 1px rgba(0, 0, 0, .4), 0 6px 8px -4px rgba(0, 0, 0, .5), 0 26px 24px -18px rgba(0, 0, 0, .95); }
+.hub.j::after { width: 26px; height: 26px; border-radius: 0 0 3px 0;
+  background: linear-gradient(315deg, var(--jpaper) 0 49%, rgba(70, 50, 20, .28) 50%, color-mix(in srgb, var(--note, #FFF9EA) 70%, #C9AE7E) 53%, color-mix(in srgb, var(--note, #FFF9EA) 92%, #fff) 100%);
+  box-shadow: -3px -3px 6px -3px rgba(70, 50, 20, .35); }
+.j-tape, .sheet-head::before { background:
+    linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 40%, rgba(120, 80, 0, .06)),
+    repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px),
+    rgba(247, 210, 96, .62);
+  box-shadow: 0 1px 1.5px rgba(70, 50, 10, .2); }
+.j-tape { width: 82px; height: 22px; }
+.sheet { background:
+    var(--ptex),
+    repeating-linear-gradient(180deg, transparent 0 31px, rgba(96, 130, 190, .13) 31px 32px),
+    linear-gradient(90deg, rgba(140, 105, 50, .10), rgba(140, 105, 50, 0) 18px, rgba(140, 105, 50, 0) calc(100% - 18px), rgba(140, 105, 50, .10)),
+    linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 180px),
+    #FDF7E8;
+  background-size: 240px 240px, auto, auto, auto, auto; background-attachment: local;
+  border-radius: 4px 4px 0 0; box-shadow: 0 -2px 0 rgba(255, 255, 255, .5), 0 -22px 40px -16px rgba(0, 0, 0, .5), inset 0 0 0 .6px rgba(120, 90, 40, .2); }
+.sheet-head { padding-top: 34px; background: linear-gradient(180deg, #FDF7E8 84%, rgba(253, 247, 232, 0)), var(--ptex); background-size: auto, 240px 240px; }
+.sheet-head::before, .sheet.form-sheet::before { content: ''; display: block; position: absolute; top: 0; left: -14px; right: -14px; width: auto; height: 30px; margin: 0;
+  border-radius: 0; transform: none; clip-path: none; box-shadow: none; background: var(--ring) center top / 22px 30px repeat-x; }
+.sheet.form-sheet { position: relative; padding-top: 30px; }
+.sheet.form-sheet::before { left: 0; right: 0; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
