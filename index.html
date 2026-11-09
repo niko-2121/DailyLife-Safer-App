@@ -1345,6 +1345,12 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .hub.j-shop .j-pics[data-n="5"] { gap: 4px; }
 .hub.j-shop .j-pics[data-n="5"] .j-pic { width: 54px; height: 66px; } .hub.j-shop .j-pics[data-n="5"] .j-pic.p1, .hub.j-shop .j-pics[data-n="5"] .j-pic.p3 { height: 78px; }
 .hub.j-shop .j-pics[data-n="5"] .j-pic.p2 { width: 62px; height: 92px; }
+
+/* Geschenke-Kategorie: nur Symbol */
+.ct-stage .gift-ic { display: grid; place-items: center; width: 100%; height: 132px; }
+.ct-stage .gift-ic svg { width: 112px; height: 112px; filter: drop-shadow(0 8px 8px rgba(40, 30, 10, .18)); animation: giftbob 5.4s ease-in-out infinite; }
+@keyframes giftbob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-5px) rotate(2deg); } }
+@media (prefers-reduced-motion: reduce) { .ct-stage .gift-ic svg { animation: none; } }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -3091,7 +3097,7 @@ body.snapview #shareBtn{display:none!important}
     var ctTape = h('span', { class: 'ct-tape', 'aria-hidden': 'true', style: '--tr:' + ((hash(cat + 'tp') * 2 - 1) * 6).toFixed(1) + 'deg' });
     var t = h('button', { class: 'tile ctile' + (S.flash === cat ? ' flash' : ''), type: 'button', 'data-cat': cat, 'aria-label': label, style: '--d:5.4s;--o:-1s;--tint:' + tint,
       onclick: function () { openWin(cat); } },
-      h('span', { class: 'ct-stage' }, cluster(entries), h('span', { class: 'shade' })),
+      h('span', { class: 'ct-stage' }, isGiftCat(cat) ? giftIcon() : cluster(entries), h('span', { class: 'shade' })),
       h('span', { class: 'ct-foot' }, h('span', { class: 'ct-txt' }, h('span', { class: 'tile-name' }, cat), h('span', { class: 'tile-count' }, list.length + (list.length === 1 ? ' Produkt' : ' Produkte'))), go),
       h('span', { class: 'ct-badge' }, String(list.length)), ctTape);
     longPress(t, function () { openCatSheet({ kind: 'shop', name: cat }); });
@@ -3107,6 +3113,21 @@ body.snapview #shareBtn{display:none!important}
     toast(v ? '★ „' + (it.title || 'Artikel') + '“ erscheint auf der Startseite.' : 'Stern entfernt.');
     try { if (!it.mem && db) await db.doc('items/' + it.id).update(patch); }
     catch (e) { Object.assign(it, prev); render(); toast('Konnte nicht gespeichert werden.'); }
+  }
+  /* Kategorie Geschenke: keine Vorschau, nur ein Geschenk-Symbol */
+  function isGiftCat(c) { return /geschenk/i.test(String(c || '')); }
+  function giftIcon() {
+    var g = h('span', { class: 'gift-ic', 'aria-hidden': 'true' });
+    g.innerHTML = '<svg viewBox="0 0 120 120"><defs><linearGradient id="gfB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7A6BF"/><stop offset="1" stop-color="#D9668C"/></linearGradient><linearGradient id="gfL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBC3D3"/><stop offset="1" stop-color="#E77FA2"/></linearGradient><linearGradient id="gfR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F6D77A"/><stop offset=".5" stop-color="#FFF0B8"/><stop offset="1" stop-color="#E2B23E"/></linearGradient></defs>'
+      + '<ellipse cx="60" cy="110" rx="40" ry="5" fill="#5A3A1A" opacity=".18"/>'
+      + '<rect x="22" y="52" width="76" height="56" rx="4" fill="url(#gfB)"/><rect x="22" y="52" width="76" height="8" fill="#B84A72" opacity=".25"/>'
+      + '<rect x="16" y="38" width="88" height="18" rx="4" fill="url(#gfL)"/><rect x="16" y="38" width="88" height="4" rx="2" fill="#fff" opacity=".35"/>'
+      + '<rect x="53" y="38" width="14" height="70" fill="url(#gfR)"/>'
+      + '<path d="M60 38c-6-14-26-20-30-10-3 8 14 11 30 10z" fill="url(#gfR)" stroke="#C99A2E" stroke-width="1.5"/>'
+      + '<path d="M60 38c6-14 26-20 30-10 3 8-14 11-30 10z" fill="url(#gfR)" stroke="#C99A2E" stroke-width="1.5"/>'
+      + '<rect x="55" y="32" width="10" height="9" rx="3" fill="#E9BE4E" stroke="#C99A2E" stroke-width="1.5"/>'
+      + '<path d="M28 60v40" stroke="#fff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/></svg>';
+    return g;
   }
   function delBtn(it) {
     var armed = false, t;
@@ -6170,8 +6191,9 @@ body.snapview #shareBtn{display:none!important}
   function jShop() {
     var items = allItems(), n = items.length, cats = new Set(items.map(function (i) { return i.category; })).size;
     var count = n ? n + ' Artikel · ' + cats + (cats === 1 ? ' Kategorie' : ' Kategorien') : 'Noch kein Artikel';
-    var favs = items.filter(function (it) { return it.fav; }).sort(function (a, b) { return (b.favAt || 0) - (a.favAt || 0); });
-    var show = favs.length ? favs.slice(0, 5) : items.slice(0, 3);
+    var vis = items.filter(function (it) { return !isGiftCat(it.category); });
+    var favs = vis.filter(function (it) { return it.fav; }).sort(function (a, b) { return (b.favAt || 0) - (a.favAt || 0); });
+    var show = favs.length ? favs.slice(0, 5) : vis.slice(0, 3);
     var pics = h('span', { class: 'j-pics', 'data-n': String(show.length) }, show.map(function (it, i) { var im = mkImg(it); return h('span', { class: 'j-pic p' + i }, im); }));
     return jHub('shop', hubName('shop') + ', ' + count, openSwin, h('span', { class: 'j-in' }, jHead('shop', count), n ? pics : h('span', { class: 'j-empty' }, '+ Ersten Wunsch eintragen')), { wide: true });
   }
