@@ -1334,6 +1334,17 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 #rwin .sheet .ccard .cic { --tile: rgba(255, 255, 255, .78) !important; box-shadow: 0 0 0 1px color-mix(in srgb, var(--sc) 60%, #000) !important; }
 #rwin .sheet .ccard .cc-n { color: #2A2016; }
 #rwin .sheet .ccard .cc-c { color: color-mix(in srgb, var(--sc) 35%, #000); }
+
+/* Startseite Shopping: Gegenstände mittig gruppiert, bis zu 5 */
+.hub.j-shop .j-pics { display: flex; justify-content: center; align-items: flex-end; gap: 6px; height: 104px; margin-top: 12px; padding: 0 4px; }
+.hub.j-shop .j-pic { position: relative; left: auto; right: auto; bottom: auto; flex: 0 0 auto; width: 92px; height: 88px; display: flex; align-items: flex-end; justify-content: center; transform: rotate(var(--pr, 0deg)); }
+.hub.j-shop .j-pic img { width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: 50% 100%; }
+.hub.j-shop .j-pic.p0 { --pr: -5deg; } .hub.j-shop .j-pic.p1 { --pr: 3deg; height: 100px; } .hub.j-shop .j-pic.p2 { --pr: -3deg; }
+.hub.j-shop .j-pic.p3 { --pr: 4deg; } .hub.j-shop .j-pic.p4 { --pr: -4deg; }
+.hub.j-shop .j-pics[data-n="4"] .j-pic { width: 66px; height: 74px; } .hub.j-shop .j-pics[data-n="4"] .j-pic.p1, .hub.j-shop .j-pics[data-n="4"] .j-pic.p2 { height: 88px; }
+.hub.j-shop .j-pics[data-n="5"] { gap: 4px; }
+.hub.j-shop .j-pics[data-n="5"] .j-pic { width: 54px; height: 66px; } .hub.j-shop .j-pics[data-n="5"] .j-pic.p1, .hub.j-shop .j-pics[data-n="5"] .j-pic.p3 { height: 78px; }
+.hub.j-shop .j-pics[data-n="5"] .j-pic.p2 { width: 62px; height: 92px; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -3090,6 +3101,7 @@ body.snapview #shareBtn{display:none!important}
   var FAV_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="fsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#F2A900"/></linearGradient></defs><path d="M12 2.6l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z" fill="url(#fsg)" stroke="#9A6400" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 5.4l1.9 3.9" stroke="#fff" stroke-opacity=".7" stroke-width="1.4" stroke-linecap="round"/></svg>';
   async function toggleFav(it) {
     var v = !it.fav, prev = { fav: it.fav, favAt: it.favAt };
+    if (v && allItems().filter(function (x) { return x.fav; }).length >= 5) { toast('Höchstens 5 Sterne. Entferne zuerst einen anderen Stern.'); return; }
     var patch = v ? { fav: true, favAt: Date.now() } : { fav: false };
     Object.assign(it, patch); render();
     toast(v ? '★ „' + (it.title || 'Artikel') + '“ erscheint auf der Startseite.' : 'Stern entfernt.');
@@ -3273,7 +3285,7 @@ body.snapview #shareBtn{display:none!important}
   /* ---------- Fenster ---------- */
   function renderWin(list) {
     $('#winTitle').textContent = S.win;
-    $('#winCount').textContent = list.length + (list.length === 1 ? ' Produkt' : ' Produkte') + (S.canEdit && !S.viewer ? ' · lange drücken für ★ Startseite' : '');
+    $('#winCount').textContent = list.length + (list.length === 1 ? ' Produkt' : ' Produkte') + (S.canEdit && !S.viewer ? ' · lange drücken für ★ Startseite (max. 5)' : '');
     var eb = $('#winEdit'); eb.hidden = !S.canEdit; eb.textContent = S.edit ? 'Fertig' : 'Bearbeiten'; eb.setAttribute('aria-pressed', String(S.edit));
     var g = $('#winGrid'); g.replaceChildren();
     g.classList.toggle('enter', S.animateWin);
@@ -6159,8 +6171,8 @@ body.snapview #shareBtn{display:none!important}
     var items = allItems(), n = items.length, cats = new Set(items.map(function (i) { return i.category; })).size;
     var count = n ? n + ' Artikel · ' + cats + (cats === 1 ? ' Kategorie' : ' Kategorien') : 'Noch kein Artikel';
     var favs = items.filter(function (it) { return it.fav; }).sort(function (a, b) { return (b.favAt || 0) - (a.favAt || 0); });
-    var show = favs.concat(items.filter(function (it) { return !it.fav; })).slice(0, 3);
-    var pics = h('span', { class: 'j-pics' }, show.map(function (it, i) { var im = mkImg(it); return h('span', { class: 'j-pic p' + i }, im); }));
+    var show = favs.length ? favs.slice(0, 5) : items.slice(0, 3);
+    var pics = h('span', { class: 'j-pics', 'data-n': String(show.length) }, show.map(function (it, i) { var im = mkImg(it); return h('span', { class: 'j-pic p' + i }, im); }));
     return jHub('shop', hubName('shop') + ', ' + count, openSwin, h('span', { class: 'j-in' }, jHead('shop', count), n ? pics : h('span', { class: 'j-empty' }, '+ Ersten Wunsch eintragen')), { wide: true });
   }
   function jWine() {
