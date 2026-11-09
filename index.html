@@ -1022,6 +1022,26 @@ header .sub { font: 400 13px/1.45 var(--jtype); color: var(--jmuted); margin-top
 .hub.j .hub-shared { margin-left: 6px; }
 .reorder .hub.j { animation: wigj .5s ease-in-out infinite alternate; }
 @keyframes wigj { from { transform: rotate(calc(var(--rot) - 1deg)); } to { transform: rotate(calc(var(--rot) + 1deg)); } }
+/* Notizzettel + Pastell */
+header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order: stroke fill; text-shadow: 3px 3px 0 #F4C3D3; }
+.hub.j { --jink: #26324B; --jmuted: #7B7364; --jline: rgba(38, 50, 75, .2); background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 30%), var(--note, #FFF9EA); color: var(--jink);
+  border-radius: 3px 3px 3px 3px; box-shadow: 0 1px 1px rgba(0, 0, 0, .06), 0 18px 22px -18px rgba(60, 40, 10, .55), inset 0 -10px 18px -14px rgba(120, 90, 40, .25); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hub.j { box-shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 20px 26px -16px rgba(0, 0, 0, .9), inset 0 -10px 18px -14px rgba(120, 90, 40, .3); } }
+:root[data-theme="dark"] .hub.j { box-shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 20px 26px -16px rgba(0, 0, 0, .9), inset 0 -10px 18px -14px rgba(120, 90, 40, .3); }
+.hub.j::after { content: ""; position: absolute; right: 0; bottom: 0; width: 22px; height: 22px; border-radius: 0 0 3px 0; pointer-events: none;
+  background: linear-gradient(315deg, var(--jpaper) 0 50%, color-mix(in srgb, var(--note, #FFF9EA) 82%, #B79E72) 50% 100%); box-shadow: -2px -2px 4px -2px rgba(80, 60, 20, .25); }
+.hub.j-trips::after { display: none; }
+.j-kick { color: color-mix(in srgb, var(--jc) 45%, #4A4458); }
+.j-title { background: linear-gradient(transparent 56%, var(--jc) 56%, var(--jc) 92%, transparent 92%); }
+.j-stub { color: #26324B; background: radial-gradient(rgba(255, 255, 255, .55) 1.1px, transparent 1.3px) 0 0 / 6px 6px, var(--jc); }
+.j-pl { border-right-color: rgba(38, 50, 75, .22); }
+.j-strike { background: radial-gradient(rgba(255, 255, 255, .6) 1.1px, transparent 1.3px) 0 0 / 5px 5px, var(--jc); }
+.j-topo { color: color-mix(in srgb, var(--jc) 70%, #4A6B5A); opacity: .7; }
+.j-empty { border-color: color-mix(in srgb, var(--jc) 80%, #8A7F6A); color: color-mix(in srgb, var(--jc) 40%, #4A4458); }
+.j-cic { color: color-mix(in srgb, var(--jc) 45%, #4A4458); background: var(--jc); }
+.j-route i { color: #E59AB3; }
+.plus-btn { box-shadow: 4px 4px 0 #F4C3D3; }
+.hub.j .cic { --tile: #F1EADB; --tile-line: rgba(38, 50, 75, .08); color: var(--k) !important; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -5709,13 +5729,14 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     } finally { btn.disabled = false; }
   });
   /* ---------- Startseite im Reisetagebuch-Stil ---------- */
-  var JCOL = { shop: '#E2557F', trips: '#2F6FD6', rest: '#EE7A3A', bar: '#7A5CD0', wine: '#A3345F', hike: '#1F9A68' };
+  var JCOL = { shop: '#F2B3C6', trips: '#A9C4F2', rest: '#F7C59C', bar: '#C9B9F0', wine: '#E9AFC4', hike: '#A9DCC1' };
+  var JNOTE = ['#FFF9EA', '#FBF2DC', '#FFFCF4', '#F8EFD9'];
   var JKICK = { shop: 'Wunschregal', trips: 'Unterwegs', rest: 'Essen', bar: 'Ausgehen', wine: 'Weinkeller', hike: 'Draußen' };
   function jRot(k) { return ((hash(String(k) + 'jr') * 2 - 1) * 1.6).toFixed(2) + 'deg'; }
   function jHub(kind, label, onclick, body, opts) {
     opts = opts || {};
     var el = h('button', { class: 'hub j j-' + (opts.cls || kind) + (opts.wide ? ' wide' : ''), type: 'button', 'data-hub': kind, 'data-cat': kind === 'rest' ? '__rest' : null, 'aria-label': label, onclick: onclick,
-      style: '--jc:' + (opts.color || JCOL[kind] || '#2F6FD6') + ';--rot:' + jRot(kind) + ';--tx:' + Math.round(hash(kind + 'tx') * 50 + 10) + '%;--tr:' + ((hash(kind + 'tr') * 2 - 1) * 9).toFixed(1) + 'deg' },
+      style: '--jc:' + (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 45%, #fff)' : (JCOL[kind] || '#A9C4F2')) + ';--note:' + JNOTE[Math.floor(hash(kind + 'note') * JNOTE.length)] + ';--rot:' + jRot(kind) + ';--tx:' + Math.round(hash(kind + 'tx') * 50 + 10) + '%;--tr:' + ((hash(kind + 'tr') * 2 - 1) * 9).toFixed(1) + 'deg' },
       h('span', { class: 'j-tape', 'aria-hidden': 'true' }), body);
     longPress(el, function () { openCatSheet({ kind: 'hub', key: kind }); });
     return el;
