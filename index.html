@@ -1200,6 +1200,78 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .app-share:active{transform:scale(.96)}
 .app-share{background:var(--jcard,var(--surface));color:var(--jink,var(--ink));border:1.5px solid var(--jink,var(--line));box-shadow:3px 3px 0 var(--jline,transparent);font-family:var(--jtype,var(--body))}
 html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
+/* ---------- Reisen-Kachel: Überschrift + Ziel rechts mittig ---------- */
+#hubs .j-pl { display: flex; flex-direction: column; gap: 0; padding: 16px 14px 14px 16px; }
+#hubs .j-dest { flex: 1; display: grid; align-content: center; justify-items: end; text-align: right; gap: 3px; padding: 12px 2px 0 0; min-width: 0; }
+.j-dkick { font: 700 9.5px/1.2 var(--jtype); letter-spacing: .14em; text-transform: uppercase; color: var(--jmuted); }
+#hubs .j-dest .j-route { padding-right: 0; font-size: clamp(24px, 7.4vw, 30px); justify-content: flex-end; max-width: 100%; }
+.j-dwhen { font: 700 12.5px/1.3 var(--body); color: var(--jink); }
+#hubs .hub.j-trips .j-title { font-size: 23px; }
+/* ---------- Fenster: Haftnotiz mit Klebestreifen ---------- */
+/* Klebestreifen oben mittig: bei den großen Fenstern über die Oberkante geklebt */
+#swin, #win, #twin, #rwin, #vwin, #hwin, #cwin, #tcal { --stop: calc(70px + env(safe-area-inset-top, 0px)); }
+#swin::after, #win::after, #twin::after, #rwin::after, #vwin::after, #hwin::after, #cwin::after, #tcal::after { content: ""; position: absolute; z-index: 6; left: 50%; top: calc(var(--stop) - 12px);
+  width: 96px; height: 24px; transform: translateX(-50%) rotate(-2.2deg); pointer-events: none;
+  clip-path: polygon(3% 0, 97% 4%, 100% 30%, 96% 55%, 100% 82%, 95% 100%, 4% 96%, 0 70%, 4% 45%, 0 18%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 40%, rgba(120, 80, 0, .06)), repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px), rgba(247, 210, 96, .78);
+  filter: drop-shadow(0 1px 1px rgba(70, 50, 10, .25)); }
+@media (min-width: 740px) { #swin, #win, #twin, #rwin, #vwin, #hwin, #cwin, #tcal { --stop: calc(35px + env(safe-area-inset-top, 0px) / 2); } }
+/* übrige Fenster (Formulare, Details): Streifen oben im Zettel */
+.win .sheet-head::before, .win .sheet.form-sheet::before { display: block; content: ""; position: absolute; left: 50%; top: 0; width: 86px; height: 20px; margin: 0; border-radius: 0;
+  transform: translateX(-50%) rotate(1.6deg); pointer-events: none; z-index: 2;
+  clip-path: polygon(3% 0, 97% 0, 100% 30%, 96% 55%, 100% 82%, 95% 100%, 4% 96%, 0 70%, 4% 45%, 0 18%);
+  background: linear-gradient(180deg, rgba(120, 80, 0, .08), rgba(255, 255, 255, 0) 45%), repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px), rgba(247, 210, 96, .72); }
+.win .sheet.form-sheet::before { position: sticky; display: block; margin: 0 auto -20px; transform: rotate(1.6deg); }
+#swin .sheet-head::before, #win .sheet-head::before, #twin .sheet-head::before, #rwin .sheet-head::before, #vwin .sheet-head::before, #hwin .sheet-head::before, #cwin .sheet-head::before, #tcal .sheet-head::before { display: none; }
+/* Papier: Punktraster wie im Bullet Journal, Klebekante oben, gewölbte Ecke unten */
+.win .sheet { --whl: color-mix(in srgb, var(--sc, #F3E3A0) 88%, #6B5A80);
+  background:
+    var(--ptex),
+    radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--sc, #D9C27A) 55%, rgba(38, 50, 75, .35)) 1px, transparent 1.4px) 7px 9px / 22px 22px,
+    linear-gradient(180deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, .18) 64px, rgba(90, 70, 20, .05) 65px, rgba(90, 70, 20, 0) 84px),
+    linear-gradient(100deg, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0) 45%),
+    var(--pis);
+  background-size: 240px 240px, 22px 22px, auto, auto, auto; background-attachment: local, local, local, local, local;
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 0 .5px rgba(90, 70, 20, .18), inset 0 1px 0 rgba(255, 255, 255, .7), 0 -3px 4px rgba(40, 30, 10, .12), 0 -26px 44px -18px rgba(0, 0, 0, .55); }
+#twin { --whl: #8FB2EE; } #twin .sheet { --whl: #8FB2EE; }
+.win .sheet-head { margin: 0 calc(-1 * max(14px, env(safe-area-inset-left, 0px))); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(14px, env(safe-area-inset-right, 0px)); padding-top: 30px; padding-bottom: 14px;
+  background: linear-gradient(180deg, var(--pis) 0, var(--pis) 78%, color-mix(in srgb, var(--pis) 0%, transparent) 100%); }
+/* Überschrift: Rubrik in Schreibmaschine, Titel mit Textmarker */
+#swin .rw-tt::before, #win .sheet-head > div:first-child::before, #twin .rw-tt::before, #rwin .rw-tt::before, #vwin .rw-tt::before, #hwin .rw-tt::before, #cwin .rw-tt::before, #tcal .sheet-head > div:first-child::before {
+  display: block; margin-bottom: 6px; font: 700 10.5px/1.2 var(--jtype); letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--whl) 35%, #4A4458); }
+#swin .rw-tt::before { content: "Wunschregal"; } #win .sheet-head > div:first-child::before { content: "Wunschregal · Kategorie"; }
+#twin .rw-tt::before { content: "Unterwegs"; } #tcal .sheet-head > div:first-child::before { content: "Unterwegs · Kalender"; }
+#rwin .rw-tt::before { content: "Essen"; } #rwin.isbar .rw-tt::before { content: "Ausgehen"; }
+#vwin .rw-tt::before { content: "Weinkeller"; } #hwin .rw-tt::before { content: "Draußen"; } #cwin .rw-tt::before { content: "Sammlung"; }
+.win .sheet > .sheet-head h2 { width: fit-content; max-width: 100%; font: 400 28px/1.08 var(--jdisp); letter-spacing: -.01em; color: #26324B; padding: .1em .24em .07em; margin: 0 -.24em;
+  border-radius: .14em .3em .2em .34em / .4em .2em .34em .2em; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--whl) 80%, transparent), var(--whl) 7%, var(--whl) 93%, color-mix(in srgb, var(--whl) 76%, transparent)); }
+.win .sheet > .sheet-head.rw-head h2 { display: block; }
+.win .sheet > .sheet-head .cnt { margin-top: 8px; font: 400 12.5px/1.3 var(--jtype); color: rgba(38, 50, 75, .66); }
+/* Knöpfe wie auf der Startseite */
+.win .sheet-head .ibtn { width: 44px; height: 44px; border: 1.5px solid #26324B; background: rgba(255, 255, 255, .7); color: #26324B; box-shadow: 2px 2px 0 rgba(38, 50, 75, .22); }
+.win .sheet-head .ibtn.acc { background: #FFD447; color: #1F2A44; box-shadow: 3px 3px 0 color-mix(in srgb, var(--whl) 90%, #E2557F); }
+.win .sheet-head .ibtn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 rgba(38, 50, 75, .22); }
+/* Zwischenüberschriften mit Pinselstrich */
+.win .rsec-t { display: inline-block; padding: 0 2px 3px; font: 700 11px/1.2 var(--jtype); letter-spacing: .14em; color: #4A4458;
+  background: linear-gradient(transparent 62%, color-mix(in srgb, var(--whl) 70%, transparent) 62%, color-mix(in srgb, var(--whl) 70%, transparent) 94%, transparent 94%); }
+/* Kärtchen: kleiner Klebestreifen und Zahl als runder Aufkleber */
+.sheet .ctile, .sheet .ccard { overflow: visible; }
+.sheet .ctile .ct-stage { overflow: hidden; }
+.sheet .ctile::after, .sheet .ccard::after { content: ""; position: absolute; z-index: 3; top: -8px; left: 50%; width: 46px; height: 15px; pointer-events: none;
+  transform: translateX(-50%) rotate(var(--tt, -3deg));
+  clip-path: polygon(4% 0, 96% 5%, 100% 35%, 96% 65%, 100% 100%, 3% 95%, 0 60%, 4% 30%);
+  background: repeating-linear-gradient(98deg, rgba(255, 255, 255, .16) 0 1px, rgba(255, 255, 255, 0) 1px 5px), color-mix(in srgb, var(--tape-c, #F7D260) 72%, transparent);
+  filter: drop-shadow(0 1px .5px rgba(70, 50, 10, .2)); }
+.sheet .ccard::after { width: 34px; height: 12px; top: -6px; left: 22%; }
+.sheet .ctile:nth-child(3n+2)::after, .sheet .ccard:nth-child(3n+2)::after { --tape-c: #9EC3F0; --tt: 4deg; }
+.sheet .ctile:nth-child(3n)::after, .sheet .ccard:nth-child(3n)::after { --tape-c: #F4A9C0; --tt: -1.5deg; }
+.sheet .ct-badge { z-index: 4; top: 12px; right: 10px; min-width: 30px; height: 30px; border: 0; background: #26324B; color: #fff; font: 700 12.5px/1 var(--jtype);
+  -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 0 0 2.5px rgba(255, 255, 255, .85), 0 2px 4px rgba(0, 0, 0, .25); transform: rotate(8deg); }
+.sheet .ctile .tile-name { font: 400 19px/1.1 var(--jdisp); letter-spacing: -.01em; color: #26324B; }
+.sheet .ctile .tile-count { font-family: var(--jtype); }
+@media (prefers-reduced-motion: reduce) { .sheet .ct-badge { transform: none; } }
 </style>
 </head>
 <body>
@@ -5902,7 +5974,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
   /* ---------- Startseite im Reisetagebuch-Stil ---------- */
   var JCOL = { shop: '#F2B3C6', trips: '#A9C4F2', rest: '#F7C59C', bar: '#C9B9F0', wine: '#E9AFC4', hike: '#A9DCC1' };
   var JNOTE = { shop: '#FDE8EE', trips: '#E5EEFC', rest: '#FEEEDF', bar: '#EEE8FC', wine: '#F3E3F0', hike: '#E2F4EA' };
-  var PHL = { shop: '#F4B4C8', trips: '#A6C6F4', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
+  var PHL = { shop: '#F4B4C8', trips: '#8FB2EE', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
   var JKICK = { shop: 'Wunschregal', trips: 'Unterwegs', rest: 'Essen', bar: 'Ausgehen', wine: 'Weinkeller', hike: 'Draußen' };
   function jRot(k) { return ((hash(String(k) + 'jr') * 2 - 1) * 1.6).toFixed(2) + 'deg'; }
   function jHub(kind, label, onclick, body, opts) {
@@ -5940,12 +6012,11 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
       var ti = tripInfo(t), big = ti.now ? 'Jetzt' : ti.until === 0 ? 'Heute' : String(ti.until), small = ti.now ? 'unterwegs' : ti.until === 0 ? 'geht’s los' : ti.until === 1 ? 'Tag' : 'Tage';
       body = h('span', { class: 'j-pass' },
         h('span', { class: 'j-pl' },
-          h('span', { class: 'j-kick' }, hubName('trips') + ' · ' + (ti.now ? 'gerade unterwegs' : 'nächste Reise')),
-          h('span', { class: 'j-route' }, h('i', { 'aria-hidden': 'true' }, '✈'), t.name),
-          h('span', { class: 'j-when' },
-            h('span', {}, h('small', {}, 'Datum'), h('b', {}, fmtRange(t.from, t.to))),
-            BOOK[t.booked] ? h('span', {}, h('small', {}, 'Status'), h('b', {}, BOOK[t.booked].t)) : null),
-          h('span', { class: 'j-count' }, count)),
+          jHead('trips', count),
+          h('span', { class: 'j-dest' },
+            h('span', { class: 'j-dkick' }, ti.now ? 'Gerade unterwegs' : 'Nächstes Ziel'),
+            h('span', { class: 'j-route' }, h('i', { 'aria-hidden': 'true' }, '✈'), t.name),
+            h('span', { class: 'j-dwhen' }, fmtRange(t.from, t.to) + (BOOK[t.booked] ? ' · ' + BOOK[t.booked].t : '')))),
         h('span', { class: 'j-stub' }, h('b', {}, big), h('small', {}, small)),
         h('img', { class: 'j-stk sticker', src: stickerSrc(t), alt: '', decoding: 'async' }));
     } else {
