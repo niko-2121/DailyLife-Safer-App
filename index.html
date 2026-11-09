@@ -1087,6 +1087,80 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
   border-radius: 0; transform: none; clip-path: none; box-shadow: none; background: var(--ring) center top / 22px 30px repeat-x; }
 .sheet.form-sheet { position: relative; padding-top: 30px; }
 .sheet.form-sheet::before { left: 0; right: 0; }
+/* ---------- Post-its statt Notizblock ---------- */
+/* Startseite: Anordnung */
+#hubs .hub.j.jg.tall { grid-column: 1; grid-row: span 2; }
+#hubs .hub.j.jg.right { grid-column: 2; }
+#hubs .hub.j:not(.tall) .j-mrow:nth-child(n+5) { display: none; }
+#hubs .hub.j.small { min-height: 0; padding: 13px 12px 12px; }
+#hubs .hub.j.small .j-title { font-size: 18px; }
+#hubs .hub.j.small .j-title.long { font-size: 16px; }
+#hubs .hub.j.small .j-kick { font-size: 9.5px; }
+#hubs .hub.j.small .j-count { font-size: 11px; padding-right: 34px; }
+#hubs .hub.j.small .j-oval { margin-top: 6px; padding: 2px 9px; font-size: 10.5px; }
+#hubs .hub.j.small .j-empty { margin-top: 8px; font-size: 10.5px; padding: 4px 8px; }
+#hubs .hub.j.small .j-bottles { position: absolute; right: 2px; bottom: -4px; height: 58px; margin: 0; padding: 0; }
+#hubs .hub.j.small .j-bottle { height: 58px; max-width: 26px; margin-left: -7px; }
+#hubs .hub.j.small .j-bottle:nth-child(2) { height: 50px; } #hubs .hub.j.small .j-bottle:nth-child(3) { height: 44px; }
+#hubs .hub.j.small .j-tape { width: 58px; height: 18px; top: -9px; }
+#hubs .hub.j.tall .j-menu { gap: 8px; margin-top: 16px; }
+#hubs .hub.j.jg.right:not(.small) { min-height: 168px; }
+/* Startseite: echte Haftnotizen */
+#hubs .hub.j { --note: var(--pi); --jmuted: rgba(38, 50, 75, .66); --jline: rgba(38, 50, 75, .24);
+  border-radius: 1px 1px 2px 1px; border-bottom-right-radius: 70px 6px;
+  background:
+    var(--ptex),
+    linear-gradient(180deg, rgba(255, 255, 255, .34) 0, rgba(255, 255, 255, .12) 15%, rgba(0, 0, 0, .035) 15.5%, rgba(0, 0, 0, 0) 19%),
+    radial-gradient(90% 55% at 100% 100%, rgba(80, 60, 20, .16), rgba(80, 60, 20, 0) 70%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 72%, rgba(80, 60, 20, .07)),
+    linear-gradient(100deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 45%),
+    var(--pi);
+  background-size: 240px 240px, auto, auto, auto, auto, auto;
+  box-shadow: 0 0 0 .5px rgba(80, 60, 20, .12), 0 1px 1.5px rgba(40, 30, 10, .16), 0 3px 4px -2px rgba(40, 30, 10, .14), 6px 16px 16px -12px rgba(40, 30, 10, .5); }
+#hubs .hub.j::after { display: block; content: ""; position: absolute; left: auto; top: auto; right: 0; bottom: 0; width: 46%; height: 16px; border-radius: 0; box-shadow: none; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(70, 50, 15, .10)); -webkit-mask: linear-gradient(90deg, transparent, #000 70%); mask: linear-gradient(90deg, transparent, #000 70%); }
+#hubs .hub.j-trips::after { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #hubs .hub.j { box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 1px 1.5px rgba(0, 0, 0, .5), 0 3px 5px -2px rgba(0, 0, 0, .5), 6px 18px 18px -12px rgba(0, 0, 0, .9); } }
+:root[data-theme="dark"] #hubs .hub.j { box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 1px 1.5px rgba(0, 0, 0, .5), 0 3px 5px -2px rgba(0, 0, 0, .5), 6px 18px 18px -12px rgba(0, 0, 0, .9); }
+#hubs .j-stub { border-radius: 0 1px 2px 0; }
+#hubs .j-strike { border-radius: 0 0 6px 1px; }
+/* Textmarker über die volle Schrifthöhe */
+.j-title { padding: .1em .22em .06em; margin: 3px -.22em 0; border-radius: .14em .3em .2em .34em / .4em .2em .34em .2em;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--hl, var(--jc)) 82%, transparent), var(--hl, var(--jc)) 8%, var(--hl, var(--jc)) 92%, color-mix(in srgb, var(--hl, var(--jc)) 78%, transparent)); }
+/* Fenster: große Haftnotiz statt Spiralblock */
+.sheet { --pis: #FFF6BF; --surface: #FFFBE3; --bg: #FFF0A8; --c1: #FBEBA4; --c2: #FFF4C4; --glow: #FFF8D6; --tile: #FFF1B0; --line: rgba(60, 50, 20, .14);
+  background:
+    var(--ptex),
+    linear-gradient(180deg, rgba(255, 255, 255, .4), rgba(255, 255, 255, .15) 54px, rgba(120, 95, 20, .045) 55px, rgba(120, 95, 20, 0) 70px),
+    linear-gradient(100deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 40%),
+    var(--pis);
+  background-size: 240px 240px, auto, auto, auto; background-attachment: local;
+  border-radius: 2px 2px 0 0; box-shadow: 0 0 0 .5px rgba(120, 95, 20, .2), 0 -2px 3px rgba(60, 45, 10, .1), 0 -24px 40px -16px rgba(0, 0, 0, .5); }
+.sheet-head { padding-top: 22px; background: linear-gradient(180deg, var(--pis) 84%, color-mix(in srgb, var(--pis) 0%, transparent)); }
+.sheet-head::before, .sheet.form-sheet::before { display: none; content: none; }
+.sheet.form-sheet { padding-top: 10px; }
+@media (min-width: 740px) { .sheet { border-radius: 2px; border-bottom-right-radius: 120px 8px; } }
+/* Kategorien im Fenster: kleine Haftnotizen */
+.sheet .ccard, .sheet .tile:not(.demo) { --pc: color-mix(in srgb, #FFF09A 45%, #fff); position: relative; border: 0; border-radius: 1px 1px 2px 1px; border-bottom-right-radius: 48px 5px; rotate: var(--pr, 0deg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .3) 0, rgba(255, 255, 255, .1) 16%, rgba(0, 0, 0, .035) 16.5%, rgba(0, 0, 0, 0) 22%),
+    radial-gradient(90% 60% at 100% 100%, rgba(80, 60, 20, .14), rgba(80, 60, 20, 0) 70%),
+    linear-gradient(100deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, 0) 50%),
+    var(--pc);
+  box-shadow: 0 0 0 .5px rgba(80, 60, 20, .12), 0 1px 1.5px rgba(40, 30, 10, .16), 4px 10px 10px -8px rgba(40, 30, 10, .45); }
+.sheet .ccard:hover, .sheet .tile:not(.demo):hover { border-color: transparent; }
+.sheet .ccard:nth-child(6n+2), .sheet .tile:nth-child(6n+2) { --pc: color-mix(in srgb, #FFD3E1 45%, #fff); --pr: 1.1deg; }
+.sheet .ccard:nth-child(6n+3), .sheet .tile:nth-child(6n+3) { --pc: color-mix(in srgb, #D9F2C3 45%, #fff); --pr: -.8deg; }
+.sheet .ccard:nth-child(6n+4), .sheet .tile:nth-child(6n+4) { --pc: color-mix(in srgb, #CDE7FB 45%, #fff); --pr: .7deg; }
+.sheet .ccard:nth-child(6n+5), .sheet .tile:nth-child(6n+5) { --pc: color-mix(in srgb, #FFE0C0 45%, #fff); --pr: -1.2deg; }
+.sheet .ccard:nth-child(6n), .sheet .tile:nth-child(6n) { --pc: color-mix(in srgb, #E5DAFF 45%, #fff); --pr: .9deg; }
+.sheet .ccard:nth-child(6n+1), .sheet .tile:nth-child(6n+1) { --pr: -.6deg; }
+.sheet .ccard .cic, .sheet .tile .cic { --tile: rgba(255, 255, 255, .5) !important; }
+.sheet .ccard .cc-c { color: rgba(38, 50, 75, .66); }
+@media (prefers-reduced-motion: reduce) { .sheet .ccard, .sheet .tile { rotate: none; } }
+.sheet .ctile::before { display: none; }
+.sheet .ctile .ct-foot { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-top: 1px dashed rgba(38, 50, 75, .16); }
+.sheet .ctile .ct-go { background: rgba(38, 50, 75, .85); color: #fff; }
 /* Pastell-Zettel je Kategorie, gleiche Fenstergrößen, kompakte nächste Reise */
 .hub.j { --jline: rgba(38, 50, 75, .16); }
 .hub.j::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 34px; border-radius: 3px 3px 0 0; pointer-events: none;
@@ -1099,13 +1173,12 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 #rwin, #rdet, #rform { --sn: #FEEEDF; --sc: #F7C59C; }
 #rwin.isbar, #rdet.isbar, #rform.isbar { --sn: #EEE8FC; --sc: #C9B9F0; }
 #hwin, #hdet, #hform { --sn: #E2F4EA; --sc: #A9DCC1; }
-.win .sheet { --surface: color-mix(in srgb, var(--sn, #FDF7E8) 45%, #fff); --bg: color-mix(in srgb, var(--sn, #FDF7E8) 82%, var(--sc, #E8D9B8)); --glow: color-mix(in srgb, var(--sn, #FDF7E8) 60%, #fff);
-  --c1: color-mix(in srgb, var(--sn, #FDF7E8) 70%, var(--sc, #E8D9B8)); --c2: color-mix(in srgb, var(--sn, #FDF7E8) 85%, #fff);
-  background-color: var(--sn, #FDF7E8);
-  background-image: var(--ptex), repeating-linear-gradient(180deg, transparent 0 31px, rgba(80, 100, 150, .10) 31px 32px),
-    linear-gradient(90deg, rgba(120, 90, 50, .07), rgba(120, 90, 50, 0) 18px, rgba(120, 90, 50, 0) calc(100% - 18px), rgba(120, 90, 50, .07)),
-    linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 180px); }
-.win .sheet-head { background: linear-gradient(180deg, var(--sn, #FDF7E8) 84%, transparent); }
+.win .sheet { --pis: var(--sn, #FFF6BF); --surface: color-mix(in srgb, var(--sn, #FFF6BF) 45%, #fff); --bg: color-mix(in srgb, var(--sn, #FFF6BF) 80%, var(--sc, #F3E3A0));
+  --glow: color-mix(in srgb, var(--sn, #FFF6BF) 60%, #fff); --c1: color-mix(in srgb, var(--sn, #FFF6BF) 70%, var(--sc, #F3E3A0)); --c2: color-mix(in srgb, var(--sn, #FFF6BF) 85%, #fff); --tile: color-mix(in srgb, var(--sn, #FFF6BF) 70%, #fff); }
+.sheet .ccard, .sheet .tile:not(.demo) { --pc: color-mix(in srgb, var(--pc0, #FFF09A) 45%, #fff); }
+.sheet .ccard:nth-child(6n+2), .sheet .tile:nth-child(6n+2) { --pc0: #FFD3E1; } .sheet .ccard:nth-child(6n+3), .sheet .tile:nth-child(6n+3) { --pc0: #D9F2C3; }
+.sheet .ccard:nth-child(6n+4), .sheet .tile:nth-child(6n+4) { --pc0: #CDE7FB; } .sheet .ccard:nth-child(6n+5), .sheet .tile:nth-child(6n+5) { --pc0: #FFE0C0; }
+.sheet .ccard:nth-child(6n), .sheet .tile:nth-child(6n) { --pc0: #E5DAFF; }
 #swin .sheet, #win .sheet, #twin .sheet, #rwin .sheet, #vwin .sheet, #hwin .sheet, #cwin .sheet, #tcal .sheet {
   height: calc(100vh - 70px); height: calc(100dvh - 70px - env(safe-area-inset-top, 0px)); max-height: none; }
 .win .sheet .rw-tt h2, .win .sheet > .sheet-head h2 { font-size: 30px; }
@@ -2940,6 +3013,18 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     var hk = function (x) { return HUB_OF[x] || x; };
     var hord = byOrder(hl.map(function (x) { return hk(x[0]); }), S.layout.hubOrder);
     hl.sort(function (a, b) { return hord.indexOf(hk(a[0])) - hord.indexOf(hk(b[0])); });
+    /* Restaurants und Bars nebeneinander, Weine als kleine Kachel darunter neben den Restaurants */
+    var JG = ['places', 'bars', 'wines'], gi = -1;
+    hl.forEach(function (x, i) { if (gi < 0 && JG.indexOf(x[0]) >= 0) gi = i; });
+    if (gi >= 0) {
+      var grp = JG.map(function (k) { return hl.filter(function (x) { return x[0] === k; })[0]; }).filter(Boolean);
+      hl = hl.filter(function (x) { return JG.indexOf(x[0]) < 0; });
+      hl.splice.apply(hl, [gi, 0].concat(grp));
+      var gk = grp.map(function (x) { return x[0]; });
+      grp.forEach(function (x) { x[1].classList.add('jg'); });
+      if (gk.indexOf('wines') >= 0) grp.filter(function (x) { return x[0] === 'wines'; })[0][1].classList.add('small');
+      if (gk.length === 3) { grp[0][1].classList.add('tall'); grp[1][1].classList.add('right'); grp[2][1].classList.add('right'); }
+    }
     renderAddMenu();
     if (!S.viewer && !hl.length) hubs.append(h('p', { class: 'hint' }, 'Alle Kategorien sind entfernt. Über das Plus kannst du sie wieder hinzufügen.'));
     hl.forEach(function (x) {
@@ -5817,12 +5902,13 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
   /* ---------- Startseite im Reisetagebuch-Stil ---------- */
   var JCOL = { shop: '#F2B3C6', trips: '#A9C4F2', rest: '#F7C59C', bar: '#C9B9F0', wine: '#E9AFC4', hike: '#A9DCC1' };
   var JNOTE = { shop: '#FDE8EE', trips: '#E5EEFC', rest: '#FEEEDF', bar: '#EEE8FC', wine: '#F3E3F0', hike: '#E2F4EA' };
+  var PHL = { shop: '#F4B4C8', trips: '#A6C6F4', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
   var JKICK = { shop: 'Wunschregal', trips: 'Unterwegs', rest: 'Essen', bar: 'Ausgehen', wine: 'Weinkeller', hike: 'Draußen' };
   function jRot(k) { return ((hash(String(k) + 'jr') * 2 - 1) * 1.6).toFixed(2) + 'deg'; }
   function jHub(kind, label, onclick, body, opts) {
     opts = opts || {};
     var el = h('button', { class: 'hub j j-' + (opts.cls || kind) + (opts.wide ? ' wide' : ''), type: 'button', 'data-hub': kind, 'data-cat': kind === 'rest' ? '__rest' : null, 'aria-label': label, onclick: onclick,
-      style: '--jc:' + (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 45%, #fff)' : (JCOL[kind] || '#A9C4F2')) + ';--note:' + (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 14%, #fff)' : (JNOTE[kind] || '#FFF9EA')) + ';--rot:' + jRot(kind) + ';--tx:' + Math.round(hash(kind + 'tx') * 50 + 10) + '%;--tr:' + ((hash(kind + 'tr') * 2 - 1) * 9).toFixed(1) + 'deg' },
+      style: '--jc:' + (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 45%, #fff)' : (JCOL[kind] || '#A9C4F2')) + ';--note:' + (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 14%, #fff)' : (JNOTE[kind] || '#FFF9EA')) + ';--pi:' + (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 14%, #fff)' : (JNOTE[kind] || '#FFF9EA')) + ';--hl:' + (PHL[kind] || (opts.color ? 'color-mix(in srgb, ' + opts.color + ' 45%, #fff)' : '#F4B4C8')) + ';--rot:' + jRot(kind) + ';--tx:' + Math.round(hash(kind + 'tx') * 50 + 10) + '%;--tr:' + ((hash(kind + 'tr') * 2 - 1) * 9).toFixed(1) + 'deg' },
       h('span', { class: 'j-tape', 'aria-hidden': 'true' }), body);
     longPress(el, function () { openCatSheet({ kind: 'hub', key: kind }); });
     return el;
@@ -5839,7 +5925,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     var ic = cuisineIcon(name, 'xs'); ic.classList.add('j-ic'); return ic;
   }
   function jMenu(list, unit) {
-    var rows = Array.from(cuisineGroups(list).entries()).sort(function (a, b) { return b[1].length - a[1].length; }).slice(0, 4);
+    var rows = Array.from(cuisineGroups(list).entries()).sort(function (a, b) { return b[1].length - a[1].length; }).slice(0, 7);
     return h('span', { class: 'j-menu' }, rows.map(function (e) {
       return h('span', { class: 'j-mrow' }, jFlag(e[0]), h('span', { class: 'j-mn' }, e[0]), h('span', { class: 'j-dots' }), h('span', { class: 'j-mc' }, String(e[1].length)));
     }));
@@ -5881,7 +5967,7 @@ html body{padding-top:calc(env(safe-area-inset-top, 0px) + 22px)}
     var items = allItems(), n = items.length, cats = new Set(items.map(function (i) { return i.category; })).size;
     var count = n ? n + ' Artikel · ' + cats + (cats === 1 ? ' Kategorie' : ' Kategorien') : 'Noch kein Artikel';
     var pics = h('span', { class: 'j-pics' }, items.slice(0, 3).map(function (it, i) { var im = mkImg(it); return h('span', { class: 'j-pic p' + i }, im); }));
-    return jHub('shop', hubName('shop') + ', ' + count, openSwin, h('span', { class: 'j-in' }, jHead('shop', count), n ? pics : h('span', { class: 'j-empty' }, '+ Ersten Wunsch eintragen')));
+    return jHub('shop', hubName('shop') + ', ' + count, openSwin, h('span', { class: 'j-in' }, jHead('shop', count), n ? pics : h('span', { class: 'j-empty' }, '+ Ersten Wunsch eintragen')), { wide: true });
   }
   function jWine() {
     var list = allWines(), n = list.length, ys = list.map(function (w) { return +w.year; }).filter(Boolean);
