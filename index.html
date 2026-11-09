@@ -1042,6 +1042,18 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .j-route i { color: #E59AB3; }
 .plus-btn { box-shadow: 4px 4px 0 #F4C3D3; }
 .hub.j .cic { --tile: #F1EADB; --tile-line: rgba(38, 50, 75, .08); color: var(--k) !important; }
+/* Fenster als Notizzettel */
+.sheet { --surface: #FFF9EC; --bg: #F4EAD5; --ink: #26324B; --muted: #7B7364; --line: rgba(38, 50, 75, .14);
+  --lift: 0 1px 1px rgba(80, 60, 20, .06), 0 10px 22px -16px rgba(80, 60, 20, .45); --glow: #FBF3E2; --c1: #EFE5CF; --c2: #F6EEDC;
+  --sea: #DCE8EC; --land: #FBF6EA; --hot: #FBE7A6; --coast: #A9B8BF; --grid: rgba(38, 50, 75, .07); --shade: rgba(80, 60, 20, .25); --tile: #F1EADB; --tile-line: rgba(38, 50, 75, .08);
+  color-scheme: light; color: var(--ink);
+  background: repeating-linear-gradient(180deg, transparent 0 31px, rgba(96, 130, 190, .10) 31px 32px), linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, 0) 160px), #FFF9EC;
+  background-attachment: local; border: 0; border-radius: 6px 6px 0 0; box-shadow: 0 -18px 40px -18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .8); }
+.sheet .cic { --tile: #F1EADB !important; --tile-line: rgba(38, 50, 75, .08) !important; color: var(--k) !important; }
+.sheet-head { background: linear-gradient(180deg, #FFF9EC 82%, rgba(255, 249, 236, 0)); }
+.sheet-head::before { top: 6px; width: 84px; height: 20px; margin-left: -42px; border-radius: 0; background: rgba(255, 212, 71, .75); transform: rotate(-1.5deg);
+  clip-path: polygon(3% 0, 97% 5%, 100% 35%, 96% 60%, 100% 88%, 95% 100%, 4% 95%, 0 68%, 4% 42%, 0 15%); }
+.sheet h2, .sheet .rw-tt h2 { font-family: var(--jdisp); font-weight: 400; letter-spacing: -.01em; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
