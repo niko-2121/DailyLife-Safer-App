@@ -7,7 +7,7 @@ Jede Design- oder Funktionsänderung kommt in **beide** Versionen, gleiches Layo
 
 1. **Claude-Artefakt** https://claude.ai/artifact/K8NqyKNwKqmA5dw6S1Ut1N
    - Quelle: `dev/schweberegal.html` (einzige Quelle der Wahrheit für Design und Logik)
-   - Daten in der Artefakt-Datenbank (Sammlungen `items`, `trips` (`wish:true` = Wunschreise), `places` (`kind` rest/bar), `wines` (`list` fav/try), `hikes`, `entries` (eigene Kategorien), `pub/layout`, `pub/meta`, `pub/<kat>/list` für Live-Freigaben)
+   - Daten in der Artefakt-Datenbank (Sammlungen `items`, `trips` (`wish:true` = Wunschreise), `places` (`kind` rest/bar), `wines` (`list` fav/try), `hikes`, `entries` (eigene Kategorien), `lists/einkauf` (Einkaufszettel: `items[{id,t,done}]`, `trash`), `pub/layout`, `pub/meta`, `pub/<kat>/list` für Live-Freigaben)
    - Veröffentlichen: Artifact-Tool mit `file_path` = dev/schweberegal.html und `url` = Artefakt-URL oben. `capabilities` weglassen (werden übernommen). Vorher einmal `action: read` auf die URL, sonst wird der Publish abgelehnt.
 2. **Eigenständige App (PWA)** https://niko-2121.github.io/DailyLife-Safer-App/ (Pfad mit Groß-/Kleinschreibung!)
    - GitHub Pages aus diesem Repo, Branch `main`, Ordner `/`. `index.html` wird **gebaut**, nicht von Hand bearbeitet.
@@ -40,7 +40,7 @@ python3 test/ui_app.py       # Playwright, App mit Supabase-Mock, testet auch Ka
 
 ## Aufbau von schweberegal.html (Orientierung)
 - Ein `<style>` mit vielen Schichten; spätere Blöcke am Ende überschreiben frühere (Notizzettel-/Post-it-Design, Klebestreifen, Pastellfarben pro Kategorie).
-- Startseite „Reisetagebuch“: `jHub`, `jHead`, `jTrips` (Bordkarte), `jPlaces`, `jShop`, `jWine`, `jHike`, `jCustom`; Konstanten `JCOL`, `JNOTE`, `PHL`, `JKICK`. Teilen-Symbol pro Zettel: `catShareIcon` → `shareCategory` (App: `window.dlsSnapShare`, Artefakt: Live-Teilen-Fenster `openShare`).
+- Startseite „Reisetagebuch“: `jHub`, `jHead`, `jTrips` (Bordkarte), `jPlaces`, `jShop`, `jWine`, `jHike`, `jCustom`, `jList` (Einkaufszettel, Fenster `#lwin`, Funktionen `lz*`); Konstanten `JCOL`, `JNOTE`, `PHL`, `JKICK`. Teilen-Symbol pro Zettel: `catShareIcon` → `shareCategory` (App: `window.dlsSnapShare`, Artefakt: Live-Teilen-Fenster `openShare`).
 - Fenster: `#swin` Shopping, `#twin` Reisen, `#rwin` Restaurants/Bars, `#vwin` Weine (Reiter `#vwTabs`, `S.wlist`), `#hwin` Wanderungen, `#cwin` eigene Kategorien.
 - Flaggen: `FLAG_SVG`, `flagCode`, `cuisineIcon`.
 - Zustand in `S`, Rendering über `render()`, `h()` als DOM-Helfer.
