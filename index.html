@@ -1179,7 +1179,7 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .sheet .ccard:nth-child(6n+2), .sheet .tile:nth-child(6n+2) { --pc0: #FFD3E1; } .sheet .ccard:nth-child(6n+3), .sheet .tile:nth-child(6n+3) { --pc0: #D9F2C3; }
 .sheet .ccard:nth-child(6n+4), .sheet .tile:nth-child(6n+4) { --pc0: #CDE7FB; } .sheet .ccard:nth-child(6n+5), .sheet .tile:nth-child(6n+5) { --pc0: #FFE0C0; }
 .sheet .ccard:nth-child(6n), .sheet .tile:nth-child(6n) { --pc0: #E5DAFF; }
-#swin .sheet, #win .sheet, #twin .sheet, #rwin .sheet, #vwin .sheet, #hwin .sheet, #cwin .sheet, #tcal .sheet {
+#lwin .sheet, #swin .sheet, #win .sheet, #twin .sheet, #rwin .sheet, #vwin .sheet, #hwin .sheet, #cwin .sheet, #tcal .sheet {
   height: calc(100vh - 70px); height: calc(100dvh - 70px - env(safe-area-inset-top, 0px)); max-height: none; }
 .win .sheet .rw-tt h2, .win .sheet > .sheet-head h2 { font-size: 30px; }
 /* nächste Reise: kompakt */
@@ -1236,14 +1236,14 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .hub.j-trips .j-stk { right: 46px; top: -52px; width: 80px; height: 80px; }
 .sheet .ctile .ct-badge { display: none; }
 /* Klebestreifen halb über dem Fensterrand */
-#swin::before, #win::before, #twin::before, #rwin::before, #vwin::before, #hwin::before, #cwin::before, #tcal::before {
+#lwin::before, #swin::before, #win::before, #twin::before, #rwin::before, #vwin::before, #hwin::before, #cwin::before, #tcal::before {
   content: ""; position: absolute; left: 50%; top: calc(70px - 13px); top: calc(70px + env(safe-area-inset-top, 0px) - 13px); width: 112px; height: 26px; z-index: 3; pointer-events: none;
   transform: translateX(-50%) rotate(-2deg);
   background: linear-gradient(180deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 40%, rgba(120, 80, 0, .06)), repeating-linear-gradient(98deg, rgba(255, 255, 255, .14) 0 1px, rgba(255, 255, 255, 0) 1px 5px), rgba(247, 210, 96, .82);
   box-shadow: 0 1px 2px rgba(40, 30, 5, .3); clip-path: polygon(3% 0, 97% 5%, 100% 35%, 96% 60%, 100% 88%, 95% 100%, 4% 95%, 0 68%, 4% 42%, 0 15%); }
-#swin .sheet-head::before, #win .sheet-head::before, #twin .sheet-head::before, #rwin .sheet-head::before, #vwin .sheet-head::before, #hwin .sheet-head::before, #cwin .sheet-head::before, #tcal .sheet-head::before { display: none !important; }
-#swin .sheet, #win .sheet, #twin .sheet, #rwin .sheet, #vwin .sheet, #hwin .sheet, #cwin .sheet, #tcal .sheet { position: relative; z-index: 1; }
-#swin .sheet-head, #win .sheet-head, #twin .sheet-head, #rwin .sheet-head, #vwin .sheet-head, #hwin .sheet-head, #cwin .sheet-head, #tcal .sheet-head { padding-top: 24px; }
+#lwin .sheet-head::before, #swin .sheet-head::before, #win .sheet-head::before, #twin .sheet-head::before, #rwin .sheet-head::before, #vwin .sheet-head::before, #hwin .sheet-head::before, #cwin .sheet-head::before, #tcal .sheet-head::before { display: none !important; }
+#lwin .sheet, #swin .sheet, #win .sheet, #twin .sheet, #rwin .sheet, #vwin .sheet, #hwin .sheet, #cwin .sheet, #tcal .sheet { position: relative; z-index: 1; }
+#lwin .sheet-head, #swin .sheet-head, #win .sheet-head, #twin .sheet-head, #rwin .sheet-head, #vwin .sheet-head, #hwin .sheet-head, #cwin .sheet-head, #tcal .sheet-head { padding-top: 24px; }
 /* Wunschliste seitlich wischbar */
 #twin .wish, #twin .wish-row { min-width: 0; max-width: 100%; }
 #twin .wish-row { overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; touch-action: pan-x pan-y; scrollbar-width: none; padding-right: 14px; margin-right: -14px; }
@@ -1351,6 +1351,67 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .ct-stage .gift-ic svg { width: 112px; height: 112px; filter: drop-shadow(0 8px 8px rgba(40, 30, 10, .18)); animation: giftbob 5.4s ease-in-out infinite; }
 @keyframes giftbob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-5px) rotate(2deg); } }
 @media (prefers-reduced-motion: reduce) { .ct-stage .gift-ic svg { animation: none; } }
+
+/* ---------- Einkaufszettel ---------- */
+#lwin { --sn: #FFF7D1; --sc: #F3D36B; }
+.lz-stage { display: grid; gap: 10px; padding-bottom: 8px; }
+.lz-paper { position: relative; padding: 14px 12px 10px 46px; min-height: 300px; border-radius: 3px; transform-origin: 50% 40%;
+  background:
+    linear-gradient(90deg, transparent 34px, rgba(214, 80, 80, .55) 34px, rgba(214, 80, 80, .55) 35.5px, transparent 35.5px),
+    repeating-linear-gradient(180deg, transparent 0 43px, rgba(70, 110, 170, .2) 43px 44px),
+    linear-gradient(180deg, #FFFEF6, #FFF9DE);
+  background-position: 0 0, 0 14px, 0 0;
+  box-shadow: 0 0 0 .5px rgba(120, 95, 30, .2), 0 2px 3px rgba(60, 45, 10, .12), 0 18px 26px -18px rgba(60, 45, 10, .55); }
+.lz-list { list-style: none; margin: 0; padding: 0; }
+.lz-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) 30px; align-items: center; gap: 6px; min-height: 44px; margin-left: -40px; animation: lzin .3s ease-out both; }
+@keyframes lzin { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.lz-chk { width: 28px; height: 28px; padding: 0; border-radius: 50%; border: 2px solid #3A4A66; background: rgba(255, 255, 255, .8); color: transparent; cursor: pointer; display: grid; place-items: center; transition: background .2s, transform .15s; }
+.lz-chk svg { width: 18px; height: 18px; }
+.lz-chk:active { transform: scale(.88); }
+.lz-row.done .lz-chk { background: #2E9E5B; border-color: #2E9E5B; color: #fff; animation: lzpop .3s ease-out; }
+@keyframes lzpop { 50% { transform: scale(1.2); } }
+.lz-t { position: relative; min-width: 0; padding-left: 12px; font: 600 23px/1.2 var(--hand, cursive); color: #22314F; cursor: pointer; overflow-wrap: anywhere; }
+.lz-tx { position: relative; display: inline; background-image: linear-gradient(#C0392B, #C0392B); background-repeat: no-repeat; background-position: 0 58%; background-size: 0 2.5px; transition: background-size .35s ease-out, color .3s; }
+.lz-row.done .lz-tx { background-size: 100% 2.5px; color: rgba(34, 49, 79, .45); }
+.lz-x { width: 30px; height: 30px; padding: 0; border: 0; background: none; color: rgba(34, 49, 79, .3); font: 400 22px/1 var(--body); cursor: pointer; border-radius: 50%; }
+.lz-x:hover, .lz-x:focus-visible { color: #C0392B; }
+.lz-new { display: grid; grid-template-columns: 30px minmax(0, 1fr) 44px; align-items: center; gap: 6px; min-height: 48px; margin-left: -40px; }
+.lz-ring { width: 28px; height: 28px; border-radius: 50%; border: 2px dashed rgba(58, 74, 102, .4); }
+#lzIn { min-height: 44px; padding: 0 0 0 12px; border: 0; background: transparent; box-shadow: none; font: 600 23px/1.2 var(--hand, cursive); color: #22314F; outline: 0; }
+#lzIn::placeholder { color: rgba(34, 49, 79, .38); }
+.lz-mic { width: 44px; height: 44px; border-radius: 50%; border: 0; background: #22314F; color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 12px -6px rgba(34, 49, 79, .7); }
+.lz-mic.on { background: #D9453B; animation: lzrec 1.2s ease-in-out infinite; }
+@keyframes lzrec { 0%, 100% { box-shadow: 0 0 0 0 rgba(217, 69, 59, .5); } 50% { box-shadow: 0 0 0 10px rgba(217, 69, 59, 0); } }
+.lz-live { margin: 2px 0 0; min-height: 18px; font: 600 13px/1.3 var(--body); color: #D9453B; }
+.lz-live:empty { min-height: 0; }
+.lz-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 4px 2px 0; }
+.lz-hint { font: 12px/1.35 var(--mono); color: rgba(34, 49, 79, .6); max-width: 24ch; }
+.lz-bin { position: relative; flex: none; width: 66px; height: 66px; padding: 0; border: 0; background: none; cursor: pointer; transform-origin: 50% 100%; }
+.lz-bin svg { width: 100%; height: 100%; display: block; }
+.lz-badge { position: absolute; right: -2px; top: -4px; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; background: #D9453B; color: #fff; font: 800 13px/24px var(--body); text-align: center; box-shadow: 0 0 0 2px #fff, 0 3px 6px rgba(0, 0, 0, .25); }
+.lz-badge.pop { animation: lzbadge .5s cubic-bezier(.2, 1.8, .4, 1); }
+@keyframes lzbadge { from { transform: scale(0); } to { transform: scale(1); } }
+.lz-paper.crumple { animation: lzcrum .6s cubic-bezier(.5, 0, .75, .3) forwards; pointer-events: none; }
+@keyframes lzcrum {
+  0% { transform: none; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: none; }
+  35% { transform: scale(.82) rotate(-3deg) skewX(4deg); clip-path: polygon(4% 6%, 50% 0, 96% 4%, 100% 50%, 94% 96%, 50% 100%, 6% 94%, 0 50%); filter: brightness(.96) contrast(1.1); }
+  70% { transform: scale(.42) rotate(8deg); clip-path: polygon(18% 12%, 52% 2%, 86% 16%, 98% 52%, 82% 88%, 48% 98%, 14% 84%, 2% 48%); filter: brightness(.9) contrast(1.25); }
+  100% { transform: scale(.12) rotate(20deg); clip-path: polygon(30% 20%, 55% 10%, 80% 26%, 90% 55%, 72% 82%, 45% 90%, 20% 76%, 10% 46%); opacity: 0; }
+}
+.lz-paper.fresh { animation: lzfresh .6s ease-out; }
+@keyframes lzfresh { from { opacity: 0; transform: translateY(16px) rotate(-1deg); } to { opacity: 1; transform: none; } }
+.lz-ball { position: fixed; left: 0; top: 0; width: 90px; height: 90px; z-index: 200; pointer-events: none; filter: drop-shadow(0 8px 8px rgba(40, 30, 10, .35)); }
+.lz-ball svg { width: 100%; height: 100%; display: block; }
+/* Startseite */
+.j-lz { display: grid; gap: 3px; margin-top: 10px; padding-right: 44px; }
+.j-lzr { display: flex; align-items: center; gap: 9px; font: 600 19px/1.15 var(--hand, cursive); color: #22314F; min-width: 0; }
+.j-lzr span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.j-lzr i { flex: none; width: 15px; height: 15px; border-radius: 50%; border: 1.8px solid #3A4A66; background: rgba(255, 255, 255, .7); }
+.j-lzr.done span { text-decoration: line-through; text-decoration-color: #C0392B; text-decoration-thickness: 2px; color: rgba(34, 49, 79, .45); }
+.j-lzr.done i { background: #2E9E5B; border-color: #2E9E5B; }
+.j-lzmore { font: 12px var(--mono); color: var(--jmuted); margin-top: 2px; }
+.j-lzbin { position: absolute; right: 6px; bottom: 2px; color: rgba(34, 49, 79, .55); }
+.j-lzbin b { position: absolute; right: -8px; top: -8px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; background: #D9453B; color: #fff; font: 800 11px/18px var(--body); text-align: center; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -1852,6 +1913,29 @@ body.snapview #shareBtn{display:none!important}
     <div class="hlist" id="hwList"></div>
   </div>
 </div>
+<div class="win" id="lwin" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="lwTitle">
+    <div class="sheet-head rw-head">
+      <div class="rw-tt"><h2 id="lwTitle">Einkaufszettel</h2><span class="cnt" id="lwCount"></span></div>
+      <button type="button" class="ibtn" id="lwClose" aria-label="Schließen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="lz-stage">
+      <div class="lz-paper" id="lzPaper">
+        <ul class="lz-list" id="lzList"></ul>
+        <div class="lz-new">
+          <span class="lz-ring" aria-hidden="true"></span>
+          <input id="lzIn" type="text" placeholder="Neuer Punkt …" enterkeyhint="next" autocomplete="off" autocapitalize="sentences" aria-label="Neuer Punkt">
+          <button type="button" class="lz-mic" id="lzMic" aria-label="Einsprechen" aria-pressed="false"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+        </div>
+        <p class="lz-live" id="lzLive" aria-live="polite"></p>
+      </div>
+      <div class="lz-foot">
+        <span class="lz-hint" id="lzHint">Enter = nächster Punkt · Mikrofon: jedes Wort ein Punkt</span>
+        <button type="button" class="lz-bin" id="lzBin" aria-label="Papierkorb"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lzBg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8A9AAE"/><stop offset=".45" stop-color="#C9D3DE"/><stop offset="1" stop-color="#6E7E92"/></linearGradient></defs><ellipse cx="32" cy="60" rx="18" ry="3" fill="#000" opacity=".15"/><path d="M12 14h40l-5 44H17z" fill="url(#lzBg)" stroke="#4A5868" stroke-width="2" stroke-linejoin="round"/><path d="M19 20l3 34M26 20l1 34M32 20v34M38 20l-1 34M45 20l-3 34" stroke="#4A5868" stroke-width="1.4" opacity=".55"/><path d="M15 30h34M16 42h32" stroke="#4A5868" stroke-width="1.2" opacity=".4"/><ellipse cx="32" cy="14" rx="20" ry="4.5" fill="#56667A" stroke="#3A4656" stroke-width="2"/><ellipse cx="32" cy="14" rx="16" ry="2.6" fill="#2E3846"/></svg><span class="lz-badge" id="lzBadge" hidden></span></button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="win ed" id="hdet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="hdName">
     <div class="sheet-head">
@@ -1986,9 +2070,10 @@ body.snapview #shareBtn{display:none!important}
             edit: false, ed: null, menu: false, pf: false, swin: false, map: false, wf: false, tcal: false, canEdit: true, tol: 38, cut: true, img: null, cur: null, P: null, tap: null, auto: null, edits: [], mode: 'obj',
             nameTouched: false, opened: false, imgOK: false, token: 0 };
   var db = null, assets = null, sample = null, user = null, dl = null;
-  var HUB_DEF = { shop: 'Shopping', trips: 'Reisen', rest: 'Restaurants', bar: 'Bars', wine: 'Weine', hike: 'Bergwanderungen' };
-  var HUB_OF = { items: 'shop', trips: 'trips', places: 'rest', bars: 'bar', wines: 'wine', hikes: 'hike' };
+  var HUB_DEF = { shop: 'Shopping', trips: 'Reisen', rest: 'Restaurants', bar: 'Bars', wine: 'Weine', hike: 'Bergwanderungen', list: 'Einkaufszettel' };
+  var HUB_OF = { items: 'shop', trips: 'trips', places: 'rest', bars: 'bar', wines: 'wine', hikes: 'hike', lists: 'list' };
   S.layout = { hubOrder: [], hubNames: {}, shopOrder: [], cuisineOrder: [], barOrder: [], hubHidden: [], custom: [] };
+  S.list = { items: [], trash: 0 }; S.lwin = false;
   S.hikes = []; S.hikesMem = []; S.hwin = false; S.hdet = null; S.hf = false; S.hfilter = 'all'; S.hsort = 'name';
   S.wines = []; S.winesMem = []; S.vwin = false; S.vdet = null; S.vfilter = 'all'; S.vsort = 'name';
   var WTYPES = [['rot', 'Rotwein', '#7A1F3D'], ['weiss', 'Weißwein', '#C9A93E'], ['rose', 'Rosé', '#D9779A'], ['schaum', 'Schaumwein', '#B79A52'], ['suess', 'Süßwein', '#C27A1E'], ['andere', 'Andere', '#56667A']];
@@ -3185,6 +3270,7 @@ body.snapview #shareBtn{display:none!important}
     if (S.vdet) renderVdet();
     if (S.hwin) renderHwin();
     if (S.hdet) renderHdet();
+    if (S.lwin) renderLwin();
     if (S.cwin) renderCwin();
     var rwEl = document.getElementById('rwin'), rfEl = document.getElementById('rform'), rdEl = document.getElementById('rdet');
     if (rwEl) rwEl.classList.toggle('isbar', rwKind() === 'bar'); if (rfEl) rfEl.classList.toggle('isbar', curKind() === 'bar'); if (rdEl) rdEl.classList.toggle('isbar', rwKind() === 'bar');
@@ -3197,9 +3283,10 @@ body.snapview #shareBtn{display:none!important}
     if (!S.viewer || S.share.bars) hl.push(['bars', barsTile()]);
     if (!S.viewer || S.share.wines) hl.push(['wines', wineTile()]);
     if (!S.viewer || S.share.hikes) hl.push(['hikes', hikeTile()]);
+    if (!S.viewer) hl.push(['lists', jList()]);
     if (!S.viewer) { hl = hl.filter(function (x) { return hubVisible(HUB_OF[x[0]]); }); customHubs().forEach(function (c) { hl.push([c.id, customTile(c)]); }); }
     var hk = function (x) { return HUB_OF[x] || x; };
-    var hord = byOrder(hl.map(function (x) { return hk(x[0]); }), S.layout.hubOrder);
+    var hord = byOrder(hl.map(function (x) { return hk(x[0]); }), (S.layout.hubOrder || []).indexOf('list') < 0 ? ['list'].concat(S.layout.hubOrder || []) : S.layout.hubOrder);
     hl.sort(function (a, b) { return hord.indexOf(hk(a[0])) - hord.indexOf(hk(b[0])); });
     /* Restaurants und Bars nebeneinander, Weine als kleine Kachel darunter neben den Restaurants */
     var JG = ['places', 'bars', 'wines'], gi = -1;
@@ -3444,7 +3531,7 @@ body.snapview #shareBtn{display:none!important}
     return fmtD(f || t);
   }
   function syncLock() {
-    var any = ['#win', '#ed', '#twin', '#tdet', '#tform', '#rwin', '#rdet', '#rform', '#swin', '#amenu', '#pform', '#mapwin', '#wform', '#tcal', '#shwin', '#catsheet', '#vwin', '#vdet', '#hwin', '#hdet', '#hform', '#nhub', '#cwin', '#cform', '#acct'].some(function (s) { return !$(s).hidden; });
+    var any = ['#win', '#ed', '#twin', '#tdet', '#tform', '#rwin', '#rdet', '#rform', '#swin', '#amenu', '#pform', '#mapwin', '#wform', '#tcal', '#shwin', '#catsheet', '#vwin', '#vdet', '#hwin', '#hdet', '#hform', '#nhub', '#cwin', '#cform', '#lwin', '#acct'].some(function (s) { return !$(s).hidden; });
     document.body.style.overflow = any ? 'hidden' : '';
   }
   function armDelete(btn, fn) {
@@ -6125,10 +6212,10 @@ body.snapview #shareBtn{display:none!important}
     } finally { btn.disabled = false; }
   });
   /* ---------- Startseite im Reisetagebuch-Stil ---------- */
-  var JCOL = { shop: '#F2B3C6', trips: '#A9C4F2', rest: '#F7C59C', bar: '#C9B9F0', wine: '#E9AFC4', hike: '#A9DCC1' };
-  var JNOTE = { shop: '#FDE8EE', trips: '#E5EEFC', rest: '#FEEEDF', bar: '#EEE8FC', wine: '#F3E3F0', hike: '#E2F4EA' };
-  var PHL = { shop: '#F4B4C8', trips: '#86A9EC', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
-  var JKICK = { shop: 'Wunschregal', trips: 'Unterwegs', rest: 'Essen', bar: 'Ausgehen', wine: 'Weinkeller', hike: 'Draußen' };
+  var JCOL = { list: '#F3D36B', shop: '#F2B3C6', trips: '#A9C4F2', rest: '#F7C59C', bar: '#C9B9F0', wine: '#E9AFC4', hike: '#A9DCC1' };
+  var JNOTE = { list: '#FFF7D1', shop: '#FDE8EE', trips: '#E5EEFC', rest: '#FEEEDF', bar: '#EEE8FC', wine: '#F3E3F0', hike: '#E2F4EA' };
+  var PHL = { list: '#F6D45E', shop: '#F4B4C8', trips: '#86A9EC', rest: '#F8C298', bar: '#CBBAF2', wine: '#EBADC4', hike: '#A2DBBC' };
+  var JKICK = { list: 'Besorgen', shop: 'Wunschregal', trips: 'Unterwegs', rest: 'Essen', bar: 'Ausgehen', wine: 'Weinkeller', hike: 'Draußen' };
   function jRot(k) { return ((hash(String(k) + 'jr') * 2 - 1) * 1.6).toFixed(2) + 'deg'; }
   function jHub(kind, label, onclick, body, opts) {
     opts = opts || {};
@@ -6220,6 +6307,146 @@ body.snapview #shareBtn{display:none!important}
     return jHub(c.id, c.name + ', ' + count, function () { openCwin(c.id); }, h('span', { class: 'j-in' }, jHead(c.id, count, 'Sammlung'), pics), { color: c.color, cls: 'custom' });
   }
   (function () { var d = new Date(), wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][d.getDay()]; var e = document.getElementById('homeSub'); if (e) e.textContent = 'Mein Notizbuch · ' + wd + ', ' + d.getDate() + '. ' + ['Jan.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sep.', 'Okt.', 'Nov.', 'Dez.'][d.getMonth()]; })();
+
+  /* ---------- Einkaufszettel ---------- */
+  var LZ = { saving: 0, anim: false, rec: null, recOn: false };
+  function lzNorm(d) {
+    d = d || {};
+    var items = Array.isArray(d.items) ? d.items.filter(function (x) { return x && typeof x.t === 'string' && x.t.trim(); }).map(function (x) { return { id: String(x.id || ('i' + Math.random().toString(36).slice(2, 8))), t: x.t.slice(0, 80), done: !!x.done }; }) : [];
+    return { items: items, trash: Math.max(0, Math.floor(+d.trash || 0)) };
+  }
+  function watchList() {
+    if (!db) return;
+    db.doc('lists/einkauf').onSnapshot(function (snap) {
+      if (LZ.saving || LZ.anim) return;
+      S.list = lzNorm(snap.exists ? snap.data() : null); render();
+    }, function () {});
+  }
+  async function lzSave() {
+    if (!db) return;
+    LZ.saving++;
+    try { await db.doc('lists/einkauf').set({ items: S.list.items, trash: S.list.trash, updatedAt: Date.now() }); }
+    catch (e) { toast('Der Einkaufszettel konnte nicht gespeichert werden.'); }
+    finally { setTimeout(function () { LZ.saving = Math.max(0, LZ.saving - 1); }, 400); }
+  }
+  function lzCap(w) { return w ? w.charAt(0).toUpperCase() + w.slice(1) : w; }
+  function lzAdd(texts) {
+    var add = texts.map(function (t) { return t.replace(/\s+/g, ' ').trim().slice(0, 80); }).filter(Boolean).map(function (t) { return { id: 'i' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), t: lzCap(t), done: false }; });
+    if (!add.length) return;
+    S.list.items = S.list.items.concat(add); renderLwin(); render(); lzSave();
+    var l = $('#lzList'); if (l && l.lastChild) l.lastChild.scrollIntoView({ block: 'nearest' });
+  }
+  var LZ_FILL = /^(und|oder|dann|noch|auch|bitte|außerdem|ausserdem|sowie|plus|komma|punkt)$/i;
+  function lzWords(txt) { return String(txt).split(/[\s,;.!?]+/).map(function (w) { return w.trim(); }).filter(function (w) { return w && !LZ_FILL.test(w); }); }
+  function lzToggle(it) {
+    if (LZ.anim) return;
+    it.done = !it.done; renderLwin(); render(); lzSave();
+    if (S.list.items.length && S.list.items.every(function (x) { return x.done; })) setTimeout(function () { if (S.list.items.length && S.list.items.every(function (x) { return x.done; })) lzCrumple(); }, 750);
+  }
+  function lzDel(it) { S.list.items = S.list.items.filter(function (x) { return x !== it; }); renderLwin(); render(); lzSave(); }
+  function renderLwin() {
+    var L = S.list, open = L.items.filter(function (x) { return !x.done; }).length;
+    $('#lwTitle').textContent = hubName('list');
+    $('#lwCount').textContent = L.items.length ? (open ? open + ' offen' : 'Alles erledigt') + ' · ' + L.items.length + (L.items.length === 1 ? ' Punkt' : ' Punkte') : 'Leerer Zettel';
+    var ul = $('#lzList'); ul.replaceChildren();
+    L.items.forEach(function (it) {
+      var cb = h('button', { type: 'button', class: 'lz-chk', role: 'checkbox', 'aria-checked': String(it.done), 'aria-label': it.t + (it.done ? ', erledigt' : ''), onclick: function () { lzToggle(it); } });
+      cb.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      ul.append(h('li', { class: 'lz-row' + (it.done ? ' done' : '') }, cb,
+        h('span', { class: 'lz-t', onclick: function () { lzToggle(it); } }, h('span', { class: 'lz-tx' }, it.t)),
+        h('button', { type: 'button', class: 'lz-x', 'aria-label': it.t + ' löschen', onclick: function () { lzDel(it); } }, '×')));
+    });
+    var b = $('#lzBadge'); b.hidden = !L.trash; b.textContent = String(L.trash);
+    $('#lzIn').placeholder = L.items.length ? 'Neuer Punkt …' : 'Was brauchst du?';
+  }
+  function openLwin() { S.lwin = true; $('#lwin').hidden = false; syncLock(); renderLwin(); $('#lwin .sheet').scrollTop = 0; setTimeout(function () { if (!S.list.items.length) $('#lzIn').focus(); }, 60); }
+  function closeLwin() { lzStopRec(); S.lwin = false; $('#lwin').hidden = true; syncLock(); }
+  $('#lwClose').addEventListener('click', closeLwin);
+  $('#lwin').addEventListener('click', function (e) { if (e.target === this) closeLwin(); });
+  $('#lzIn').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); var v = this.value; this.value = ''; lzAdd(v.split(/\n+/)); }
+  });
+  $('#lzIn').addEventListener('input', function (e) {
+    /* Diktat über die iPhone-Tastatur oder Einfügen: mehrere Wörter auf einmal -> jedes Wort ein Punkt */
+    var d = e.data || '';
+    if ((e.inputType === 'insertFromPaste' && /\n/.test(this.value)) ) { var v = this.value; this.value = ''; lzAdd(v.split(/\n+/)); return; }
+    if ((e.inputType === 'insertText' || e.inputType === 'insertReplacementText' || e.inputType === 'insertFromDictation') && d.trim().split(/\s+/).length >= 2) {
+      var w = lzWords(this.value); this.value = ''; lzAdd(w);
+    }
+  });
+  $('#lzIn').addEventListener('blur', function () { var v = this.value.trim(); if (v) { this.value = ''; lzAdd([v]); } });
+  function lzStopRec() { if (LZ.rec) { try { LZ.rec.stop(); } catch (e) {} } LZ.recOn = false; var m = $('#lzMic'); if (m) { m.classList.remove('on'); m.setAttribute('aria-pressed', 'false'); } var lv = $('#lzLive'); if (lv) lv.textContent = ''; }
+  $('#lzMic').addEventListener('click', function () {
+    if (LZ.recOn) { lzStopRec(); return; }
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { toast('Sprache geht hier nicht direkt. Tippe ins Feld und nutze das Mikrofon der iPhone-Tastatur – jedes Wort wird ein Punkt.'); $('#lzIn').focus(); return; }
+    var r = new SR(); LZ.rec = r; r.lang = 'de-DE'; r.continuous = true; r.interimResults = true;
+    r.onresult = function (ev) {
+      var interim = '';
+      for (var i = ev.resultIndex; i < ev.results.length; i++) {
+        var res = ev.results[i];
+        if (res.isFinal) lzAdd(lzWords(res[0].transcript)); else interim += res[0].transcript;
+      }
+      $('#lzLive').textContent = interim ? '🎙 ' + interim : '🎙 Ich höre zu …';
+    };
+    r.onerror = function (ev) { var m = ev && ev.error === 'not-allowed' ? 'Bitte erlaube den Zugriff aufs Mikrofon.' : ev && ev.error === 'no-speech' ? '' : 'Spracheingabe unterbrochen.'; lzStopRec(); if (m) toast(m); };
+    r.onend = function () { if (LZ.recOn) lzStopRec(); };
+    try { r.start(); LZ.recOn = true; this.classList.add('on'); this.setAttribute('aria-pressed', 'true'); $('#lzLive').textContent = '🎙 Ich höre zu … sag z. B. „Milch Brot Eier“'; }
+    catch (e) { toast('Die Spracheingabe konnte nicht starten.'); }
+  });
+  $('#lzBin').addEventListener('click', function () {
+    var n = S.list.trash;
+    toast(n ? n + (n === 1 ? ' Einkaufszettel erledigt und weggeworfen.' : ' Einkaufszettel erledigt und weggeworfen.') : 'Der Papierkorb ist noch leer.');
+  });
+  function lzBall() {
+    var b = h('div', { class: 'lz-ball', 'aria-hidden': 'true' });
+    b.innerHTML = '<svg viewBox="0 0 100 100"><defs><radialGradient id="lzbg" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#FFFBE6"/><stop offset=".6" stop-color="#F6E7A8"/><stop offset="1" stop-color="#C9B46A"/></radialGradient></defs>'
+      + '<path d="M50 6l14 6 12-2 8 12 10 8-3 14 5 12-9 10-2 14-13 4-10 9-13-4-13 3-8-11-12-6 2-14-8-11 7-12-1-14 12-6 8-11z" fill="url(#lzbg)" stroke="#A8925A" stroke-width="2" stroke-linejoin="round"/>'
+      + '<path d="M50 6l-6 22 20 10 12-28M26 23l18 5-8 22-26 4M94 30l-30 8 4 22 30 4M70 92l-6-32-20 4-8 26M14 74l22-24 8 14" fill="none" stroke="#B8A167" stroke-width="1.6" stroke-linejoin="round" opacity=".8"/>'
+      + '<path d="M44 28l20 10-4 22-16 4-8-14z" fill="#fff" opacity=".35"/><path d="M30 60l6 10 8-6" fill="none" stroke="#8B7A4A" stroke-width="1.2" opacity=".6"/></svg>';
+    return b;
+  }
+  async function lzCrumple() {
+    if (LZ.anim) return; LZ.anim = true; lzStopRec();
+    var paper = $('#lzPaper'), bin = $('#lzBin');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function finish() {
+      S.list.items = []; S.list.trash += 1; LZ.anim = false;
+      paper.classList.remove('crumple'); paper.classList.add('fresh'); setTimeout(function () { paper.classList.remove('fresh'); }, 700);
+      renderLwin(); render(); lzSave();
+      var bd = $('#lzBadge'); bd.classList.remove('pop'); void bd.offsetWidth; bd.classList.add('pop');
+      toast('Alles erledigt! Der Zettel ist im Papierkorb.');
+    }
+    if (reduce || !S.lwin || !paper.animate) { finish(); return; }
+    var pr = paper.getBoundingClientRect(), br = bin.getBoundingClientRect();
+    paper.classList.add('crumple');
+    await wait(520);
+    var ball = lzBall(); document.body.append(ball);
+    var sx = pr.left + pr.width / 2 - 45, sy = pr.top + pr.height / 2 - 45, ex = br.left + br.width / 2 - 45, ey = br.top + br.height * .32 - 45;
+    var apex = Math.min(sy, ey) - 140;
+    var a = ball.animate([
+      { transform: 'translate(' + sx + 'px,' + sy + 'px) scale(.2) rotate(0deg)', opacity: 0 },
+      { transform: 'translate(' + sx + 'px,' + sy + 'px) scale(1.15) rotate(40deg)', opacity: 1, offset: .18 },
+      { transform: 'translate(' + sx + 'px,' + (sy - 12) + 'px) scale(1) rotate(80deg)', offset: .3 },
+      { transform: 'translate(' + ((sx + ex) / 2) + 'px,' + apex + 'px) scale(.75) rotate(300deg)', offset: .64 },
+      { transform: 'translate(' + ex + 'px,' + ey + 'px) scale(.42) rotate(520deg)', opacity: 1, offset: .92 },
+      { transform: 'translate(' + ex + 'px,' + (ey + 18) + 'px) scale(.36) rotate(540deg)', opacity: 0 }
+    ], { duration: 1250, easing: 'cubic-bezier(.45,.05,.55,.95)', fill: 'forwards' });
+    a.onfinish = function () {
+      ball.remove();
+      bin.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-9deg)' }, { transform: 'rotate(7deg)' }, { transform: 'rotate(-4deg)' }, { transform: 'rotate(0)' }], { duration: 520, easing: 'ease-out' });
+      finish();
+    };
+  }
+  function jList() {
+    var L = S.list, n = L.items.length, open = L.items.filter(function (x) { return !x.done; });
+    var count = n ? (open.length ? open.length + ' offen' : 'Alles erledigt') + ' · ' + n + (n === 1 ? ' Punkt' : ' Punkte') : 'Zettel ist leer';
+    var rows = L.items.slice().sort(function (a, b) { return (a.done ? 1 : 0) - (b.done ? 1 : 0); }).slice(0, 5);
+    var lines = n ? h('span', { class: 'j-lz' }, rows.map(function (it) { return h('span', { class: 'j-lzr' + (it.done ? ' done' : '') }, h('i', { 'aria-hidden': 'true' }), h('span', {}, it.t)); }),
+      n > 5 ? h('span', { class: 'j-lzmore' }, '+ ' + (n - 5) + ' weitere') : null) : h('span', { class: 'j-empty' }, '+ Tippen und losschreiben oder einsprechen');
+    var binI = h('span', { class: 'j-lzbin', 'aria-hidden': 'true' }); binI.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 6h14l-1.6 14H6.6z"/><path d="M4 6h16M9 9.5l.5 7M12 9.5v7M15 9.5l-.5 7"/></svg>' + (L.trash ? '<b>' + L.trash + '</b>' : '');
+    return jHub('list', hubName('list') + ', ' + count, openLwin, h('span', { class: 'j-in' }, jHead('list', count), lines, binI), { wide: true });
+  }
   /* ---------- Tastatur ---------- */
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
@@ -6228,6 +6455,7 @@ body.snapview #shareBtn{display:none!important}
     if (S.acct) closeAcct(); else if (S.cs) closeCatSheet(); else if (S.sh) closeShare(); else if (S.pf) closePform(); else if (S.wf) closeWform(); else if (S.menu) closeMenu(); else if (S.rf) closeRform(); else if (S.rdet) closeRdet(); else if (S.map) closeMap(); else if (S.rwin) { if (S.rwin.c) { S.rwin.c = null; renderRwin(); } else closeRwin(); }
     else if (S.cf) closeCform(); else if (S.nh) closeNhub(); else if (S.cwin) closeCwin();
     else if (S.hf) closeHform(); else if (S.hdet) closeHdet(); else if (S.hwin) closeHwin();
+    else if (S.lwin) closeLwin();
     else if (S.vdet) closeVdet(); else if (S.vwin) closeVwin();
     else if (S.tf) closeTform(); else if (S.tdet) closeTdet(); else if (S.tcal) closeTcal(); else if (S.twin) closeTwin();
     else if (S.ed) closeEditor(); else if (S.win) closeWin(false); else if (S.swin) closeSwin();
@@ -6540,7 +6768,7 @@ body.snapview #shareBtn{display:none!important}
     try {
       var j = JSON.parse(await f.text()), docs = j && j.docs, ok = {};
       if (!docs || typeof docs !== 'object') throw new Error('format');
-      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes|entries)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
+      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes|entries|lists)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
       var n = Object.keys(ok).length; if (!n) throw new Error('leer');
       $('#acImport').disabled = true; msg.textContent = 'Importiere 0 von ' + n + ' …';
       await db.importDocs(ok, function (d, t) { msg.textContent = 'Importiere ' + d + ' von ' + t + ' …'; });
@@ -6616,6 +6844,7 @@ body.snapview #shareBtn{display:none!important}
     db.collection('wines').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.wines = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('items').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setItems(docsOf(snap)); S.loaded = true; afterLoad(); render(); });
     try { watchLayout(); } catch (x) {}
+    try { watchList(); } catch (x) {}
     aiInit();
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && db && !S.pf && !S.rf && !S.tf) db.reload().catch(function () {}); });
   }

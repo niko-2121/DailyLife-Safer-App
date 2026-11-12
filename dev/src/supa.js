@@ -149,7 +149,7 @@
     try {
       var j = JSON.parse(await f.text()), docs = j && j.docs, ok = {};
       if (!docs || typeof docs !== 'object') throw new Error('format');
-      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes|entries)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
+      Object.keys(docs).forEach(function (k) { if (/^(items|trips|places|wines|hikes|entries|lists)\/[A-Za-z0-9_\-.~:@+]+$/.test(k) || k === 'pub/layout') if (docs[k] && typeof docs[k] === 'object') ok[k] = docs[k]; });
       var n = Object.keys(ok).length; if (!n) throw new Error('leer');
       $('#acImport').disabled = true; msg.textContent = 'Importiere 0 von ' + n + ' …';
       await db.importDocs(ok, function (d, t) { msg.textContent = 'Importiere ' + d + ' von ' + t + ' …'; });
@@ -225,6 +225,7 @@
     db.collection('wines').orderBy('createdAt', 'desc').onSnapshot(function (snap) { S.wines = docsOf(snap).filter(function (o) { return typeof o.name === 'string' && o.name; }); render(); });
     db.collection('items').orderBy('createdAt', 'desc').onSnapshot(function (snap) { setItems(docsOf(snap)); S.loaded = true; afterLoad(); render(); });
     try { watchLayout(); } catch (x) {}
+    try { watchList(); } catch (x) {}
     aiInit();
     document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && db && !S.pf && !S.rf && !S.tf) db.reload().catch(function () {}); });
   }
