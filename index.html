@@ -1412,6 +1412,26 @@ header h1 { color: #B9CDF5; -webkit-text-stroke: 1.6px var(--jink); paint-order:
 .j-lzmore { font: 12px var(--mono); color: var(--jmuted); margin-top: 2px; }
 .j-lzbin { position: absolute; right: 6px; bottom: 2px; color: rgba(34, 49, 79, .55); }
 .j-lzbin b { position: absolute; right: -8px; top: -8px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; background: #D9453B; color: #fff; font: 800 11px/18px var(--body); text-align: center; }
+
+/* ---------- Start: zerknüllte Papierkugel entfaltet sich zur Startseite ---------- */
+#intro { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; align-content: center; gap: 18px; background: inherit; background-color: var(--jpaper, #EFE8D8); touch-action: none; -webkit-tap-highlight-color: transparent; overflow: hidden; }
+html.intro-on, html.intro-on body { overflow: hidden !important; }
+.in-ball { position: relative; z-index: 2; width: 190px; height: 190px; padding: 0; border: 0; background: none; cursor: pointer; animation: inbob 3.2s ease-in-out infinite; filter: drop-shadow(0 14px 14px rgba(60, 40, 5, .28)); }
+.in-ball svg { display: block; width: 100%; height: 100%; }
+.in-ball:focus-visible { outline: 3px solid #26324B; outline-offset: 6px; border-radius: 50%; }
+@keyframes inbob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-9px) rotate(3deg); } }
+.in-hint { position: relative; z-index: 2; margin: 0; font: 600 22px/1 var(--hand, cursive); color: rgba(38, 50, 75, .7); transition: opacity .25s; animation: inhint 2.2s ease-in-out infinite; }
+@keyframes inhint { 50% { opacity: .45; } }
+.in-sheet { position: fixed; inset: 0; z-index: 1; visibility: hidden; will-change: clip-path, transform, opacity; transform-origin: 50% 50%;
+  background: radial-gradient(120% 90% at 30% 20%, #FFF3A6, #FFE061 60%, #F2C83C); }
+.in-sheet svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+html.intro-out #hubs > * { animation: hubunf .8s cubic-bezier(.2, 1.15, .3, 1) both; animation-delay: calc(var(--un, 0) * 85ms + 60ms); }
+html.intro-out #hubs > :nth-child(2) { --un: 1; } html.intro-out #hubs > :nth-child(3) { --un: 2; } html.intro-out #hubs > :nth-child(4) { --un: 3; }
+html.intro-out #hubs > :nth-child(5) { --un: 4; } html.intro-out #hubs > :nth-child(6) { --un: 5; } html.intro-out #hubs > :nth-child(n+7) { --un: 6; }
+@keyframes hubunf { from { opacity: 0; transform: translateY(-34px) scale(.6) rotate(-9deg); } 60% { opacity: 1; } }
+html.intro-out .wrap > header { animation: inhead .6s ease-out both; }
+@keyframes inhead { from { opacity: 0; transform: translateY(-14px); } }
+@media (prefers-reduced-motion: reduce) { .in-ball, .in-hint { animation: none; } html.intro-out #hubs > *, html.intro-out .wrap > header { animation: none; } }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -1421,6 +1441,81 @@ body.snapview #shareBtn{display:none!important}
 </style>
 </head>
 <body>
+<div id="intro" aria-label="DailyLife Safer öffnen">
+  <div class="in-sheet" id="inSheet" aria-hidden="true"><svg id="inCrease" viewBox="0 0 100 100" preserveAspectRatio="none"><g fill="#8A6A10"><path d="M0 0L38 22 16 48z" opacity=".10"/><path d="M38 22L72 8 60 40z" opacity=".05"/><path d="M72 8L100 0 100 34 60 40z" opacity=".12"/><path d="M16 48L38 22 60 40 44 62z" opacity=".03"/><path d="M0 0L16 48 0 60z" opacity=".06"/><path d="M60 40L100 34 84 66z" opacity=".07"/><path d="M44 62L60 40 84 66 62 84z" opacity=".11"/><path d="M0 60L16 48 44 62 22 86z" opacity=".09"/><path d="M0 60L22 86 0 100z" opacity=".04"/><path d="M22 86L44 62 62 84 48 100 0 100z" opacity=".07"/><path d="M84 66L100 34 100 100 62 84z" opacity=".05"/><path d="M62 84L100 100 48 100z" opacity=".12"/></g><g fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".35" vector-effect="non-scaling-stroke"><path d="M0 0L38 22 72 8 100 0M38 22L16 48 0 60M38 22L60 40 100 34M72 8L60 40 44 62 16 48M60 40L84 66 100 100M44 62L62 84 48 100M44 62L22 86 0 100M84 66L62 84M0 60L22 86"/></g></svg></div>
+  <button type="button" class="in-ball" id="inBall" aria-label="Papierkugel antippen, um die App zu öffnen">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><defs><radialGradient id="inG" cx="36%" cy="30%" r="80%"><stop offset="0" stop-color="#FFF6B8"/><stop offset=".55" stop-color="#FFE061"/><stop offset="1" stop-color="#D9A720"/></radialGradient></defs>
+      <ellipse cx="104" cy="186" rx="62" ry="9" fill="#3A2A08" opacity=".22"/>
+      <path d="M100 14l26 8 22-6 18 22 22 14-6 28 12 24-18 22-2 28-28 8-20 20-26-10-26 8-18-22-26-12 4-28-18-22 14-26-4-28 26-10 16-24z" fill="url(#inG)" stroke="#B88A14" stroke-width="2.5" stroke-linejoin="round"/>
+      <g stroke-linejoin="round">
+        <path d="M100 14l-14 40 40 22 22-60-22 6z" fill="#fff" opacity=".28"/>
+        <path d="M52 42l34 12-18 44-52 10 14-26-4-28z" fill="#fff" opacity=".12"/>
+        <path d="M126 76l62-24-6 28 12 24-64 16z" fill="#9A6E08" opacity=".14"/>
+        <path d="M68 98l18-44 40 22 4 44-42 12z" fill="#fff" opacity=".2"/>
+        <path d="M16 108l52-10 20 34-34 44-26-12 4-28z" fill="#9A6E08" opacity=".1"/>
+        <path d="M88 132l42-12 46 54-28 8-20 20-26-10z" fill="#7A5606" opacity=".2"/>
+        <path d="M130 120l64-16-18 22-2 28-44-34z" fill="#7A5606" opacity=".28"/>
+        <path d="M54 176l34-44 14 60-22-8z" fill="#9A6E08" opacity=".22"/>
+      </g>
+      <path d="M86 54l40 22 4 44-42 12-20-34zM100 14l-14 40M148 16l-22 60M52 42l34 12M16 108l52-10M188 52l-62 24M194 104l-64 16M88 132l-34 44M88 132l14 60M130 120l46 54" fill="none" stroke="#B88A14" stroke-width="1.6" stroke-linejoin="round" opacity=".7"/>
+      <path d="M70 34q14-10 30-10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+    </svg>
+  </button>
+  <p class="in-hint" id="inHint">Antippen zum Öffnen</p>
+</div>
+<script>
+(function () {
+  var intro = document.getElementById('intro'), ball = document.getElementById('inBall'), sheet = document.getElementById('inSheet'), crease = document.getElementById('inCrease');
+  var done = false;
+  function finish() { if (intro.parentNode) intro.remove(); document.documentElement.classList.remove('intro-on'); }
+  function reveal() { document.documentElement.classList.add('intro-out'); setTimeout(function () { document.documentElement.classList.remove('intro-out'); }, 1900); }
+  window.dlsSkipIntro = function () { done = true; finish(); };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (/^#s=/.test(location.hash) || !sheet.animate) { finish(); return; }
+  document.documentElement.classList.add('intro-on');
+  /* Umriss: von der Kugel (rund, zackig) zum ganzen Blatt, immer 24 Punkte */
+  function rnd(i, k) { var x = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return x - Math.floor(x); }
+  function outline(t, k) {
+    var W = innerWidth, H = innerHeight, cx = W / 2, cy = H / 2, R = 84, N = 24, pts = [];
+    for (var i = 0; i < N; i++) {
+      var a = (i / N) * Math.PI * 2 - Math.PI * .75;
+      var bx = cx + Math.cos(a) * R * (.86 + rnd(i, 0) * .22), by = cy + Math.sin(a) * R * (.86 + rnd(i, 1) * .22);
+      /* Zielpunkt auf dem Rand des Bildschirms (mit Überstand) */
+      var side = Math.floor(i / 6), f = (i % 6) / 6, m = 30, rx, ry;
+      if (side === 0) { rx = -m + (W + 2 * m) * f; ry = -m; } else if (side === 1) { rx = W + m; ry = -m + (H + 2 * m) * f; }
+      else if (side === 2) { rx = W + m - (W + 2 * m) * f; ry = H + m; } else { rx = -m; ry = H + m - (H + 2 * m) * f; }
+      var j = (1 - t) * t * 4, amp = Math.min(W, H) * .16 * j;
+      var x = bx + (rx - bx) * t + (rnd(i, 2 + k) - .5) * amp, y = by + (ry - by) * t + (rnd(i, 7 + k) - .5) * amp;
+      pts.push(x.toFixed(1) + 'px ' + y.toFixed(1) + 'px');
+    }
+    return 'polygon(' + pts.join(',') + ')';
+  }
+  function open() {
+    if (done) return; done = true;
+    var hn = document.getElementById('inHint'); hn.style.animation = 'none'; hn.style.opacity = '0';
+    if (reduce) { reveal(); finish(); return; }
+    /* 1. Kugel ruckelt und lockert sich */
+    var a1 = ball.animate([{ transform: 'scale(1) rotate(0)' }, { transform: 'scale(.9) rotate(-8deg)' }, { transform: 'scale(1.08) rotate(6deg)' }, { transform: 'scale(1.16) rotate(-3deg)' }], { duration: 420, easing: 'ease-in-out', fill: 'forwards' });
+    a1.onfinish = function () {
+      /* 2. Blatt entfaltet sich aus der Kugel heraus */
+      sheet.style.visibility = 'visible';
+      ball.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+      var kf = [0, .16, .34, .52, .7, .86, 1].map(function (t, k) { return { clipPath: outline(t, k), transform: 'rotate(' + [(-10), 7, -5, 3, -1.5, .5, 0][k] + 'deg) scale(' + [1, 1.02, 1, 1.01, 1, 1, 1][k] + ')', offset: t }; });
+      var a2 = sheet.animate(kf, { duration: 1150, easing: 'cubic-bezier(.3,.1,.25,1)', fill: 'forwards' });
+      crease.animate([{ opacity: 1 }, { opacity: 1, offset: .45 }, { opacity: .35 }], { duration: 1150, fill: 'forwards' });
+      a2.onfinish = function () {
+        /* 3. Blatt glättet sich und wird zur Startseite, die Zettel legen sich an ihren Platz */
+        intro.style.background = 'transparent'; reveal();
+        var a3 = sheet.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 650, easing: 'ease-out', fill: 'forwards' });
+        crease.animate([{ opacity: .35 }, { opacity: 0 }], { duration: 400, fill: 'forwards' });
+        a3.onfinish = finish;
+      };
+    };
+  }
+  ball.addEventListener('click', open);
+  intro.addEventListener('click', function (e) { if (e.target === intro) open(); });
+})();
+</script>
 <div class="wrap">
   <header>
     <div><h1>DailyLife Safer</h1>

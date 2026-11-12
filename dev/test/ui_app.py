@@ -36,7 +36,7 @@ with sync_playwright() as p:
     pg.goto('http://test.local/index.html')
     pg.evaluate("d=>{localStorage.clear();localStorage.setItem('mock_users',JSON.stringify({'ich@test.ch':{pw:'x',id:'u-0-11'}}));localStorage.setItem('mock_user',JSON.stringify({id:'u-0-11',email:'ich@test.ch'}));localStorage.setItem('mock_docs',JSON.stringify(d))}",docs)
     pg.add_init_script("navigator.share=function(o){window.__shared=o;return Promise.resolve();}")
-    pg.reload(); pg.wait_for_timeout(2500)
+    pg.reload(); pg.wait_for_timeout(2500); pg.evaluate('window.dlsSkipIntro&&window.dlsSkipIntro()')
     pg.screenshot(path=B+'build/p_home.png')
     pg.locator('.hub[data-hub=rest] .j-share').click(); pg.wait_for_timeout(800)
     sh=pg.evaluate("window.__shared"); print('shared',sh)

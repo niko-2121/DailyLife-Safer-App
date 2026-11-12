@@ -20,7 +20,7 @@ with sync_playwright() as p:
     b=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
     pg=b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,color_scheme='dark' if dark else 'light').new_page(); errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)))
     pg.route('**/*',lambda r: r.fulfill(body=full,content_type='text/html') if r.request.url.endswith('/index.html') else r.abort())
-    pg.goto('http://test.local/index.html'); pg.evaluate("s=>{sessionStorage.setItem('mockdb',JSON.stringify(s));localStorage.clear()}",seed); pg.reload(); pg.wait_for_timeout(1800)
+    pg.goto('http://test.local/index.html'); pg.evaluate("s=>{sessionStorage.setItem('mockdb',JSON.stringify(s));localStorage.clear()}",seed); pg.reload(); pg.wait_for_timeout(1800); pg.evaluate('window.dlsSkipIntro&&window.dlsSkipIntro()')
     pg.screenshot(path=D+'build/n_home.png',full_page=True)
     print('icons',pg.locator('.j-share').count())
     pg.locator('.hub[data-hub=shop]').click(); pg.wait_for_timeout(900); pg.screenshot(path=D+'build/n_shop.png'); pg.keyboard.press('Escape'); pg.wait_for_timeout(400)
