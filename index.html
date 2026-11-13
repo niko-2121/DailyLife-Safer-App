@@ -1505,17 +1505,31 @@ body.snapview #shareBtn{display:none!important}
     ball.animate([{ transform: 'scale(1.14) rotate(-3deg)', opacity: 1 }, { transform: 'scale(1.32) rotate(5deg)', opacity: .9, offset: .35 }, { transform: 'scale(.55) rotate(24deg)', opacity: 0 }], { duration: 420, easing: 'ease-in', fill: 'forwards' });
     setTimeout(done, Math.max(last, 500) + 420);
   }
+  function ready() { return document.querySelector('#hubs > .hub'); }
   function open() {
-    if (started) return; started = true; window.dlsIntroBusy = true;
+    if (started) return; started = true;
     hint.style.animation = 'none'; hint.style.opacity = '0';
     if (reduce) { done(); return; }
     ball.style.animation = 'none';
+    /* Daten noch nicht da (App lädt aus dem Internet): Kugel wackelt, bis die Zettel bereitstehen */
+    if (!ready()) {
+      hint.textContent = 'Wird geladen …'; hint.style.opacity = '1';
+      var wob = ball.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(-6deg) scale(.97)' }, { transform: 'rotate(5deg) scale(1.02)' }, { transform: 'rotate(0deg)' }], { duration: 700, iterations: Infinity, easing: 'ease-in-out' });
+      var t0 = Date.now();
+      (function poll() {
+        if (ready()) { setTimeout(function () { if (ready()) { wob.cancel(); hint.style.opacity = '0'; go(); } else poll(); }, 250); }
+        else if (Date.now() - t0 > 20000) { wob.cancel(); done(); }
+        else setTimeout(poll, 120);
+      })();
+      return;
+    }
+    go();
+  }
+  function go() {
+    window.dlsIntroBusy = true;
     /* Kugel lockert sich: kurzes Ruckeln und Aufquellen, dann platzt sie in die einzelnen Zettel auf */
     var a = ball.animate([{ transform: 'scale(1) rotate(0deg)' }, { transform: 'scale(.9) rotate(-7deg)', offset: .22 }, { transform: 'scale(1.06) rotate(6deg)', offset: .48 }, { transform: 'scale(1.02) rotate(-5deg)', offset: .7 }, { transform: 'scale(1.14) rotate(-3deg)' }], { duration: 460, easing: 'ease-in-out', fill: 'forwards' });
-    var tries = 0;
-    a.onfinish = function wait() {
-      if (document.querySelector('#hubs > .hub') || tries++ > 40) burst(); else setTimeout(wait, 100);
-    };
+    a.onfinish = function () { if (ready()) burst(); else done(); };
   }
   ball.addEventListener('click', open);
 })();
