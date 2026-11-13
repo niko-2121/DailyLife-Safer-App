@@ -3704,7 +3704,7 @@ body.snapview #shareBtn{display:none!important}
     var count = parts.length ? parts.join(' · ') : 'Noch keine Reise';
     return hubEl('trips', 'Unterwegs', 'Reisen', count, entries, hubName('trips') + ', ' + count, openTwin);
   }
-  var BOOK = { all: { t: 'gebucht', c: 'ok' }, hotel: { t: 'Hotel gebucht', c: 'y' }, flight: { t: 'Flug gebucht', c: 'y' }, none: { t: 'nicht gebucht', c: 'r' } };
+  var BOOK = { all: { t: 'gebucht', c: 'ok' }, hotel: { t: 'Hotel gebucht', c: 'y' }, flight: { t: 'Flug gebucht', c: 'y' }, fh: { t: 'Flug + Hotel gebucht', c: 'ok' }, none: { t: 'nicht gebucht', c: 'r' } };
   function stickerEl(t, i) {
     var label = t.name + (t.from || t.to ? ', ' + fmtRange(t.from, t.to) : '') + (BOOK[t.booked] ? ', ' + BOOK[t.booked].t : '');
     return h('button', { class: 'stk' + (S.drawing.has(t.id) ? ' drawing' : ''), type: 'button', 'aria-label': label,
@@ -3921,11 +3921,17 @@ body.snapview #shareBtn{display:none!important}
   $('#calClear').addEventListener('click', function () { $('#tfFrom').value = ''; $('#tfTo').value = ''; CAL.step = 'from'; calText(); calRender(); });
 
   function setBook() {
-    Array.prototype.forEach.call(document.querySelectorAll('#tfBook .bk'), function (b) { b.setAttribute('aria-pressed', String(!!S.tf && b.getAttribute('data-v') === S.tf.book)); });
+    Array.prototype.forEach.call(document.querySelectorAll('#tfBook .bk'), function (b) { var v = b.getAttribute('data-v'), cur = S.tf && S.tf.book; b.setAttribute('aria-pressed', String(!!S.tf && (v === cur || (cur === 'fh' && (v === 'hotel' || v === 'flight'))))); });
   }
   Array.prototype.forEach.call(document.querySelectorAll('#tfBook .bk'), function (b) {
     b.addEventListener('click', function () {
-      if (!S.tf) return; var v = b.getAttribute('data-v'); S.tf.book = S.tf.book === v ? '' : v; setBook();
+      if (!S.tf) return; var v = b.getAttribute('data-v'), cur = S.tf.book;
+      /* Flug und Hotel lassen sich zusammen wählen */
+      if (v === 'hotel' || v === 'flight') {
+        var o = v === 'hotel' ? 'flight' : 'hotel', hasV = cur === v || cur === 'fh', hasO = cur === o || cur === 'fh';
+        hasV = !hasV; S.tf.book = hasV && hasO ? 'fh' : hasV ? v : hasO ? o : '';
+      } else S.tf.book = cur === v ? '' : v;
+      setBook();
     });
   });
   function openTform(t) {
