@@ -1424,6 +1424,25 @@ html.intro-on #hubs { visibility: hidden; }
 .in-hint { margin: 0; font: 600 22px/1 var(--hand, cursive); color: rgba(38, 50, 75, .7); transition: opacity .25s; animation: inhint 2.2s ease-in-out infinite; }
 @keyframes inhint { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .in-ball, .in-hint { animation: none; } }
+
+/* Geschenke: runder Status-Knopf */
+.item .gift-st { position: absolute; right: 2px; top: 0; z-index: 6; width: 58px; height: 58px; padding: 4px; border-radius: 50%; border: 2.5px solid #fff; display: grid; place-items: center; text-align: center;
+  font: 800 11px/1.05 var(--body); color: #fff; cursor: pointer; box-shadow: 0 4px 10px -3px rgba(0, 0, 0, .35); transform: rotate(-8deg); -webkit-tap-highlight-color: transparent; transition: transform .15s; }
+.item .gift-st:active { transform: rotate(-8deg) scale(.9); }
+.item .gift-st.open { background: radial-gradient(circle at 35% 30%, #F07A6E, #D2392C); }
+.item .gift-st.plan { background: radial-gradient(circle at 35% 30%, #FFE070, #F2B600); color: #3A2A00; }
+.item .gift-st.bought { background: radial-gradient(circle at 35% 30%, #5FCB8A, #23894D); }
+.item .gift-st { animation: giftst .3s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes giftst { from { transform: rotate(-30deg) scale(.5); } }
+/* Restaurants/Bars: Stadt-Knopf hervorgehoben */
+#rwin .citysel { min-height: 42px; max-width: 72%; gap: 8px; padding: 0 34px 0 5px; border-radius: 999px; color: #1E2A40;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0)), color-mix(in srgb, var(--sc) 62%, #fff);
+  border: 1.5px solid color-mix(in srgb, var(--sc) 55%, #000); box-shadow: 0 1px 0 rgba(255, 255, 255, .7) inset, 0 6px 14px -8px color-mix(in srgb, var(--sc) 70%, #000); }
+#rwin .citysel svg { flex: none; width: 30px; height: 30px; padding: 6px; border-radius: 50%; background: #1E2A40; color: #fff; box-sizing: border-box; }
+#rwin .citysel select { font: 800 17px/1.2 var(--body); letter-spacing: -.01em; color: #1E2A40; }
+#rwin .citysel::after { right: 14px; width: 7px; height: 7px; border-width: 2.4px; }
+#rwin .citysel:active { transform: scale(.97); }
+#rwin .rw-sub { margin-top: 10px; }
 .hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:none}
 .app-share{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 13px var(--body);cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
 .app-share:active{transform:scale(.96)}
@@ -3312,6 +3331,14 @@ body.snapview #shareBtn{display:none!important}
     try { if (!it.mem && db) await db.doc('items/' + it.id).update(patch); }
     catch (e) { Object.assign(it, prev); render(); toast('Konnte nicht gespeichert werden.'); }
   }
+  /* Geschenke: Status offen (rot) → in Planung (gelb) → gekauft (grün) */
+  var GIFT_ST = { open: 'Offen', plan: 'In Planung', bought: 'Gekauft' };
+  async function giftNext(it) {
+    var cur = GIFT_ST[it.gstate] ? it.gstate : 'open', nx = { open: 'plan', plan: 'bought', bought: 'open' }[cur], prev = it.gstate;
+    it.gstate = nx; render();
+    try { if (!it.mem && db) await db.doc('items/' + it.id).update({ gstate: nx }); }
+    catch (e) { it.gstate = prev; render(); toast('Konnte nicht gespeichert werden.'); }
+  }
   /* Kategorie Geschenke: keine Vorschau, nur ein Geschenk-Symbol */
   function isGiftCat(c) { return /geschenk/i.test(String(c || '')); }
   function giftIcon() {
@@ -3352,6 +3379,11 @@ body.snapview #shareBtn{display:none!important}
     var wrap = h('div', { class: 'item' + (it.fav ? ' fav' : ''), style: '--d:' + dur(it.id) + 's;--o:' + off(it.id) + 's;--i:' + Math.min(i, 10) }, card);
     if (it.fav) { var st = h('span', { class: 'fav-star', title: 'Auf der Startseite', 'aria-label': 'Auf der Startseite' }); st.innerHTML = FAV_STAR; wrap.append(st); }
     longPress(card, function () { toggleFav(it); });
+    if (isGiftCat(it.category)) {
+      var gs = GIFT_ST[it.gstate] ? it.gstate : 'open';
+      wrap.classList.add('gift-item');
+      wrap.append(h('button', { type: 'button', class: 'gift-st ' + gs, 'aria-label': 'Status: ' + GIFT_ST[gs] + '. Tippen zum Ändern', onclick: function (e) { e.preventDefault(); e.stopPropagation(); giftNext(it); } }, GIFT_ST[gs]));
+    }
     if (S.edit && S.canEdit) {
       wrap.append(h('button', { class: 'pen', type: 'button', 'aria-label': 'Name und Adresse ändern', onclick: function () { openEditor(it); } }, ico('pen')));
       wrap.append(delBtn(it));
@@ -4585,9 +4617,14 @@ body.snapview #shareBtn{display:none!important}
     }
     S.animateRw = false;
   }
+  function cityKeyZh(k) {
+    var hit = null; kindPlaces(k).forEach(function (p) { var c = cityOf(p); if (!hit && c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === 'zurich') hit = c.toLowerCase(); });
+    return hit;
+  }
   function openRwin(c, kind) {
     selEnd();
-    S.rwin = { c: c || null, q: '', kind: kind === 'bar' ? 'bar' : 'rest' }; S.animateRw = true; $('#rwin').hidden = false; syncLock(); $('#rwBody').replaceChildren(); renderRwin();
+    var kk = kind === 'bar' ? 'bar' : 'rest', zh = cityKeyZh(kk); if (zh) { S.rcityK = S.rcityK || {}; S.rcityK[kk] = zh; }
+    S.rwin = { c: c || null, q: '', kind: kk }; S.animateRw = true; $('#rwin').hidden = false; syncLock(); $('#rwBody').replaceChildren(); renderRwin();
     $('#rwin .sheet').scrollTop = 0;
     $('#rwClose').focus({ preventScroll: true });
   }
@@ -6470,7 +6507,7 @@ body.snapview #shareBtn{display:none!important}
         h('span', { class: 'lz-t', onclick: function () { lzToggle(it); } }, h('span', { class: 'lz-tx' }, it.t)),
         h('button', { type: 'button', class: 'lz-x', 'aria-label': it.t + ' löschen', onclick: function () { lzDel(it); } }, '×')));
     });
-    var b = $('#lzBadge'); b.hidden = !L.trash; b.textContent = String(L.trash);
+    var b = $('#lzBadge'); b.hidden = true;
     $('#lzIn').placeholder = L.items.length ? 'Neuer Punkt …' : 'Was brauchst du?';
   }
   function openLwin() { S.lwin = true; $('#lwin').hidden = false; syncLock(); renderLwin(); $('#lwin .sheet').scrollTop = 0; setTimeout(function () { if (!S.list.items.length) $('#lzIn').focus(); }, 60); }
@@ -6528,7 +6565,7 @@ body.snapview #shareBtn{display:none!important}
       S.list.items = []; S.list.trash += 1; LZ.anim = false;
       paper.classList.remove('crumple'); paper.classList.add('fresh'); setTimeout(function () { paper.classList.remove('fresh'); }, 700);
       renderLwin(); render(); lzSave();
-      var bd = $('#lzBadge'); bd.classList.remove('pop'); void bd.offsetWidth; bd.classList.add('pop');
+      
       toast('Alles erledigt! Der Zettel ist im Papierkorb.');
     }
     if (reduce || !S.lwin || !paper.animate) { finish(); return; }
@@ -6558,7 +6595,7 @@ body.snapview #shareBtn{display:none!important}
     var rows = L.items.slice().sort(function (a, b) { return (a.done ? 1 : 0) - (b.done ? 1 : 0); }).slice(0, 5);
     var lines = n ? h('span', { class: 'j-lz' }, rows.map(function (it) { return h('span', { class: 'j-lzr' + (it.done ? ' done' : '') }, h('i', { 'aria-hidden': 'true' }), h('span', {}, it.t)); }),
       n > 5 ? h('span', { class: 'j-lzmore' }, '+ ' + (n - 5) + ' weitere') : null) : h('span', { class: 'j-empty' }, '+ Tippen und losschreiben oder einsprechen');
-    var binI = h('span', { class: 'j-lzbin', 'aria-hidden': 'true' }); binI.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 6h14l-1.6 14H6.6z"/><path d="M4 6h16M9 9.5l.5 7M12 9.5v7M15 9.5l-.5 7"/></svg>' + (L.trash ? '<b>' + L.trash + '</b>' : '');
+    var binI = h('span', { class: 'j-lzbin', 'aria-hidden': 'true' }); binI.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 6h14l-1.6 14H6.6z"/><path d="M4 6h16M9 9.5l.5 7M12 9.5v7M15 9.5l-.5 7"/></svg>';
     return jHub('list', hubName('list') + ', ' + count, openLwin, h('span', { class: 'j-in' }, jHead('list', count), lines, binI), { wide: true });
   }
   window.addEventListener('dls-intro-done', function () { if (window.dlsIntroPending) { window.dlsIntroPending = false; render(); } });
